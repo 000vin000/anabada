@@ -22,5 +22,5 @@ public class Item {
 	private int itemPrice;
 	private String itemName;
 	private String itemContent;
-	private int itemStatus;
+	private String itemStatus;
 }
