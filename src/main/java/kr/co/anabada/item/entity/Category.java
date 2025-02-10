@@ -1,4 +1,4 @@
-package kr.co.anabada.entity;
+package kr.co.anabada.item.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Sell {
-	private int sellNo;
-	private int itemNo;
-	private int userNo;
+public class Category {
+	private int cateNo;
 }

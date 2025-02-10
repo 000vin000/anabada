@@ -1,4 +1,4 @@
-package kr.co.anabada.entity;
+package kr.co.anabada.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
