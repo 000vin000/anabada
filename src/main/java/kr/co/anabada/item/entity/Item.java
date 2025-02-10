@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class Item {
 	private int itemNo;
 	private int userNo;
-	private int cateNo;
-	private int itemAuction;
+	private int itemCate; //ENUM 변경으로 컬럼명 itemCate > itemCate
+	private String itemAuction; //ENUM 변경으로 값 int >String
 	private LocalDateTime itemStart;
 	private LocalDateTime itemEnd;
 	private int itemPrice;
