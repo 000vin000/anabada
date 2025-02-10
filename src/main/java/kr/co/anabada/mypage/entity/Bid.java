@@ -1,4 +1,4 @@
-package kr.co.anabada.entity;
+package kr.co.anabada.mypage.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Favor {
-	private int favorNo;
+public class Bid {
+	private int bidNo;
 	private int itemNo;
 	private int userNo;
+	private int bidPrice;
 }

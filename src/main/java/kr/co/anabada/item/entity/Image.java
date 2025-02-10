@@ -1,4 +1,4 @@
-package kr.co.anabada.entity;
+package kr.co.anabada.item.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Buy {
-	private int buyNo;
+public class Image {
+	private int imageNo;
 	private int itemNo;
-	private int usreNo;
+	private byte[] imageFile;
 }

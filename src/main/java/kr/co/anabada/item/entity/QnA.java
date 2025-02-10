@@ -1,4 +1,4 @@
-package kr.co.anabada.entity;
+package kr.co.anabada.item.entity;
 
 import java.time.LocalDateTime;
 
