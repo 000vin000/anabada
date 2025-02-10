@@ -18,5 +18,4 @@ public class User {
     private String userAdd;
     private String userEmail;
     private String userPhone;
-  
 }
