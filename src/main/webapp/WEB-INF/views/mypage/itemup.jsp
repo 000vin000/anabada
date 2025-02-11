@@ -11,10 +11,10 @@
   <label for="itemName">제목:</label>
   <input type="text" id="itemName" name="itemName" required><br><br>
 
-  <label for="image">이미지:</label>
-  <input type="file" id="image" name="image" accept="image/*" required><br><br>
-  
-   <label for="itemEnd">경매 시작시간:</label>
+  <label for="imageFile">이미지:</label>
+  <input type="file" id="imageFile" name="imageFile" accept="image/*" required multiple><br><br>
+
+  <label for="itemEnd">경매 시작시간:</label>
   <input type="datetime-local" id="itemStart" name="itemStart" required><br><br>
 
   <label for="itemEnd">경매 마감시간:</label>

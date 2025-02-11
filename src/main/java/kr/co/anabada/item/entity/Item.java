@@ -16,7 +16,7 @@ public class Item {
 	private int userNo;
 	private String itemGender;
 	private String itemCate; //ENUM 변경으로 컬럼명 itemCate > itemCate, 값 int >String
-	private String itemAuction; //ENUM 변경으로 값 int >String
+	private String itemAuction= "bidding"; //ENUM 변경으로 값 int >String
 	private LocalDateTime itemStart;
 	private LocalDateTime itemEnd;
 	private int itemPrice;
