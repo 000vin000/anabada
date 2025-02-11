@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.core.io.ByteArrayResource;
 
 import kr.co.anabada.item.entity.Item;
 
@@ -14,6 +15,6 @@ public interface MainMapper {
 	List<Item> selectAll();
 
 	// itemNo의 image
-	@Select("SELECT imageFile FROM images WHERE itemNo = #{itemNo} LIMIT 1")
-	byte[] selectImage1(int itemNo);
+	@Select("SELECT imageFile FROM image WHERE imageNo = #{itemImage}")
+	ByteArrayResource selectImage1(int itemImage);
 }
