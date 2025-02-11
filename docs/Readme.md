@@ -5,10 +5,12 @@
 
 ---
 ```
-고길동 gogil@email.com
-둘리 dooli@email.com
-도우너 dd@email.com
-마이콜 mi@email.com
+김정빈 00vin0vin0vin00@naver.com
+강수연 oks456@naver.com
+정민지 minji970@naver.com
+정현의 dlw0603@naver.com
+이동욱 ben896@nate.com
+한혜진 rose33hj@naver.com
 ```
 ---
 
