@@ -51,4 +51,9 @@ public class UserService {
             return "로그인 실패: 비밀번호 검증 오류";
         }
     }
+    
+    //사용자 ID로 전체 사용자 정보를 조회하는 메소드 추가
+    public User getUserByUserId(String userId) {
+        return userMapper.selectByUserId(userId);
+    }
 }
