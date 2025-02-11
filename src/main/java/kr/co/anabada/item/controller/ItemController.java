@@ -68,17 +68,24 @@ public class ItemController {
 	            try {
 	                byte[] imageBytes = imageFile.getBytes();
 	                Image image = Image.builder()
-	                        .itemNo(item.getItemNo()) 
-	                        .imageFile(imageBytes)    
-	                        .build(); 
+	                        .itemNo(item.getItemNo())
+	                        .imageFile(imageBytes)
+	                        .build();
 	                imageservice.save(image);
+
+	                // 이미지 저장 후 imageNo 받아오기
+	                Integer imageNo = image.getImageNo();
+	                System.out.println("저장된 이미지의 imageNo: " + imageNo);
+
+	                // 추가적으로 imageNo를 다른 로직에서 사용할 수 있습니다.
+
 	            } catch (Exception e) {
 	                e.printStackTrace();
-	               
 	            }
 	        }
-		return "redirect:/mypage";
-	}
+
+	        return "redirect:/mypage";
+	    }
 	
 	@GetMapping("/mypage/itemsell")
     public String itemList(HttpServletRequest request, Model model) {

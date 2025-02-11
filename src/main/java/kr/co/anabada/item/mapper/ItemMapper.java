@@ -13,8 +13,8 @@ import kr.co.anabada.item.entity.Item;
 
 @Mapper
 public interface ItemMapper {
-	@Insert("INSERT INTO item (userNo, itemAuction, itemStart, itemEnd, itemPrice, itemName, itemContent, itemStatus) " +
-            "VALUES (#{userNo}, #{itemAuction}, #{itemStart}, #{itemEnd}, #{itemPrice}, #{itemName}, #{itemContent}, #{itemStatus})")
+	@Insert("INSERT INTO item (userNo, itemAuction, itemStart, itemEnd, itemPrice, itemName, itemContent, itemStatus, itemImage) " +
+            "VALUES (#{userNo}, #{itemAuction}, #{itemStart}, #{itemEnd}, #{itemPrice}, #{itemName}, #{itemContent}, #{itemStatus}, #{itemImage})")
     @Options(useGeneratedKeys = true, keyProperty = "itemNo", keyColumn = "itemNo")
     int save(Item item);
 	

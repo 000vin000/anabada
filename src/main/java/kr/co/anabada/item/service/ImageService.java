@@ -14,4 +14,8 @@ public class ImageService {
 	public void save(Image image) {
 		imageMapper.save(image);
 	}
+	
+	public Integer getImageNo(Image image) {
+        return image.getImageNo(); 
+    }
 }
