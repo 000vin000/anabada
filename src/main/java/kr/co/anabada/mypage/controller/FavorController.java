@@ -1,4 +1,4 @@
-package kr.co.anabada.mypage.favor;
+package kr.co.anabada.mypage.controller;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.anabada.mypage.entity.Favor;
+import kr.co.anabada.mypage.service.FavorService;
 
 @Controller
 @RequestMapping("/mypage/itemfavor")
