@@ -1,4 +1,4 @@
-package kr.co.anabada.mypage.todaypick;
+package kr.co.anabada.mypage.restcontroller;
 
 import java.util.List;
 
