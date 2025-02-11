@@ -9,7 +9,7 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<div>헤더영역</div>
+	<jsp:include page="../header.jsp"/>
 	
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
