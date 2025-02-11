@@ -1,4 +1,4 @@
-package kr.co.anabada.mypage.favor;
+package kr.co.anabada.mypage.mapper;
 
 import java.util.List;
 
