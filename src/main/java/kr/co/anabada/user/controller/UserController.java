@@ -30,30 +30,42 @@ public class UserController {
 
     @PostMapping("/join")
     public String registerUser(User user, Model model) {
-        String result = userService.joinUser(user);
-        if ("회원가입 성공".equals(result)) {
-            return "redirect:/user/login";
-        } else {
-            model.addAttribute("error", result);
+        try {
+            // 회원가입 처리 로직 호출
+            String result = userService.joinUser(user);
+            if ("회원가입 성공".equals(result)) {
+                return "redirect:/user/login"; // 회원가입 성공 시 로그인 페이지로 리다이렉트
+            } else {
+                model.addAttribute("error", result); // 에러 메시지 전달
+                return "user/join";
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", "회원가입 중 문제가 발생했습니다. 관리자에게 문의하세요."); // 예외 처리 메시지 전달
             return "user/join";
         }
     }
 
     @PostMapping("/login")
     public String loginUser(User user, HttpSession session, Model model) {
-        String result = userService.loginUser(user.getUserId(), user.getUserPw());
-        if ("로그인 성공".equals(result)) {
-            session.setAttribute("loggedInUser", user); // 세션에 사용자 정보 저장
-            return "redirect:/";
-        } else {
-            model.addAttribute("error", result);
+        try {
+            // 로그인 처리 로직 호출
+            String result = userService.loginUser(user.getUserId(), user.getUserPw());
+            if ("로그인 성공".equals(result)) {
+                session.setAttribute("loggedInUser", user); // 세션에 사용자 정보 저장
+                return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
+            } else {
+                model.addAttribute("error", result); // 에러 메시지 전달
+                return "user/login";
+            }
+        } catch (Exception e) {
+            model.addAttribute("error", "로그인 중 문제가 발생했습니다. 관리자에게 문의하세요."); // 예외 처리 메시지 전달
             return "user/login";
         }
     }
-    
+
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
+        session.invalidate(); // 세션 무효화 처리
+        return "redirect:/"; // 로그아웃 후 메인 페이지로 리다이렉트
     }
 }
