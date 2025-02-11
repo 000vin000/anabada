@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -35,7 +36,6 @@
             <ul>
                 <li><a href="#">카테고리</a></li>
                 <li><a href="#">상품등록</a></li>
-                <%-- 회원가입, 로그인 기능 추가 --%>
                 <c:choose>
                     <c:when test="${empty sessionScope.loggedInUser}">
                         <li><a href="<c:url value='/user/join'/>">회원가입</a></li>
@@ -44,8 +44,7 @@
                     <c:otherwise>
                         <li><a href="<c:url value='/user/logout'/>">로그아웃</a></li>
                     </c:otherwise>
-                </c:choose>    
-                <%-- 검색 기능 추가해야 함 --%>
+                </c:choose>
             </ul>
         </nav>   
     </header>

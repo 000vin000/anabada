@@ -43,7 +43,7 @@ public class UserController {
     public String loginUser(User user, HttpSession session, Model model) {
         String result = userService.loginUser(user.getUserId(), user.getUserPw());
         if ("로그인 성공".equals(result)) {
-            session.setAttribute("loggedInUser", user.getUserId());
+            session.setAttribute("loggedInUser", user); // 세션에 사용자 정보 저장
             return "redirect:/";
         } else {
             model.addAttribute("error", result);
