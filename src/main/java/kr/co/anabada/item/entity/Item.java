@@ -23,4 +23,5 @@ public class Item {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
+	private int itemImage;
 }
