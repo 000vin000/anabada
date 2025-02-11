@@ -25,5 +25,7 @@
     <button type="submit">로그인</button>
 </form>
 <a href="<c:url value='/user/join'/>">회원가입</a>
+
+<%@ include file="../footer.jsp" %>
 </body>
 </html>
