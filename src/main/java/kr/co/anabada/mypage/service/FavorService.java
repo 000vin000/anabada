@@ -7,16 +7,22 @@ import org.springframework.stereotype.Service;
 
 import kr.co.anabada.mypage.entity.Favor;
 import kr.co.anabada.mypage.mapper.FavorMapper;
+import kr.co.anabada.user.entity.User;
+import kr.co.anabada.user.mapper.UserMapper;
 
 @Service
 public class FavorService {
 	@Autowired
 	private FavorMapper favorMapper;
+	@Autowired
+	private UserMapper userMapper;
 	
 //	@Autowired
 //	ItemMapper itemMapper;
 	
-	public List<Favor> selectMyFavor(int userNo) {
+	public List<Favor> selectMyFavor(String userId) {
+		User user = userMapper.selectByUserId(userId);
+		int userNo = user.getUserNo();
 		List<Favor> list = favorMapper.selectMyFavor(userNo);
 		
 		return list;

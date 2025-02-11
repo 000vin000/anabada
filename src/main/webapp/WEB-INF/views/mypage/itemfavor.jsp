@@ -6,9 +6,16 @@
 <head>
 	<meta charset="UTF-8">
 	<title>favor</title>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/favorStyleTemp.css">
+	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
 </head>
 <body>
+    <!-- 브레드 크럼 -->
+    <ul class="breadcrumb" id="breadcrumb">
+		<li><a href="/">홈</a></li>
+    	<li><a href="/mypage">마이페이지</a></li>
+    	<li><a href="/mypage/itemfavor">관심물품</a></li>
+    </ul>
+
 	<table>
 	    <thead>
 	        <tr>
@@ -44,6 +51,7 @@
 	        </c:forEach>
 	    </tbody>
 	</table>
+<jsp:include page="../sidebar.jsp" />
 <jsp:include page="../footer.jsp" />
 </body>
 <script type="text/javascript">

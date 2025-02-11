@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ANABADA</title>
+	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
+</head>
+<body>
+	<!-- 헤더 -->
+	<div>헤더영역</div>
+	
+	<!-- 브레드 크럼 -->
+    <ul class="breadcrumb" id="breadcrumb">
+		<li><a href="/">홈</a></li>
+    	<li><a href="/mypage">마이페이지</a></li>
+    </ul>
+
+	<!-- 네비게이션 -->
+	<div>
+		<a href="#">정보 수정</a>
+		<a href="#">구매 현황</a>
+		<a href="#">판매 현황</a>
+		<a href="/mypage/itemfavor">관심 물품</a>
+	</div>
+	
+	<div>
+		<p>
+			구매현황; 구매현황 리스트를 불러와서 숫자로 출력
+		</p>
+	</div>
+	
+	<div>
+		<p>
+			판매현황; 판매현황 리스트를 불러와서 숫자로 출력
+		</p>
+	</div>
+	
+	<!-- 푸터 -->
+	<jsp:include page="../sidebar.jsp"/>
+	<jsp:include page="../footer.jsp"/>
+</body>
+<%--
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function () {
+	    const path = window.location.pathname.split("/").filter(Boolean);
+	    const breadcrumbContainer = document.getElementById("breadcrumb");
+	
+	    let fullPath = "/";
+	    breadcrumbContainer.innerHTML = `<li><a href="/">홈</a></li>`;
+	
+	    path.forEach((segment, index) => {
+	        fullPath += segment + "/";
+	        if (index === path.length - 1) {
+	            breadcrumbContainer.innerHTML += `<li>${decodeURIComponent(segment)}</li>`;
+	        } else {
+	            breadcrumbContainer.innerHTML += `<li><a href="${fullPath}">${decodeURIComponent(segment)}</a></li>`;
+	        }
+	    });
+	});
+</script>
+ --%>
+</html>
