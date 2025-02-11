@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>favor</title>
+	<title>ANABADA</title>
 	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
 </head>
 <body>
