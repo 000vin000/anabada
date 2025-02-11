@@ -35,9 +35,19 @@
             <ul>
                 <li><a href="#">카테고리</a></li>
                 <li><a href="#">상품등록</a></li>
-                <%-- 검색, 회원가입, 로그인 기능 추가해야 함 --%>
+                <%-- 회원가입, 로그인 기능 추가 --%>
+                <c:choose>
+                    <c:when test="${empty sessionScope.loggedInUser}">
+                        <li><a href="<c:url value='/user/join'/>">회원가입</a></li>
+                        <li><a href="<c:url value='/user/login'/>">로그인</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="<c:url value='/user/logout'/>">로그아웃</a></li>
+                    </c:otherwise>
+                </c:choose>    
+                <%-- 검색 기능 추가해야 함 --%>
             </ul>
-        </nav>
+        </nav>   
     </header>
 </body>
 </html>
