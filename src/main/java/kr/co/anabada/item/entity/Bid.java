@@ -1,4 +1,6 @@
-package kr.co.anabada.mypage.entity;
+package kr.co.anabada.item.entity;
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,4 +16,6 @@ public class Bid {
 	private int itemNo;
 	private int userNo;
 	private int bidPrice;
+	private LocalDateTime bidTime;
+	private String userNick;
 }
