@@ -40,67 +40,62 @@ public class ItemController {
 	}
 	
 	@PostMapping("/mypage/itemup")
-	    public String submit(@Valid @ModelAttribute("itemupCommand") Item item,
-	                         BindingResult errors,
-	                         @RequestParam("imageFile") MultipartFile imageFile, HttpServletRequest request) {
-	        if (errors.hasErrors()) {
-	            return "mypage/itemup";
-	        }
-	        
-	        HttpSession session = request.getSession(false);
-	        User loggedInUser = (User) session.getAttribute("loggedInUser");
-
-	        if (loggedInUser == null) {
-	            return "redirect:/user/login";  // 로그인되지 않은 경우 로그인 페이지로 리디렉션
-	        }
-	        
-	        Integer userNo = loggedInUser.getUserNo(); 
-	        
-	        System.out.println("게터 확인: " + userNo);
-	        
-	        item.setUserNo(userNo); 
-
-	        // Item 저장
-	        itemservice.save(item);
-
-	        // 이미지 저장
-	        if (!imageFile.isEmpty()) {
-	            try {
-	                byte[] imageBytes = imageFile.getBytes();
-	                Image image = Image.builder()
-	                        .itemNo(item.getItemNo())
-	                        .imageFile(imageBytes)
-	                        .build();
-	                imageservice.save(image);
-
-	                // 이미지 저장 후 imageNo 받아오기
-	                Integer imageNo = image.getImageNo();
-	                System.out.println("저장된 이미지의 imageNo: " + imageNo);
-
-	                // 추가적으로 imageNo를 다른 로직에서 사용할 수 있습니다.
-
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-
-	        return "redirect:/mypage";
+	public String submit(@Valid @ModelAttribute("itemupCommand") Item item,
+	                     BindingResult errors,
+	                     @RequestParam("imageFile") MultipartFile imageFile, HttpServletRequest request) {
+	    if (errors.hasErrors()) {
+	        return "mypage/itemup";
 	    }
-	
+	    
+	    HttpSession session = request.getSession(false);
+	    User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+	    if (loggedInUser == null) {
+	        return "redirect:/user/login"; 
+	    }
+	    
+	    Integer userNo = loggedInUser.getUserNo(); 
+	    item.setUserNo(userNo);
+	    
+	    item.setItemAuction("waiting");
+	    
+	    try {
+	        itemservice.save(item); 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "mypage/itemup";  // 아이템 저장 실패 시 폼 다시 반환
+	    }
+	    
+	    Integer itemNo = item.getItemNo();
+	    
+	    if (!imageFile.isEmpty()) {
+	        try {
+	        	 imageservice.saveImage(itemNo, imageFile); 
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "mypage/itemup";  
+	        }
+	    }
+	    
+	    return "redirect:/mypage"; 
+	}
+
 	@GetMapping("/mypage/itemsell")
     public String itemList(HttpServletRequest request, Model model) {
         
-        HttpSession session = request.getSession(false);
-        Integer userNo = (Integer) session.getAttribute("userNo");
+		 HttpSession session = request.getSession(false);
+		    User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        if (userNo == null) {
-            return "redirect:/user/login";  // 로그인되지 않았다면 로그인 페이지로 리디렉션
-        }
+		    if (loggedInUser == null) {
+		        return "redirect:/user/login";
+		    }
 
-        // 로그인한 사용자의 아이템만 가져오기
-        List<Item> items = itemservice.findItemsByUserNo(userNo);
+		    Integer userNo = loggedInUser.getUserNo();
 
-        model.addAttribute("items", items);
-        return "/mypage/itemsell"; // JSP 페이지 경로
+		    List<Item> items = itemservice.findItemsByUserNo(userNo);
+
+		    model.addAttribute("items", items);
+
+		    return "/mypage/itemsell";
     }
 }
