@@ -17,14 +17,6 @@ public interface MainMapper {
 	List<Item> selectAll();
 
 	// itemNo의 image
-	@Select("SELECT imageFile FROM image WHERE imageNo = #{itemImage}")
-	ByteArrayResource selectImage1(int itemImage);
-	
-	// 상품명 검색
-	@Select("SELECT * FROM item WHERE itemName LIKE CONCAT('%', #{keyword}, '%')")
-    List<Item> selectByItemName(String keyword);
-	
-	// 닉네임 검색
-	@Select("SELECT * FROM item WHERE userNo = (SELECT userNo FROM user WHERE userName = #{userName})")
-	List<Item> selectByUserName(String keyword);
+	@Select("SELECT imageFile FROM image WHERE itemNo = #{itemNo}")
+	ByteArrayResource selectImage1(int itemNo);
 }

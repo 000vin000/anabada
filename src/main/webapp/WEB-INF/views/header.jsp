@@ -75,26 +75,30 @@
             }
             
             let searchRequest = {
-				findValue: findType.value,
-				keyValue: keyword.value,
-			}
-            console.log(searchRequest);       // 문제 X
-            
+                findType: findValue,
+                keyword: keyValue,
+            }
+            console.log(searchRequest); // 문제 X
+
             // 서버에 데이터 전송하기
             fetch('/search', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({findType: findValue, keyword: keyValue}),
+                body: JSON.stringify(searchRequest),
             })
             .then(response => {
-                return response.text(); // 응답을 텍스트로 받기
+                if (response.ok) {
+                    // 성공적으로 응답을 받으면 페이지 리다이렉트
+                    window.location.href = '/search'; // 페이지 이동
+                } else {
+                    throw new Error('서버에서 오류가 발생했습니다.'); // 오류 처리
+                }
             })
             .catch((error) => {
                 console.log('실패', error);
             });
-
         });
     </script>
 </body>

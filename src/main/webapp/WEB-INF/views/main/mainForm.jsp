@@ -22,7 +22,7 @@
     <ul>
         <c:forEach var="item" items="${itemList}">
             <li>
-            	<img src="data:image/png;base64,image_${item.itemNo}" alt="${item.itemName} 이미지"/>
+            	<img src="data:image/png;base64,${item.image}" alt="${item.itemName} 이미지"/>
                 <a href="#">${item.itemName} - ${item.itemPrice} - ${item.itemStart} - ${item.itemEnd}</a>
             </li>
         </c:forEach>
