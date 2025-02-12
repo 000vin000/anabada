@@ -28,5 +28,4 @@ public class FavorController {
 		model.addAttribute("list", favorItemList);
 		return "mypage/itemfavor";
 	}
-	
 }

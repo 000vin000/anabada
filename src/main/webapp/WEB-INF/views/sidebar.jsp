@@ -6,7 +6,7 @@
 	</div>
     <button id="scrollTopBtn" class="top-btn">TOP ▲</button> <!-- 맨 위로 가기 -->
 </div>
-
+<%--
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
 	    fetch("/sidebar.jsp") // JSP 파일을 동적으로 불러오기
@@ -23,3 +23,4 @@
         });
 	});
 </script>
+--%>

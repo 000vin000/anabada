@@ -34,15 +34,14 @@
 	    <tbody>
 	        <c:forEach var="item" items="${list}">
 	            <tr>
-	                <td><img src="data:image/png;base64,${item.image}" alt="상품 이미지"></td>
-	                <td>${item.itemName}</td>
+	                <td><a href="#" class="no-style"><img src="data:image/png;base64,${item.image}" alt="상품 이미지"></a></td>
+	                <td><a href="#" class="no-style">${item.itemName}</a></td>
 	                <td>${item.itemPrice} 원 </td>
 	                <td>[입찰수]</td>
 	                <td>판매자</td>
 	                <td>${item.itemEnd}</td>
 	                <td>
-	                    <button class="btn btn-bid">입찰</button>
-	                    <button id="removeFavor" class="btn btn-delete">삭제</button>
+	                    <button id="removeFavor" class="btn btn-delete" onclick="removeFavor(${item.itemNo})">x</button>
 	                </td>
 	            </tr>
 	        </c:forEach>
@@ -54,8 +53,17 @@
 	<jsp:include page="../footer.jsp" />
 </body>
 <script type="text/javascript">
-	let removeFavor = document.getElementId("removeFavor");
-<%-- 도메인 수정필요 --%>
-	fetch("http://localhost:8080/api/favor")
+	function removeFavor(itemNo) {
+		if(!confirm("삭제하시겠습니까?")) {
+			return;
+		}
+		
+		fetch("/api/favor/" + itemNo, {method : "delete"})
+			.then(response => response.text())
+			.then(data => {
+				alert(data); // 삭제 결과
+				location.reload(); // 페이지 리로드
+			}).catch(error => console.error("삭제 실패 : ", error));
+	}
 </script>
 </html>
