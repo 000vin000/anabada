@@ -10,10 +10,10 @@ import kr.co.anabada.item.entity.Item;
 @Mapper
 public interface SearchMapper {
 	// 상품명 검색
-	@Select("SELECT * FROM item WHERE itemName LIKE CONCAT('%', #{keyword}, '%')")
+	@Select("SELECT * FROM item WHERE itemName LIKE CONCAT('%', #{keyword}, '%') AND itemAuction = 'bidding'")
     List<Item> selectByItemName(String keyword);
 	
 	// 닉네임 검색
-	@Select("SELECT * FROM item WHERE userNo = (SELECT userNo FROM user WHERE userName = #{userName})")
-	List<Item> selectByUserName(String keyword);
+	@Select("SELECT * FROM item WHERE userNo = (SELECT userNo FROM user WHERE userNick = #{userNick}) AND itemAuction = 'bidding'")
+	List<Item> selectByUserName(String userNick);
 }
