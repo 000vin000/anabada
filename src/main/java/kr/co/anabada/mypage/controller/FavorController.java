@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import kr.co.anabada.mypage.entity.Favor;
+import kr.co.anabada.item.entity.Item;
 import kr.co.anabada.mypage.service.FavorService;
 import kr.co.anabada.user.entity.User;
 
@@ -22,9 +22,9 @@ public class FavorController {
 	@GetMapping
 	public String favorList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
 		int userNo = user.getUserNo();
-		List<Favor> list = service.selectMyFavor(userNo);
+		List<Item> favorItemList = service.selectMyFavor(userNo);
 		
-		model.addAttribute("list", list);
+		model.addAttribute("list", favorItemList);
 		return "mypage/itemfavor";
 	}
 	

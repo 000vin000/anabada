@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Item {
+public class ItemImage {
 	private int itemNo;
 	private int userNo;
 	private String itemGender;
@@ -23,4 +23,5 @@ public class Item {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
+	private byte[] image;
 }

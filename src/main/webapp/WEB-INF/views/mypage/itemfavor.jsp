@@ -35,11 +35,11 @@
 	        <c:forEach var="item" items="${list}">
 	            <tr>
 	                <td><img src="" alt="상품 이미지"></td>
-	                <td>물품명</td>
-	                <td>입찰가 단위:원 </td>
+	                <td>${item.getItemName}</td>
+	                <td>${item.getItemPrice} 원 </td>
 	                <td>[입찰수]</td>
 	                <td>판매자</td>
-	                <td>마감일</td>
+	                <td>${item.getItemEnd}</td>
 	                <td>
 	                    <button class="btn btn-bid">입찰</button>
 	                    <button id="removeFavor" class="btn btn-delete">삭제</button>
