@@ -19,10 +19,11 @@
         <option value="desc">가격 내림차순</option>
     </select>
     
+	<div>${error}</div>
     <ul>
         <c:forEach var="item" items="${itemList}">
             <li>
-            	<img src="data:image/png;base64,image_${item.itemNo}" alt="${item.itemName} 이미지"/>
+            	<img src="data:image/png;base64,${item.image}" alt="${item.itemName} 이미지" style="width: 100px; height: auto;"/>
                 <a href="#">${item.itemName} - ${item.itemPrice} - ${item.itemStart} - ${item.itemEnd}</a>
             </li>
         </c:forEach>
@@ -36,6 +37,7 @@
     		const savedSortOrder = sessionStorage.getItem("sortOrder");
     		if (savedSortOrder != null) {
     			document.getElementById("sortOrder").value = savedSortOrder;
+    			sessionStorage.removeItem("sortOrder");
     		}
     	};
     

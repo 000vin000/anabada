@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -26,6 +26,37 @@
             margin-right: 20px; /* 항목 간 간격 조정 */
         }
     </style>
+    <script>
+        function submitSearch() {
+            const findType = document.getElementById('findType').value;
+            const keyword = document.getElementById('keyword').value.trim();
+            
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = '/search';
+
+            const findTypeInput = document.createElement('input');
+            findTypeInput.type = 'hidden';
+            findTypeInput.name = 'findType';
+            findTypeInput.value = findType;
+
+            const keywordInput = document.createElement('input');
+            keywordInput.type = 'hidden';
+            keywordInput.name = 'keyword';
+            keywordInput.value = keyword;
+
+            form.appendChild(findTypeInput);
+            form.appendChild(keywordInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                submitSearch();
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -34,15 +65,15 @@
             <select id="findType" name="findType">
                 <option value="" selected disabled>검색유형</option>
                 <option value="itemName">상품명</option>
-                <option value="userNick">닉네임</option> 
+                <option value="userNick">닉네임(동일)</option> 
             </select>
-            <input type="search" id="keyword" name="keyword" placeholder="검색어를 입력하세요">
-            <input type="button" id="find" value="검색">
+            <input type="search" id="keyword" name="keyword" placeholder="검색어를 입력하세요" onkeydown="handleKeyPress(event)">
+            <input type="button" id="find" value="검색" onclick="submitSearch()">
         </div>
         <nav>
             <ul>
                 <li><a href="#">카테고리</a></li>
-                <li><a href="#">상품등록</a></li>
+                <li><a href="/mypage/itemup">상품등록</a></li>
                 <c:choose>
                     <c:when test="${empty sessionScope.loggedInUser}">
                         <li><a href="<c:url value='/user/join'/>">회원가입</a></li>
@@ -56,50 +87,5 @@
             </ul>
         </nav>   
     </header>
-    
-    <script>
-        const findType = document.getElementById("findType");
-        const keyword = document.getElementById("keyword");
-        const search = document.getElementById("find");
-        
-        search.addEventListener("click", function(e) {
-            let findValue = findType.value;
-            let keyValue = keyword.value;
-            
-            if (!findValue) {
-                alert("검색 유형을 선택해주세요.");
-                return;
-            } else if (!keyValue) {
-                alert("검색어를 입력하세요.");
-                return;
-            }
-            
-            let searchRequest = {
-				findValue: findType.value,
-				keyValue: keyword.value,
-			}
-            console.log(searchRequest);       // 문제 X
-            
-            // 서버에 데이터 전송하기
-            fetch('/search', {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({findType: findValue, keyword: keyValue}),
-            })
-            .then(response => {
-                return response.text(); // 응답을 텍스트로 받기
-            })
-            .catch((error) => {
-                console.log('실패', error);
-            });
-
-        });
-    </script>
 </body>
-<%-- 
-    header 필요한 파일 상단에
-    <%@ include file="../header.jsp" %> 추가!!!!!!!!!!!
---%>
 </html>

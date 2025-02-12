@@ -26,6 +26,7 @@ public class ItemImage {
 	private String itemContent;
 	private String itemStatus;
 	private String image;
+	private String userNick;	// 유저 닉네임
 	
 	public ItemImage(Item item, String image) {
 		this.itemNo = item.getItemNo();

@@ -7,6 +7,7 @@
 <title>상품등록</title>
 </head>
 <body>
+<h1>상품등록</h1>
 <form  method="POST" enctype="multipart/form-data">
   <label for="itemName">제목:</label>
   <input type="text" id="itemName" name="itemName" required><br><br>
@@ -48,16 +49,17 @@
   <textarea id="description" name="itemContent" rows="4" cols="50" required></textarea><br><br>
   
   <label for="itemStatus">상품상태:</label><br>
-  <input type="radio" id="itemStatus0" name="itemStatus" value="low">
+  <input type="radio" id="itemStatus0" name="itemStatus" value="high">
   <label for="itemStatus0">상</label>
   <input type="radio" id="itemStatus1" name="itemStatus" value="mid">
   <label for="itemStatus1">중</label>
-  <input type="radio" id="itemStatus2" name="itemStatus" value="high">
+  <input type="radio" id="itemStatus2" name="itemStatus" value="low">
   <label for="itemStatus2">하</label><br><br>
   
   <input type="submit" value="등록"><br>
   
 </form>
 
+<a href="/mypage">마이페이지로 돌아가기</a>
 </body>
 </html>
