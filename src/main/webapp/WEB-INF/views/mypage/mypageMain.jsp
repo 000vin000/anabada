@@ -9,8 +9,9 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<div>헤더영역</div>
+	<jsp:include page="../header.jsp"/>
 	
+<div class="body-container">
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>
@@ -36,9 +37,12 @@
 			판매현황; 판매현황 리스트를 불러와서 숫자로 출력
 		</p>
 	</div>
-	
-	<!-- 푸터 -->
+
+</div>
+
+	<!-- 사이드바 -->	
 	<jsp:include page="../sidebar.jsp"/>
+	<!-- 푸터 -->
 	<jsp:include page="../footer.jsp"/>
 </body>
 <%--
