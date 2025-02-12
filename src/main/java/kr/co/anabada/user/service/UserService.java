@@ -1,14 +1,15 @@
 package kr.co.anabada.user.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.anabada.user.entity.User;
 import kr.co.anabada.user.mapper.UserMapper;
 import kr.co.anabada.user.util.PasswordHasher; // PBKDF2 비밀번호 암호화 유틸리티 클래스 임포트
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 @Service
 public class UserService {
@@ -57,7 +58,7 @@ public class UserService {
         return userMapper.selectByUserId(userId);
     }
     
- // 회원정보 수정
+    // 회원정보 수정
     public String updateUserInfo(User updatedUser, String userId) {
         User existingUser = userMapper.selectByUserId(userId); // userId로 사용자 정보 조회
         if (existingUser == null) {
@@ -92,4 +93,14 @@ public class UserService {
         userMapper.updateUser(updatedUser); // DB 업데이트 호출
         return "회원정보 변경 성공";
     }
+    
+//    //회원탈퇴    	
+//  	public void deactivateUser(int userNo) {
+//   		userMapper.updateUserStatus(userNo, "deactive", LocalDateTime.now());
+//   	}
+//   	public User getAllUserInfo(int userNo) {
+//   		return userMapper.selectAllUserByUserNo(userNo);
+//   	}   
+    
+   	
 }
