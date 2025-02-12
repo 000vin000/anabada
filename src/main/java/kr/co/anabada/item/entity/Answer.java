@@ -11,16 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class QnA {
-	private int qnaNo;
-	private int itemNo;
-	private int userNo;
+public class Answer {
 	private int aNo;
-	private String itemName;
-	private String userNick;
-	private String qTitle;
-	private String qContent;
-	private LocalDateTime qDate;
+	private int qNo;
+	private int userNo;
 	private String aContent;
 	private LocalDateTime aDate;
+
 }
