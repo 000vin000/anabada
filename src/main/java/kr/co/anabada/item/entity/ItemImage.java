@@ -2,6 +2,8 @@ package kr.co.anabada.item.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.core.io.Resource;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +25,20 @@ public class ItemImage {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
-	private byte[] image;
+	private String image;
+	
+	public ItemImage(Item item, String image) {
+		this.itemNo = item.getItemNo();
+		this.userNo = item.getUserNo();
+		this.itemGender = item.getItemGender();
+		this.itemCate = item.getItemCate();
+		this.itemAuction = item.getItemAuction();
+		this.itemStart = item.getItemStart();
+		this.itemEnd = item.getItemEnd();
+		this.itemPrice = item.getItemPrice();
+		this.itemName = item.getItemName();
+		this.itemContent = item.getItemContent();
+		this.itemStatus = item.getItemStatus();
+		this.image = image;
+	}
 }
