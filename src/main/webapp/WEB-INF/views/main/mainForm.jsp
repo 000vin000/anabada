@@ -22,6 +22,7 @@
     <ul>
         <c:forEach var="item" items="${itemList}">
             <li>
+            	<img src="data:image/png;base64,image_${item.itemNo}" alt="${item.itemName} 이미지"/>
                 <a href="#">${item.itemName} - ${item.itemPrice} - ${item.itemStart} - ${item.itemEnd}</a>
             </li>
         </c:forEach>
@@ -32,7 +33,7 @@
     <script>
     	// 페이지 로드될 때 상태값 복원
     	window.onload = function() {
-    		const savedSortOrder = localStorage.getItem("sortOrder");
+    		const savedSortOrder = sessionStorage.getItem("sortOrder");
     		if (savedSortOrder != null) {
     			document.getElementById("sortOrder").value = savedSortOrder;
     		}
@@ -42,8 +43,7 @@
             let sortOrder = document.getElementById("sortOrder");
             let selectedValue = sortOrder.value;
           	
-            // 선택한 값 저장
-            localStorage.setItem("sortOrder", selectedValue);
+            sessionStorage.setItem("sortOrder", selectedValue);
             
 			window.location.href = `?sortOrder=` + selectedValue;
         }     

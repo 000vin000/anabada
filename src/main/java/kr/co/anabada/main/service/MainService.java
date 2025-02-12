@@ -61,4 +61,13 @@ public class MainService {
         }
         return list;
     }
+
+	public List<Item> searchItems(String findType, String keyword) {
+		if (findType.equals("itemName")) {	// 상품명 검색
+			return mapper.selectByItemName(keyword);
+		} else if (findType.equals("userNick")) { // 닉네임 검색
+			return mapper.selectByUserName(keyword);
+		}
+		return null;
+	}
 }
