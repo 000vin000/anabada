@@ -22,5 +22,8 @@ public interface UserMapper {
 
     @Update("UPDATE user SET userPw = #{userPw}, userName = #{userName}, userNick = #{userNick}, userAdd = #{userAdd}, userEmail = #{userEmail}, userPhone = #{userPhone} WHERE userId = #{userId}")
     void updateUser(User user);
+    
+    @Select("SELECT * FROM user WHERE userNo = #{userNo}")
+    User selectByUserNo(int userNo); // jhu
 
 }

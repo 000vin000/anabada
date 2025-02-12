@@ -38,7 +38,7 @@
 	                <td><a href="#" class="no-style">${item.itemName}</a></td>
 	                <td>${item.itemPrice} 원 </td>
 	                <td>[입찰수]</td>
-	                <td>판매자</td>
+	                <td>${item.userNick}</td>
 	                <td>${item.itemEnd}</td>
 	                <td>
 	                    <button id="removeFavor" class="btn btn-delete" onclick="removeFavor(${item.itemNo})">x</button>
