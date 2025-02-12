@@ -39,5 +39,5 @@ public interface UserMapper {
     @Select("SELECT * FORM alluser WHERE userNo = #{userNo}")
     User selectAllUserByUserNo(@Param("userNo") int userNo);
     
-    
+      
 }
