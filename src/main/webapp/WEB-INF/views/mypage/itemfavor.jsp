@@ -10,7 +10,8 @@
 </head>
 <body>
 	<jsp:include page="../header.jsp"/>
-
+	
+<div class="body-container">
     <!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>
@@ -47,6 +48,7 @@
 	        </c:forEach>
 	    </tbody>
 	</table>
+</div>
 	
 	<jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp" />
