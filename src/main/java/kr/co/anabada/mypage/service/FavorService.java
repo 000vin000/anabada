@@ -1,12 +1,17 @@
 package kr.co.anabada.mypage.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.ItemImage;
+import kr.co.anabada.item.mapper.ImageMapper;
 import kr.co.anabada.item.mapper.ItemMapper;
 import kr.co.anabada.mypage.entity.Favor;
 import kr.co.anabada.mypage.mapper.FavorMapper;
@@ -15,16 +20,24 @@ import kr.co.anabada.mypage.mapper.FavorMapper;
 public class FavorService {
 	@Autowired
 	private FavorMapper favorMapper;
-	
 	@Autowired
 	private ItemMapper itemMapper;
+	@Autowired
+	private ImageMapper imageMapper;
 	
-	public List<Item> selectMyFavor(int userNo) {
+	public List<ItemImage> selectMyFavor(int userNo) throws IOException {
 		List<Favor> list = favorMapper.selectMyFavor(userNo);
-		List<Item> favorItemList = new ArrayList<>();
+		List<ItemImage> favorItemList = new ArrayList<>();
 		for (Favor f : list) {
 			Item item = itemMapper.findItemsByItemNo(f.getItemNo());
-			favorItemList.add(item);
+			Resource imageRep = imageMapper.imageRep(f.getItemNo());
+			String image = null;
+			if (imageRep != null) {
+				byte[] bytes = imageRep.getContentAsByteArray();
+				image = Base64.getEncoder().encodeToString(bytes);
+			}
+			ItemImage favorItem = new ItemImage(item, image);
+			favorItemList.add(favorItem);
 		}
 		
 		return favorItemList;
