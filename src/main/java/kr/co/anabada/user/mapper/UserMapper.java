@@ -30,10 +30,14 @@ public interface UserMapper {
     @Update("UPDATE user SET userPw = #{userPw}, userName = #{userName}, userNick = #{userNick}, userAdd = #{userAdd}, userEmail = #{userEmail}, userPhone = #{userPhone} WHERE userId = #{userId}")
     void updateUser(User user);
     
+    @Select("SELECT * FROM user WHERE userNo = #{userNo}")
+    User selectByUserNo(int userNo); // jhu
+
     //회원 탈퇴기능
     @Update("UPDATE alluser SET userStatus = #{userStatus}, userDeactiveDate = #{userDeactiveDate} WHERE userNo = #{userNo}")
     void updateUserStatus(@Param("userNo") int userNo, @Param("userStatus") String userStatus, @Param("userDeactiveDate") LocalDateTime userDeactiveDate);
     @Select("SELECT * FORM alluser WHERE userNo = #{userNo}")
     User selectAllUserByUserNo(@Param("userNo") int userNo);
+    
     
 }
