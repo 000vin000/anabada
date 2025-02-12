@@ -29,6 +29,9 @@ public class MainService {
         return mapper.selectImage1(itemNo);
     }
 
+    // ItemImage 
+    //public List<ItemImage> select
+    
     @Transactional(readOnly = true)
     public List<Item> sortByOrder(List<Item> itemList, String sortOrder) {
     	LocalDateTime now = LocalDateTime.now();
