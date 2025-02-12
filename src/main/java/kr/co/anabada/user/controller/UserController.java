@@ -14,7 +14,6 @@ import kr.co.anabada.user.service.UserService;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -65,13 +64,21 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 무효화 처리
         return "redirect:/"; // 로그아웃 후 메인 페이지로 리다이렉트
     }
     
-    
-   
+//    //회원탈퇴
+//    @PostMapping("/deactivate")
+//    public String deactivateUser(HttpSession session) {
+//        User loggedInUser = (User) session.getAttribute("loggedInUser");
+//        if (loggedInUser != null) {
+//            userService.deactivateUser(loggedInUser.getUserNo());
+//            session.invalidate();
+//            return "redirect:/";
+//        }
+//        return "redirect:/login";
+//    }   
 }

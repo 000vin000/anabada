@@ -20,7 +20,7 @@
 
 	<!-- 네비게이션 -->
 	<div>
-		<a href="/mypage/updateinfo">정보 수정</a>
+		<a href="/mypage/updateinfo">개인정보 수정</a>
 		<a href="#">구매 현황</a>
 		<a href="#">판매 현황</a>
 		<a href="/mypage/itemfavor">관심 물품</a>
