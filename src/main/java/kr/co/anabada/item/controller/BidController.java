@@ -23,13 +23,6 @@ public class BidController {
 //  	bidService.insertBid(bid);
 //  	return "item/detail";
 //  }
-	
-	// 입찰 취소하기
-	@PostMapping("/item/bidList/deleteBid")
-	public String deleteBid(@RequestParam int bidNo) {
-		bidService.deleteBid(bidNo);
-		return "item/bidList";
-	}
 			
 	 // 입찰한 기록 조회
     @GetMapping("/item/bidList")

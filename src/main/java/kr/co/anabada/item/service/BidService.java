@@ -20,10 +20,10 @@ public class BidService {
 //		bidMapper.insertBid(bid);
 //	}
 
-	// 답변 삭제
-	public void deleteBid(int bidNo) {
-		bidMapper.deleteBid(bidNo);
-	}
+//	// 답변 삭제
+//	public void deleteBid(int bidNo) {
+//		bidMapper.deleteBid(bidNo);
+//	}
 	
 	// 입찰 기록 조회
 	public List<Bid> getBidList(int itemNo) {

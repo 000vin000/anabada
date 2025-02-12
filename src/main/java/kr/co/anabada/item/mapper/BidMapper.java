@@ -24,8 +24,5 @@ public interface BidMapper {
     @Options(useGeneratedKeys = true, keyProperty = "bidNo")
     void insertBid(Bid bid);
 	
-	@Delete("DELETE FROM bid WHERE bidNo = #{bidNo}")
-	void deleteBid(int bidNo);
-	
 	
 }
