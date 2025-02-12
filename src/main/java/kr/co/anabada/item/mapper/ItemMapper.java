@@ -23,4 +23,8 @@ public interface ItemMapper {
 
 	@Select("SELECT * FROM item WHERE userNo = #{userNo}")
     List<Item> findItemsByUserNo(int userNo);
+	
+	@Select("SELECT * FROM item WHERE itemNo = #{itemNo} ORDER BY itemEnd ASC")
+	Item findItemsByItemNo(int itemNo); // jhu
+	
 }

@@ -1,26 +1,33 @@
 package kr.co.anabada.mypage.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.mapper.ItemMapper;
 import kr.co.anabada.mypage.entity.Favor;
 import kr.co.anabada.mypage.mapper.FavorMapper;
-import kr.co.anabada.user.mapper.UserMapper;
 
 @Service
 public class FavorService {
 	@Autowired
 	private FavorMapper favorMapper;
 	
-//	@Autowired
-//	ItemMapper itemMapper;
+	@Autowired
+	private ItemMapper itemMapper;
 	
-	public List<Favor> selectMyFavor(int userNo) {
+	public List<Item> selectMyFavor(int userNo) {
 		List<Favor> list = favorMapper.selectMyFavor(userNo);
+		List<Item> favorItemList = new ArrayList<>();
+		for (Favor f : list) {
+			Item item = itemMapper.findItemsByItemNo(f.getItemNo());
+			favorItemList.add(item);
+		}
 		
-		return list;
+		return favorItemList;
 	}
 	
 	public int addFavor(int userNo, int itemNo) {
