@@ -73,7 +73,7 @@
         <nav>
             <ul>
                 <li><a href="#">카테고리</a></li>
-                <li><a href="#">상품등록</a></li>
+                <li><a href="/mypage/itemup">상품등록</a></li>
                 <c:choose>
                     <c:when test="${empty sessionScope.loggedInUser}">
                         <li><a href="<c:url value='/user/join'/>">회원가입</a></li>

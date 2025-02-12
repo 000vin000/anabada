@@ -8,7 +8,7 @@
 <title>판매현황</title>
 </head>
 <body>
-<h1>Item List</h1>
+<h1>판매현황</h1>
 
     <table border="1">
         <thead>
@@ -39,6 +39,6 @@
             </c:forEach>
         </tbody>
     </table>
-
+ 	<a href="/mypage">마이페이지로 돌아가기</a>
 </body>
 </html>

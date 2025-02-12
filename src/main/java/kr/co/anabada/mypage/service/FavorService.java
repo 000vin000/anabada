@@ -15,6 +15,8 @@ import kr.co.anabada.item.mapper.ImageMapper;
 import kr.co.anabada.item.mapper.ItemMapper;
 import kr.co.anabada.mypage.entity.Favor;
 import kr.co.anabada.mypage.mapper.FavorMapper;
+import kr.co.anabada.user.entity.User;
+import kr.co.anabada.user.mapper.UserMapper;
 
 @Service
 public class FavorService {
@@ -24,12 +26,15 @@ public class FavorService {
 	private ItemMapper itemMapper;
 	@Autowired
 	private ImageMapper imageMapper;
+	@Autowired
+	private UserMapper userMapper;
 	
 	public List<ItemImage> selectMyFavor(int userNo) throws IOException {
 		List<Favor> list = favorMapper.selectMyFavor(userNo);
 		List<ItemImage> favorItemList = new ArrayList<>();
 		for (Favor f : list) {
 			Item item = itemMapper.findItemsByItemNo(f.getItemNo());
+			User user = userMapper.selectByUserNo(item.getUserNo());
 			Resource imageRep = imageMapper.imageRep(f.getItemNo());
 			String image = null;
 			if (imageRep != null) {
@@ -37,6 +42,7 @@ public class FavorService {
 				image = Base64.getEncoder().encodeToString(bytes);
 			}
 			ItemImage favorItem = new ItemImage(item, image);
+			favorItem.setUserNick(user.getUserNick());
 			favorItemList.add(favorItem);
 		}
 		
