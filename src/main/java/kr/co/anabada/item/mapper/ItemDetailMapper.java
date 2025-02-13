@@ -19,6 +19,9 @@ public interface ItemDetailMapper {
 	@Select("SELECT itemPrice FROM item WHERE itemNo = #{itemNo}")
 	int getCurrentPrice(int itemNo);
 
+	@Select("SELECT itemAuction FROM item WHERE itemNo = #{itemNo}")
+	String getCurrentState(int itemNo);
+
 	@Select("SELECT * FROM image WHERE itemNo = #{itemNo}")
 	List<Image> getAllImages(int itemNo);
 

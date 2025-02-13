@@ -23,6 +23,23 @@ public class ItemDetailService {
 	public int getCurrentPrice(int itemNo) {
 		return mapper.getCurrentPrice(itemNo);
 	}
+
+	public String getCurrentState(int itemNo) {
+		String state = mapper.getCurrentState(itemNo);
+		
+		switch(state) {
+		case "waiting":
+			return "대기";
+		case "bidding":
+			return "입찰 가능";
+		case "sold":
+			return "낙찰";
+		case "closed":
+			return "종료";
+		default:
+			return "unknown";
+		}
+	}
 	
 	public List<String> getAllImages(int itemNo) {
 		List<Image> images = mapper.getAllImages(itemNo);

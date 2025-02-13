@@ -32,6 +32,9 @@ public interface UserMapper {
     
     @Select("SELECT * FROM user WHERE userNo = #{userNo}")
     User selectByUserNo(int userNo); // jhu
+    
+    @Select("SELECT userNick FROM user WHERE userNo = #{userNo}")
+    String selectUserNick(int userNo);
 
     //회원 탈퇴기능
     @Update("UPDATE alluser SET userStatus = #{userStatus}, userDeactiveDate = #{userDeactiveDate} WHERE userNo = #{userNo}")
