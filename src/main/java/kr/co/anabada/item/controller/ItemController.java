@@ -81,7 +81,7 @@ public class ItemController {
 	        return "mypage/itemup";  
 	    }
 
-	    return "redirect:/mypage"; 
+	    return "redirect:/mypage/itemsell"; 
 	}
 	
 	

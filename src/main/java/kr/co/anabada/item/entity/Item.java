@@ -26,31 +26,27 @@ public class Item {
 	private String itemContent;
 	private String itemStatus;
 	
-	
-	public String getItemAuctionStr(String itemAuction) {
-		if (itemAuction.equals("waiting")) {
-			return getStartTime(this.itemStart);
-		} else if (itemAuction.equals("bidding")) {
-			return getCountDown(this.itemEnd);
-		} else {
-			return null;
-		}
+	public String getItemStatusInKorean() {
+	    if (this.itemAuction == null) {
+	        return null; 
+	    }
+
+	    switch (this.itemAuction.trim().toLowerCase()) {
+	        case "waiting":
+	            return "대기중";
+	        case "bidding":
+	            return "입찰중";
+	        case "sold":
+	            return "판매완료";
+	        case "closed":
+	            return "종료";
+	        default:
+	            return "알 수 없음";
+	    }
 	}
-	
-	public String getCountDown(LocalDateTime itemEnd) {
-		LocalDateTime now = LocalDateTime.now();
-		Duration countdown = Duration.between(now, itemEnd);
-		
-		long hour = countdown.getSeconds() / 60 / 60;
-		
-		long day = hour / 24;
-		hour = hour % 24;
-		
-		return day + "일 " + hour +"시간";
-	}
-	
-	public String getStartTime(LocalDateTime itemStart) {
-		return itemStart.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm 오픈"));
-	}
+
+    public void setItemStatusFromString(String auction) {
+        this.itemAuction = auction;
+    }
 
 }

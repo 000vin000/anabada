@@ -13,9 +13,8 @@
 <table border="1">
     <thead>
         <tr>
-            <th>번호</th>
             <th>물품번호</th>
-            <th>성별</th>
+            <th>제목</th>
             <th>카테고리</th>
             <th>경매 상태</th>
             <th>경매 시작일</th>
@@ -30,14 +29,13 @@
         <c:forEach var="item" items="${items}">
             <tr>
                 <td>${item.itemNo}</td>
-                <td>${item.userNo}</td>
-                <td>${item.itemGender}</td>
+                <td>${item.itemName}</td>
                 <td>${item.itemCate}</td>
-                <td>${item.getItemAuctionStr(item.itemAuction)}</td>
+                <td>${item.getItemStatusInKorean()}</td>
                 <td>${item.itemStart}</td>
                 <td>${item.itemEnd}</td>
                 <td>${item.itemPrice}</td>
-                <td><a href="<c:url value='/mypage/itemdetail/${item.itemNo}' />">상세보기</a></td>
+                <td><a href="<c:url value='/item/detail/${item.itemNo}' />">상세보기</a></td>
                 <td><a href="<c:url value='/mypage/itemupdate/${item.itemNo}' />">수정하기</a></td>
                 <td>
                     <form action="<c:url value='/mypage/itemdelete/${item.itemNo}' />" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
