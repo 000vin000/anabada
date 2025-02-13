@@ -59,9 +59,9 @@
 
   <label>카테고리</label><br><br>
   <label>성별:</label><br>
-  <input type="radio" id="itemGender0" name="itemGender" value="m" ${item.itemGender == 'm' ? 'checked' : ''}>
+  <input type="radio" id="itemGender0" name="itemGender" value="m" ${item.itemGender == 'm' ? 'checked' : ''} required>
   <label for="itemGender0">남성</label><br>
-  <input type="radio" id="itemGender1" name="itemGender" value="w" ${item.itemGender == 'w' ? 'checked' : ''}>
+  <input type="radio" id="itemGender1" name="itemGender" value="w" ${item.itemGender == 'w' ? 'checked' : ''} required>
   <label for="itemGender1">여성</label><br><br>
 
   <label>의류 종류:</label><br>
@@ -85,11 +85,11 @@
   <textarea id="description" name="itemContent" rows="4" cols="50" required>${item.itemContent}</textarea><br><br>
 
   <label for="itemStatus">상품상태:</label><br>
-  <input type="radio" id="itemStatus0" name="itemStatus" value="high" ${item.itemStatus == 'high' ? 'checked' : ''}>
+  <input type="radio" id="itemStatus0" name="itemStatus" value="high" ${item.itemStatus == 'high' ? 'checked' : ''} required>
   <label for="itemStatus0">상</label>
-  <input type="radio" id="itemStatus1" name="itemStatus" value="mid" ${item.itemStatus == 'mid' ? 'checked' : ''}>
+  <input type="radio" id="itemStatus1" name="itemStatus" value="mid" ${item.itemStatus == 'mid' ? 'checked' : ''} required>
   <label for="itemStatus1">중</label>
-  <input type="radio" id="itemStatus2" name="itemStatus" value="low" ${item.itemStatus == 'low' ? 'checked' : ''}>
+  <input type="radio" id="itemStatus2" name="itemStatus" value="low" ${item.itemStatus == 'low' ? 'checked' : ''} required>
   <label for="itemStatus2">하</label><br><br>
 
   <input type="submit" value="수정"><br>

@@ -6,10 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>판매현황</title>
+<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
 </head>
 <body>
+<jsp:include page="../header.jsp"/>
 <h1>판매현황</h1>
 
+<div class="body-container">
+    <!-- 브레드 크럼 -->
+    <ul class="breadcrumb" id="breadcrumb">
+		<li><a href="/">홈</a></li>
+    	<li><a href="/mypage">마이페이지</a></li>
+    	<li><a href="/mypage/itemfavor">관심물품</a></li>
+    </ul>
+    
 <table border="1">
     <thead>
         <tr>
@@ -46,6 +56,10 @@
         </c:forEach>
     </tbody>
 </table>
-<a href="/mypage">마이페이지로 돌아가기</a>
+	<a href="/mypage">마이페이지로 돌아가기</a>
+</div>
+	<jsp:include page="../sidebar.jsp" />
+	<jsp:include page="../footer.jsp" />
+	<script src="/js/todaypick.js"></script>
 </body>
 </html>

@@ -78,23 +78,23 @@
 
   <label>카테고리</label><br><br>
   <label for="itemGender">성별:</label><br>
-  <input type="radio" id="itemGender0" name="itemGender" value="m">
+  <input type="radio" id="itemGender0" name="itemGender" value="m" required>
   <label for="itemGender0">남성</label><br>
-  <input type="radio" id="itemGender1" name="itemGender" value="w">
+  <input type="radio" id="itemGender1" name="itemGender" value="w" required>
   <label for="itemGender1">여성</label><br><br>
 
   <label for="itemCate">의류 종류:</label><br>
-  <input type="radio" id="itemCate0" name="itemCate" value="top">
+  <input type="radio" id="itemCate0" name="itemCate" value="top" required>
   <label for="itemCate0">상의</label><br>
-  <input type="radio" id="itemCate1" name="itemCate" value="bottom">
+  <input type="radio" id="itemCate1" name="itemCate" value="bottom" required>
   <label for="itemCate1">하의</label><br>
-  <input type="radio" id="itemCate2" name="itemCate" value="outer">
+  <input type="radio" id="itemCate2" name="itemCate" value="outer" required>
   <label for="itemCate2">아우터</label><br>
-  <input type="radio" id="itemCate3" name="itemCate" value="dress">
+  <input type="radio" id="itemCate3" name="itemCate" value="dress" required>
   <label for="itemCate3">원피스</label><br>
-  <input type="radio" id="itemCate4" name="itemCate" value="etc">
+  <input type="radio" id="itemCate4" name="itemCate" value="etc" required>
   <label for="itemCate4">기타</label><br>
-  <input type="radio" id="itemCate5" name="itemCate" value="set">
+  <input type="radio" id="itemCate5" name="itemCate" value="set" required>
   <label for="itemCate5">셋업</label><br><br>
 
   <label for="itemPrice">가격:</label>
@@ -104,11 +104,11 @@
   <textarea id="description" name="itemContent" rows="4" cols="50" required></textarea><br><br>
 
   <label for="itemStatus">상품상태:</label><br>
-  <input type="radio" id="itemStatus0" name="itemStatus" value="high">
+  <input type="radio" id="itemStatus0" name="itemStatus" value="high" required>
   <label for="itemStatus0">상</label>
-  <input type="radio" id="itemStatus1" name="itemStatus" value="mid">
+  <input type="radio" id="itemStatus1" name="itemStatus" value="mid" required>
   <label for="itemStatus1">중</label>
-  <input type="radio" id="itemStatus2" name="itemStatus" value="low">
+  <input type="radio" id="itemStatus2" name="itemStatus" value="low" required>
   <label for="itemStatus2">하</label><br><br>
 
   <input type="submit" value="등록"><br>
