@@ -1,14 +1,3 @@
-//document.addEventListener("DOMContentLoaded", () => {
-//    const itemNo = new URLSearchParams(window.location.search).get("tempNo"); // 상품상세페이지로 갔을때 넘버 가져오기
-//    const itemName = document.querySelector(".item-name").innerText; // 이름을 가져오려고 이너텍스트를 훔쳐오는 부분
-//    const itemImage = document.querySelector(".item-image").src; // 요소를 가져오는거부분 상세페이지에 맞춰서 수정되어야하는 부분
-//
-//    if (itemNo) {
-//        addRecentView(itemNo, itemName, itemImage);
-//    }
-//});
-// 스크립트 태그로 상세페이지에만 추가할것
-
 // 아래는 현재 외부 js 파일채로 사이드바가 있는 페이지에 적용하기
 // JavaScript로 쿠키에 상품 정보 저장
 function addRecentView(itemNo, itemName, itemImage) {
@@ -72,3 +61,5 @@ function displayRecentViews() {
 
 // 페이지 로드 시 최근 본 상품 목록 표시
 document.addEventListener("DOMContentLoaded", displayRecentViews);
+
+// 적용 방법은 sidebar.jsp 참고
