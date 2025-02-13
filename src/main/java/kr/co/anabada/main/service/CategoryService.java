@@ -17,4 +17,11 @@ public class CategoryService {
 		return mapper.selectByGenderAndCate(gender, clothesType);
 	}
 
+	public List<Item> searchGender(String itemGender) {
+		return mapper.searchGender(itemGender);
+	}
+
+	public List<Item> searchClothesType(String itemCate) {
+		return mapper.searchClothesType(itemCate);
+	}
 }

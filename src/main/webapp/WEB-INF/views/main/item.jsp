@@ -6,12 +6,12 @@
 	<div id="categorySearchOption">
 		<%-- 카테고리 선택 --%>
 		<select id="gender" name="gender">
-			<option value="" selected disabled>선택</option>
+			<option value="" selected>전체</option>
 			<option value="m">남성</option>
 			<option value="w">여성</option>
 		</select>
 		<select id="clothesType">
-			<option value="" selected disabled>옵션</option>
+			<option value="" selected>전체</option>
 			<option value="top">상의</option>
 			<option value="bottom">하의</option>
 			<option value="outer">아우터</option>
@@ -23,7 +23,7 @@
 	</div>
 	<div id="sortOption">
 		<select id="sortOrder" name="sortOrder" onchange="sortItems()">
-		<option value="" selected disabled>선택</option>
+		<option value="" selected>기본순</option>
 			<option value="new">경매시작순</option>    
 			<option value="deadline">마감임박순</option>
 			<option value="popular">인기순</option>
@@ -36,7 +36,7 @@
 			<c:if test="${not empty itemList}">
 				<c:forEach var="item" items="${itemList}">
 					<li>
-						<a href="/item/detail/${item.itemNo}">
+						<a href="/item/detail/${item.itemNo}" id="card">
 							<img src="data:image/png;base64,${item.image}" alt="${item.itemName} 이미지"/>
 							<p id="itemName">${item.itemName}</p> 
 							<p id="itemPrice">${item.itemPrice}원 </p>

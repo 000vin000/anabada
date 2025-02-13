@@ -103,3 +103,50 @@ body {
 	margin: 1px 0; /* 위아래 간격을 8px로 설정 */
 }
 
+/* 아이템 1개 */
+#itemOption ul {
+    list-style-type: none; /* 기본 리스트 스타일 제거 */
+    padding: 0; /* 패딩 제거 */
+    display: flex; /* 플렉스박스 사용 */
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    gap: 20px; /* 카드 간격 */
+}
+
+#itemOption li {
+    background-color: #fff; /* 카드 배경색 */
+    border: 1px solid #ddd; /* 카드 테두리 */
+    border-radius: 8px; /* 둥근 모서리 */
+    overflow: hidden; /* 넘치는 내용 숨기기 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    transition: transform 0.2s; /* 애니메이션 효과 */
+}
+
+#itemOption li:hover {
+    transform: scale(1.05); /* 마우스 오버 시 확대 */
+}
+
+#itemOption img {
+    width: 100%; /* 이미지 너비 100% */
+    height: auto; /* 비율 유지 */
+}
+
+#itemName {
+    font-weight: bold; /* 제목 두껍게 */
+}
+
+#itemPrice {
+    color: #e74c3c; /* 가격 색상 */
+}
+
+#itemUserNick {
+    color: #7f8c8d; /* 유저 닉네임 색상 */
+}
+
+#itemAuction {
+    font-style: italic; /* 경매 정보 이탤릭체 */
+}
+
+#card {
+	text-decoration: none; /* 링크 밑줄 제거 */
+}
+
