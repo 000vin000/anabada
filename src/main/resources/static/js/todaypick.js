@@ -63,3 +63,21 @@ function displayRecentViews() {
 document.addEventListener("DOMContentLoaded", displayRecentViews);
 
 // 적용 방법은 sidebar.jsp 참고
+
+document.addEventListener("DOMContentLoaded", function () {
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+    // 버튼 클릭 시 최상단으로 부드럽게 스크롤
+    scrollTopBtn.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 스크롤 위치에 따라 버튼 표시/숨김
+    window.addEventListener("scroll", function () {
+        if (window.scrollY > 200) { // 300px 이상 스크롤하면 버튼 표시
+            scrollTopBtn.style.display = "block";
+        } else {
+            scrollTopBtn.style.display = "none";
+        }
+    });
+});
