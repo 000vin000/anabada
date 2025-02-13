@@ -2,7 +2,6 @@ package kr.co.anabada.user.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +33,23 @@ public class UserService {
         }
     }
 
-    // 아이디 중복 여부 확인 메서드
+    // 아이디 중복 확인
     public boolean isUserIdDuplicate(String userId) {
-        return userMapper.selectByUserId(userId) != null; // DB에서 아이디 조회 후 결과 반환
+        return userMapper.selectByUserId(userId) != null;
     }
+//    // 닉네임
+//    public boolean isUserNickDuplicate(String userNick) {
+//        return userMapper.selectByUserNick(userNick) != null;
+//    }
+//    // 이메일
+//    public boolean isUserEmailDuplicate(String userEmail) {
+//        return userMapper.selectByUserEmail(userEmail) != null;
+//    }
+//    // 전화번호
+//    public boolean isUserPhoneDuplicate(String userPhone) {
+//        return userMapper.selectByUserPhone(userPhone) != null;
+//    }
+   
     
     // 로그인 로직
     public String loginUser(String userId, String userPw) {
@@ -97,15 +109,6 @@ public class UserService {
 
         userMapper.updateUser(updatedUser); // DB 업데이트 호출
         return "회원정보 변경 성공";
-    }
-    
-//    //회원탈퇴    	
-//  	public void deactivateUser(int userNo) {
-//   		userMapper.updateUserStatus(userNo, "deactive", LocalDateTime.now());
-//   	}
-//   	public User getAllUserInfo(int userNo) {
-//   		return userMapper.selectAllUserByUserNo(userNo);
-//   	}   
-    
+    }   
    	
 }
