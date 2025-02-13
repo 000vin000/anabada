@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +35,7 @@ public class ItemController {
 		return new Item();
 	}
 	
+	//아이템 등록
 	@GetMapping("/mypage/itemup")
 	public String form(@ModelAttribute("itemupCommand") Item item, Model model) {
 		return "mypage/itemup";
@@ -81,6 +83,57 @@ public class ItemController {
 
 	    return "redirect:/mypage"; 
 	}
+	
+	
+	//아이템 수정
+	@GetMapping("/mypage/itemupdate/{itemNo}")
+	public String showUpdateForm(@PathVariable("itemNo") int itemNo, Model model) {
+	    Item item = itemservice.findItemById(itemNo);
+	    model.addAttribute("item", item);
+	    return "mypage/itemupdate";
+	}
+	
+	@PostMapping("/mypage/itemupdate/{itemNo}")
+	public String updateItem(@PathVariable("itemNo") Integer itemNo,
+	                         @Valid @ModelAttribute("itemupCommand") Item item,
+	                         BindingResult errors,
+	                         @RequestParam(value = "imageFiles[]", required = false) MultipartFile[] imageFiles,
+	                         HttpServletRequest request) {
+		
+	    if (errors.hasErrors()) {
+	        return "mypage/itemupdate";
+	    }
+
+	    HttpSession session = request.getSession(false);
+	    User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+	    if (loggedInUser == null) {
+	        return "redirect:/user/login";
+	    }
+
+	    Integer userNo = loggedInUser.getUserNo();
+	    item.setUserNo(userNo);
+	    item.setItemAuction("waiting");
+	    item.setItemNo(itemNo);
+
+	    try {
+	        itemservice.updateItem(item);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "mypage/itemupdate";
+	    }
+
+	    try {
+	        if (imageFiles != null && imageFiles.length > 0) {
+	            imageservice.updateImages(itemNo, imageFiles);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "mypage/itemupdate";
+	    }
+
+	    return "redirect:/mypage/itemsell";
+	}
 
 	@GetMapping("/mypage/itemsell")
     public String itemList(HttpServletRequest request, Model model) {
@@ -100,4 +153,15 @@ public class ItemController {
 
 		    return "/mypage/itemsell";
     }
+	//삭제하기
+	@PostMapping("/mypage/itemdelete/{itemNo}")
+	public String deleteItem(@PathVariable("itemNo") Integer itemNo) {
+	    try {
+	        itemservice.deleteItem(itemNo);  // 해당 itemNo를 사용하여 아이템 삭제
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/mypage/itemsell";  // 삭제 실패시 판매현황으로 리다이렉트
+	    }
+	    return "redirect:/mypage/itemsell";  // 삭제 성공시 판매현황 페이지로 리다이렉트
+	}
 }
