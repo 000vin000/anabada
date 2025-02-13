@@ -19,16 +19,15 @@ import kr.co.anabada.main.service.MainService;
 @RequestMapping("/category")
 public class CategoryController {
 	@Autowired
-	private CategoryService cateSer;
+	private CategoryService cateService;
 	
 	@Autowired
-	private MainService mainSer;
+	private MainService mainService;
 	
 	@GetMapping
 	public String searchCategory(@RequestParam String gender, @RequestParam String clothesType,
 									Model model) throws IOException {
-		List<Item> item = cateSer.searchItems(gender, clothesType);
-		List<ItemImage> itemList = mainSer.includeImage(item);
+		List<ItemImage> itemList = returnItemImage(gender, clothesType);
 		
 		if (!itemList.isEmpty()) {
 			model.addAttribute("itemList", itemList);
@@ -43,13 +42,16 @@ public class CategoryController {
 	@GetMapping(params = "sortOrder")
 	public String sortByOrder(@RequestParam String gender, @RequestParam String clothesType, 
 									@RequestParam String sortOrder, Model model) throws IOException {
-		List<Item> item = cateSer.searchItems(gender, clothesType);
-		List<ItemImage> itemList = mainSer.includeImage(item);
+		List<ItemImage> itemList = returnItemImage(gender, clothesType);
 		
-		List<ItemImage> sortedList = mainSer.sortByOrder(itemList, sortOrder);
+		List<ItemImage> sortedList = mainService.sortByOrder(itemList, sortOrder);
 		model.addAttribute("itemList", sortedList);
 		
 		return "main/cateForm";
 	}
 	
+	public List<ItemImage> returnItemImage(String gender, String clothesType) throws IOException {
+		List<Item> item = cateService.searchItems(gender, clothesType);
+		return mainService.includeImage(item);
+	}
 }
