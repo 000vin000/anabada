@@ -42,8 +42,9 @@ public class ItemController {
 	@PostMapping("/mypage/itemup")
 	public String submit(@Valid @ModelAttribute("itemupCommand") Item item,
 	                     BindingResult errors,
-	                     @RequestParam("imageFile") MultipartFile imageFile, HttpServletRequest request) {
-	    if (errors.hasErrors()) {
+	                     @RequestParam("imageFiles[]") MultipartFile[] imageFiles, HttpServletRequest request) {
+	    
+		if (errors.hasErrors()) {
 	        return "mypage/itemup";
 	    }
 	    
@@ -68,15 +69,16 @@ public class ItemController {
 	    
 	    Integer itemNo = item.getItemNo();
 	    
-	    if (!imageFile.isEmpty()) {
-	        try {
-	        	 imageservice.saveImage(itemNo, imageFile); 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            return "mypage/itemup";  
+	    try {
+	        // 이미지 파일 여러 장 저장
+	        if (imageFiles != null && imageFiles.length > 0) {
+	            imageservice.saveImage(itemNo, imageFiles);
 	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "mypage/itemup";  
 	    }
-	    
+
 	    return "redirect:/mypage"; 
 	}
 

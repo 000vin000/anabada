@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="loggedInUser" value="${sessionScope.loggedInUser}" />
+    
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -75,7 +78,7 @@
                 <li><a href="#">카테고리</a></li>
                 <li><a href="/mypage/itemup">상품등록</a></li>
                 <c:choose>
-                    <c:when test="${empty sessionScope.loggedInUser}">
+					<c:when test="${empty loggedInUser}">
                         <li><a href="<c:url value='/user/join'/>">회원가입</a></li>
                         <li><a href="<c:url value='/user/login'/>">로그인</a></li>
                     </c:when>
