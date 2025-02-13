@@ -24,18 +24,6 @@
 		<a href="/mypage/itemsell">판매 현황</a>
 		<a href="/mypage/itemfavor">관심 물품</a>
 	</div>
-	
-	<div>
-		<p>
-			구매현황; 구매현황 리스트를 불러와서 숫자로 출력
-		</p>
-	</div>
-	
-	<div>
-		<p>
-			판매현황; 판매현황 리스트를 불러와서 숫자로 출력
-		</p>
-	</div>
 
 </div>
 
