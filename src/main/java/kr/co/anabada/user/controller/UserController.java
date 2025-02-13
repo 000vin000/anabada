@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +51,30 @@ public class UserController {
         response.put("isDuplicate", isDuplicate);
         return response;
     }
+    
+    @GetMapping("/check-duplicate/{field}")
+    @ResponseBody
+    public Map<String, Boolean> checkDuplicate(@PathVariable String field, @RequestParam String value) {
+        boolean isDuplicate = false;
+        switch (field) {
+            case "userId":
+                isDuplicate = userService.isUserIdDuplicate(value);
+                break;
+//            case "userNick":
+//                isDuplicate = userService.isUserNickDuplicate(value);
+//                break;
+//            case "userEmail":
+//                isDuplicate = userService.isUserEmailDuplicate(value);
+//                break;
+//            case "userPhone":
+//                isDuplicate = userService.isUserPhoneDuplicate(value);
+//                break;
+        }
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return response;
+    }
+
 
     @PostMapping("/join")
     public String registerUser(@ModelAttribute("user") @Valid User user,

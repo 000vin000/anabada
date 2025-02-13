@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
-    <!-- 쿼리추가 -->
+    <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -25,19 +25,19 @@
 	    <span id="userIdCheckResult"></span>
 	    <form:errors path="userId"></form:errors>
 	</div>
-	
-	<!-- 확인 자바스크립트 -->
-	<script src="/static/js/userJoinIdCheck.js"></script>
-	<div>
-	    <label for="userPw">비밀번호:</label>
-	    <form:password id="userPw" path="userPw"/>
-	    <form:errors path="userPw"></form:errors>
-	</div>
-	<div>
-	    <label for="userPw2">비밀번호 확인:</label>
-	    <form:password id="userPw2" path="userPw2"/>
-	    <form:errors path="userPw2"></form:errors>
-	</div>
+	<!-- 외부 JavaScript 파일 포함 -->
+	<script src="/js/userJoinIdCheck.js"></script>
+    
+    <div>
+        <label for="userPw">비밀번호:</label>
+        <form:password id="userPw" path="userPw"/>
+        <form:errors path="userPw"></form:errors>
+    </div>
+    <div>
+        <label for="userPw2">비밀번호 확인:</label>
+        <form:password id="userPw2" path="userPw2"/>
+        <form:errors path="userPw2"></form:errors>
+    </div>
     <div>
         <label for="userName">이름:</label>
         <form:input type="text" id="userName" path="userName" />
@@ -58,15 +58,15 @@
         <form:input type="email" id="userEmail" path="userEmail"/>
         <form:errors path="userEmail"></form:errors>
     </div>
-<div>
-    <label for="userPhone1">전화번호:</label>
-    <input type="text" id="userPhone1" name="userPhone1" maxlength="3" size="3"/>
-    -
-    <input type="text" id="userPhone2" name="userPhone2" maxlength="4" size="4"/>
-    -
-    <input type="text" id="userPhone3" name="userPhone3" maxlength="4" size="4"/>
-    <form:errors path="userPhone"></form:errors>
-</div>
+    <div>
+        <label for="userPhone1">전화번호:</label>
+        <input type="text" id="userPhone1" name="userPhone1" maxlength="3" size="3"/>
+        -
+        <input type="text" id="userPhone2" name="userPhone2" maxlength="4" size="4"/>
+        -
+        <input type="text" id="userPhone3" name="userPhone3" maxlength="4" size="4"/>
+        <form:errors path="userPhone"></form:errors>
+    </div>
     <button type="submit">회원가입</button>
 </form:form>
 
