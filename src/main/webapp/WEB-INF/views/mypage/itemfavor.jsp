@@ -34,8 +34,8 @@
 	    <tbody>
 	        <c:forEach var="item" items="${list}">
 	            <tr>
-	                <td><a href="#" class="no-style"><img src="data:image/png;base64,${item.image}" alt="상품 이미지"></a></td>
-	                <td><a href="#" class="no-style">${item.itemName}</a></td>
+	                <td><a href="/item/detail/${item.itemNo}" class="no-style"><img src="data:image/png;base64,${item.image}" alt="상품 이미지"></a></td>
+	                <td><a href="/item/detail/${item.itemNo}" class="no-style">${item.itemName}</a></td>
 	                <td>${item.itemPrice} 원 </td>
 	                <td>[입찰수]</td>
 	                <td>${item.userNick}</td>
@@ -52,6 +52,7 @@
 	<jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp" />
 </body>
+<script src="/js/todaypick.js"></script>
 <script type="text/javascript">
 	function removeFavor(itemNo) {
 		if(!confirm("삭제하시겠습니까?")) {
