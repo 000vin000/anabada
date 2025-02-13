@@ -34,6 +34,15 @@
             const findType = document.getElementById('findType').value;
             const keyword = document.getElementById('keyword').value.trim();
             
+            if (!findType) {
+            	alert('검색유형을 선택하세요.');
+            	return;
+            }
+            if (!keyword) {
+                alert('검색어를 입력하세요.');
+                return;
+            }
+            
             const form = document.createElement('form');
             form.method = 'GET';
             form.action = '/search';
@@ -75,7 +84,6 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#">카테고리</a></li>
                 <li><a href="/mypage/itemup">상품등록</a></li>
                 <c:choose>
 					<c:when test="${empty loggedInUser}">
