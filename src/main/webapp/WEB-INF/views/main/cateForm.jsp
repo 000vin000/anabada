@@ -5,27 +5,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>아이템 목록</title>
+	<meta charset="UTF-8">
+	<title>아이템 목록</title>
 </head>
-<body>
+<body>	
 	<jsp:include page="item.jsp"/>
-    <jsp:include page="../footer.jsp" /> 
+	<jsp:include page="../footer.jsp"/>
 </body>
 <script src="/js/common.js"></script>
-<script>   	
+<script>	
 	function sortItems() {
-		let findType = document.getElementById("findType").value;
-		let keyword = document.getElementById("keyword").value;
+		let gender = document.getElementById("gender").value;
+		let clothesType = document.getElementById("clothesType").value;
 		
 		let sortOrder = document.getElementById("sortOrder");
 		let selectedValue = sortOrder.value;
-          	
+		
 		sessionStorage.setItem("sortOrder", selectedValue);
-       	
-		window.location.href = `?findType=` + findType 
-							+ `&keyword=` + keyword
+		
+		window.location.href = `?gender=` + gender
+							+ `&clothesType=` + clothesType
 							+ `&sortOrder=` + selectedValue;
-	};     
+	};
 </script>
 </html>

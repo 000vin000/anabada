@@ -1,5 +1,6 @@
 package kr.co.anabada.item.entity;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import org.springframework.core.io.Resource;
@@ -41,5 +42,20 @@ public class ItemImage {
 		this.itemContent = item.getItemContent();
 		this.itemStatus = item.getItemStatus();
 		this.image = image;
+	}
+	
+	public String get(LocalDateTime itemEnd) {
+		return String.valueOf(itemEnd.getSecond());
+	}
+	public String getCountDown(LocalDateTime itemEnd) {
+		LocalDateTime now = LocalDateTime.now();
+		Duration countdown = Duration.between(now, itemEnd);
+		
+		long hour = countdown.getSeconds() / 60 / 60;
+		
+		long day = hour / 24;
+		hour = hour % 24;
+		
+		return day + "일 " + hour +"시간";
 	}
 }
