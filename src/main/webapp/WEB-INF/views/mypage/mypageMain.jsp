@@ -9,9 +9,8 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<jsp:include page="../header.jsp"/>
-	
 <div class="body-container">
+	<%@ include file="../header.jsp" %>
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>
