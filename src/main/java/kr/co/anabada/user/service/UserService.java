@@ -34,6 +34,11 @@ public class UserService {
         }
     }
 
+    // 아이디 중복 여부 확인 메서드
+    public boolean isUserIdDuplicate(String userId) {
+        return userMapper.selectByUserId(userId) != null; // DB에서 아이디 조회 후 결과 반환
+    }
+    
     // 로그인 로직
     public String loginUser(String userId, String userPw) {
         User user = userMapper.selectByUserId(userId);

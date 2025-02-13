@@ -1,13 +1,22 @@
 package kr.co.anabada.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import kr.co.anabada.user.entity.User;
 import kr.co.anabada.user.service.UserService;
 
@@ -16,9 +25,14 @@ import kr.co.anabada.user.service.UserService;
 public class UserController {
     @Autowired
     private UserService userService;
+    
+    // 비밀번호 패턴 정의
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
+    private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     @GetMapping("/join")
-    public String showJoinForm() {
+    public String showJoinForm(Model model) {
+    	model.addAttribute("user", new User());
         return "user/join";
     }
 
@@ -26,20 +40,56 @@ public class UserController {
     public String showLoginForm() {
         return "user/login";
     }
+    
+    // 아이디 중복 체크 API
+    @GetMapping("/users/check-duplicate")
+    @ResponseBody // JSON 응답을 위해 추가
+    public Map<String, Boolean> checkDuplicateUserId(@RequestParam String userId) {
+        boolean isDuplicate = userService.isUserIdDuplicate(userId);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return response;
+    }
 
     @PostMapping("/join")
-    public String registerUser(User user, Model model) {
+    public String registerUser(@ModelAttribute("user") @Valid User user,
+                               BindingResult bindingResult,
+                               @RequestParam("userPhone1") String phone1,
+                               @RequestParam("userPhone2") String phone2,
+                               @RequestParam("userPhone3") String phone3,
+                               Model model) {
+        // 전화번호 조합 및 설정
+        if (!phone1.isEmpty() && !phone2.isEmpty() && !phone3.isEmpty()) {
+            String phoneNumber = phone1 + "-" + phone2 + "-" + phone3;
+            if (!phoneNumber.matches("^\\d{3}-\\d{3,4}-\\d{3,4}$")) {
+                bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
+            } else {
+                user.setUserPhone(phoneNumber);
+            }
+        } else {
+            bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
+        }
+        
+        // 비밀번호 일치 여부 확인
+        if (!user.getUserPw().equals(user.getUserPw2())) {
+            bindingResult.rejectValue("userPw2", "error.userPw2", "비밀번호가 일치하지 않습니다.");
+        }
+
+        // 유효성 검사 오류 확인
+        if (bindingResult.hasErrors()) {
+            return "user/join";
+        }
+        
         try {
-            // 회원가입 처리 로직 호출
             String result = userService.joinUser(user);
             if ("회원가입 성공".equals(result)) {
-                return "redirect:/user/login"; // 회원가입 성공 시 로그인 페이지로 리다이렉트
+                return "redirect:/user/login";
             } else {
-                model.addAttribute("error", result); // 에러 메시지 전달
+                model.addAttribute("error", result);
                 return "user/join";
             }
         } catch (Exception e) {
-            model.addAttribute("error", "회원가입 중 문제가 발생했습니다."); // 예외 처리 메시지 전달
+            model.addAttribute("error", "회원가입 중 문제가 발생했습니다.");
             return "user/join";
         }
     }
@@ -70,15 +120,4 @@ public class UserController {
         return "redirect:/"; // 로그아웃 후 메인 페이지로 리다이렉트
     }
     
-//    //회원탈퇴
-//    @PostMapping("/deactivate")
-//    public String deactivateUser(HttpSession session) {
-//        User loggedInUser = (User) session.getAttribute("loggedInUser");
-//        if (loggedInUser != null) {
-//            userService.deactivateUser(loggedInUser.getUserNo());
-//            session.invalidate();
-//            return "redirect:/";
-//        }
-//        return "redirect:/login";
-//    }   
 }
