@@ -1,5 +1,7 @@
 package kr.co.anabada.user.entity;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,6 @@ public class User {
     private String userAdd;
     private String userEmail;
     private String userPhone;
+    private String userStatus;
+    private LocalDateTime userDeactiveDate;
 }

@@ -1,24 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="../header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>회원정보 수정</title>
+    <title>회원정보 관리</title>
 </head>
 <body>
-    <h1>회원정보 수정</h1>
+<!-- 헤더 -->
+<jsp:include page="../header.jsp"/>
 
+<div class="body-container">
+    <!-- 브레드 크럼 -->
+    <ul class="breadcrumb" id="breadcrumb">
+        <li><a href="/">홈</a></li>
+        <li><a href="/mypage">마이페이지</a></li>
+        <li><a href="/mypage/updateinfo">회원정보 관리</a></li>
+    </ul>
+
+    <h1>회원정보 관리</h1>
+    
+    <a href="/mypage/deactivate">회원 탈퇴</a>
+
+    <!-- 성공 및 에러 메시지 -->
     <c:if test="${not empty success}">
         <p style="color: green;">${success}</p>
     </c:if>
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>
     </c:if>
-
+    
+    <!-- 회원정보 수정 -->
     <form action="/mypage/updateinfo" method="post">
+        <h2>회원정보 수정</h2>
+        
         <label for="userName">이름:</label>
         <input type="text" id="userName" name="userName" value="${user.userName}" required><br>
 
@@ -40,8 +56,9 @@
         <button type="submit">수정하기</button>
     </form>
 
+    <!-- 마이페이지로 돌아가기 -->
     <a href="/mypage">마이페이지로 돌아가기</a>
+</div>
 
-<%@ include file="../footer.jsp" %>
 </body>
 </html>
