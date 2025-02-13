@@ -75,7 +75,7 @@ public class UserController {
         return response;
     }
 
-
+    //회원가입 유효성 검사
     @PostMapping("/join")
     public String registerUser(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult,
