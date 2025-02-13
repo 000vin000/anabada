@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -49,13 +50,23 @@ public class FavorService {
 		return favorItemList;
 	}
 	
-	public int addFavor(int userNo, int itemNo) {
-//		if (!favorMapper.)
-		return favorMapper.addFavor(userNo, itemNo);
+	public boolean isFavorite(int userNo, int itemNo) {
+		 return favorMapper.isFavor(userNo, itemNo);
 	}
 	
 	public int removeFavor(int userNo, int itemNo) {
 		return favorMapper.removeFavor(userNo, itemNo);
+	}
+
+	public boolean toggleFavorite(int userNo, int itemNo) {
+		Favor favor = favorMapper.selectMyFavorItem(userNo, itemNo);
+		if (favor != null) {
+			favorMapper.removeFavor(userNo, itemNo);
+			return false; // 삭제됨
+    	} else {
+		    favorMapper.addFavor(userNo, itemNo);
+		    return true; // 추가됨
+    	}
 	}
 }
 

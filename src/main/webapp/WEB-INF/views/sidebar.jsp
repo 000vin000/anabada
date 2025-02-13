@@ -4,7 +4,7 @@
 	    <h3>최근 본 상품</h3>
 	    <div id="recently-viewed">최근 본 상품이 없습니다.</div>
 	</div>
-    <button id="scrollTopBtn" class="top-btn">TOP ▲</button> <!-- 맨 위로 가기 -->
+    <button id="scrollTopBtn" class="top-btn" style="display: none">TOP ▲</button> <!-- 맨 위로 가기 -->
 </div>
 
 <%--

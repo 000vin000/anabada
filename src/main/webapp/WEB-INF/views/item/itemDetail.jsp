@@ -10,7 +10,7 @@
 <body>
 	<div id="section1" class="section" onclick="focusSection('section1')">
         <h1 class="item-name">${item.itemName}</h1>
-		<input type="button" value="즐겨찾기">
+		<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
 		<p>게시자: ${item.userNo}</p>
 		<p>설명: ${item.itemContent}</p>
 		<div>
@@ -50,6 +50,30 @@
 		if (itemNo) {
 			addRecentView(itemNo, itemName, itemImage);
 		}
+	}); // jhu
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    const favBtn = document.getElementById("favor-btn");
+	    const itemNo = favBtn.dataset.itemNo;
+		
+    	fetch(`/api/favor/${itemNo}`)
+    		.then(res => res.json())
+       		.then(data => {
+       			favBtn.textContent = data.isFavorite ? "★" : "☆";
+       	})
+	    
+	    async function toggleFavorite() {
+	        const response = await fetch(`/api/favor/${itemNo}`, { method: "POST" });
+	        if (response.status === 401) {
+	            alert("로그인이 필요합니다.");
+	        } else {
+		        const isFavorited = await response.json();
+		        favBtn.textContent = isFavorited ? "★" : "☆";
+	        }
+	    }
+	
+	    favBtn.addEventListener("click", toggleFavorite);
 	});
 </script>
 <script>
