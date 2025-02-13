@@ -31,8 +31,7 @@ public class ItemDetailController {
 		model.addAttribute("item", item);
 		model.addAttribute("images", images);
 		
-//		return "item/itemDetail";
-		return "item/itemDetail2Temp";
+		return "item/itemDetail";
 	}
 	
 	@GetMapping("/currentPrice")
