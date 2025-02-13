@@ -51,7 +51,18 @@ public class CategoryController {
 	}
 	
 	public List<ItemImage> returnItemImage(String gender, String clothesType) throws IOException {
-		List<Item> item = cateService.searchItems(gender, clothesType);
+		List<Item> item = null;
+		
+		if (gender == "" && clothesType == "") {
+			item = mainService.selectAll();
+		} else if (gender.equals("")) {
+			item = cateService.searchClothesType(clothesType);
+		} else if (clothesType.equals("")) {
+			item = cateService.searchGender(gender);
+		} else {
+			item = cateService.searchItems(gender, clothesType);
+		}
+			
 		return mainService.includeImage(item);
 	}
 }
