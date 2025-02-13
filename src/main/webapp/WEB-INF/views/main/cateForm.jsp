@@ -12,16 +12,19 @@
 	<jsp:include page="item.jsp"/>
 	<jsp:include page="../footer.jsp"/>
 </body>
-<script src="common.js"></script>
+<script src="/js/common.js"></script>
 <script>	
 	function sortItems() {
+		let gender = document.getElementById("gender").value;
+		let clothesType = document.getElementById("clothesType").value;
+		
 		let sortOrder = document.getElementById("sortOrder");
 		let selectedValue = sortOrder.value;
 		
 		sessionStorage.setItem("sortOrder", selectedValue);
 		
 		window.location.href = `?gender=` + gender
-							+ `&clothesType=` + clotehsType
+							+ `&clothesType=` + clothesType
 							+ `&sortOrder=` + selectedValue;
 	};
 </script>

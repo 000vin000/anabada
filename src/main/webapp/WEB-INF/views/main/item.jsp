@@ -10,7 +10,6 @@
 			<option value="w">여자</option>
 		</select>
 		<select id="clothesType">
-			<option value="" selected disabled>옵션</option>
 			<option value="top">상의</option>
 			<option value="bottom">하의</option>
 			<option value="outer">아우터</option>

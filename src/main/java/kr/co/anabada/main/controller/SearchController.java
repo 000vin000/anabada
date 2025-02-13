@@ -43,7 +43,6 @@ public class SearchController {
     // 정렬
     @GetMapping(params = "sortOrder")
     public String sortByOrder(@RequestParam String findType, @RequestParam String keyword, @RequestParam String sortOrder, Model model) throws IOException {
-        // 현재 모델에서 itemList를 가져옴
     	List<Item> item = searchService.searchItems(findType, keyword);
         List<ItemImage> itemList = mainService.includeImage(item);
         

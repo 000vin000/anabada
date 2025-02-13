@@ -12,14 +12,17 @@
 	<jsp:include page="item.jsp"/>
     <jsp:include page="../footer.jsp" /> 
 </body>
-<script src="common.js"></script>
+<script src="/js/common.js"></script>
 <script>   	
 	function sortItems() {
+		let findType = document.getElementById("findType").value;
+		let keyword = document.getElementById("keyword").value;
+		
 		let sortOrder = document.getElementById("sortOrder");
 		let selectedValue = sortOrder.value;
           	
 		sessionStorage.setItem("sortOrder", selectedValue);
-            
+       	
 		window.location.href = `?findType=` + findType 
 							+ `&keyword=` + keyword
 							+ `&sortOrder=` + selectedValue;

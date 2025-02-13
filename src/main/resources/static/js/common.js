@@ -22,7 +22,7 @@ window.onload = function() {
 	// URL에서 성별과 종류를 가져와서 설정
 	if (gender != null && clothesType != null) {
 		document.getElementById("gender").value = gender;
-		docuemnt.getElementById("clothesType").value = clothesType;
+		document.getElementById("clothesType").value = clothesType;
 	}
 	
 	// 정렬
