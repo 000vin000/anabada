@@ -10,6 +10,8 @@ import kr.co.anabada.item.entity.Item;
 @Mapper
 public interface CategoryMapper {
 	// 성별&옷 종류 검색
-	@Select("SELECT * FROM item WHERE itemGender = #{itemGender} AND itemCate = #{itemCate} AND itemAuction = 'bidding'")
+	@Select("SELECT * FROM item WHERE itemGender = #{itemGender} "
+					+ "AND itemCate = #{itemCate} "
+					+ "AND itemAuction NOT IN ('sold', 'closed')")
 	List<Item> selectByGenderAndCate(String itemGender, String itemCate);
 }

@@ -21,9 +21,9 @@ public class MainController {
     @GetMapping("/")
     public String form(Model model) throws IOException {
     	List<Item> itemList = mainService.selectAll();
-    	
     	List<ItemImage> itemImageList = mainService.includeImage(itemList);
     	model.addAttribute("itemList", itemImageList);
+    	
         return "main/mainForm";
     }
 
