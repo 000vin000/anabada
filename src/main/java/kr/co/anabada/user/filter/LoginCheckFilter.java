@@ -1,16 +1,18 @@
 package kr.co.anabada.user.filter;
 
+import java.io.IOException;
+
+import org.springframework.stereotype.Component;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 @Component
 public class LoginCheckFilter implements Filter {
@@ -21,7 +23,7 @@ public class LoginCheckFilter implements Filter {
     }
 
     @Override
-    public void doFilter(jakarta.servlet.ServletRequest request, jakarta.servlet.ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -45,6 +47,11 @@ public class LoginCheckFilter implements Filter {
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/user/login");
                 return;
             }
+        }
+
+        // 모든 요청에 대해 로그인 상태를 request 속성으로 설정
+        if (session != null && session.getAttribute("loggedInUser") != null) {
+            request.setAttribute("loggedInUser", session.getAttribute("loggedInUser"));
         }
 
         chain.doFilter(request, response);

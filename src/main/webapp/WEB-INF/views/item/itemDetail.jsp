@@ -9,14 +9,14 @@
 </head>
 <body>
 	<div id="section1" class="section" onclick="focusSection('section1')">
-        <h1>${item.itemName}</h1>
+        <h1 class="item-name">${item.itemName}</h1>
 		<input type="button" value="즐겨찾기">
 		<p>게시자: ${item.userNo}</p>
 		<p>설명: ${item.itemContent}</p>
 		<div>
 			<c:forEach var="image" items="${images}">
 				<!-- 동일한 이미지파일 로드 시 깨짐 문제 있음 -->
-				<img src="data:image/png;base64,${image}"/>
+				<img class="item-image" src="data:image/png;base64,${image}"/>
 				<br>
 			</c:forEach>
 		</div>
@@ -35,7 +35,23 @@
 		</p>
 		<p><a href="#">입찰기록으로 이동하기</a></p>
     </div>
+    <jsp:include page="../sidebar.jsp" />
 </body>
+<script src="/js/todaypick.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const itemNo = window.location.pathname.split('/').pop(); // 상품상세페이지로 갔을때 넘버 가져오기
+		// /로 배열을 나누고 마지막 요소를 itemNo에 저장함
+		const itemName = document.querySelector(".item-name").innerText;
+		// 이름을 가져오려고 이너텍스트를 훔쳐오는 부분
+		const itemImage = document.querySelector(".item-image")?.src || "";
+		// 페이지에서 이미지 클래스를 찾아서 첫번째 이미지를 가져와서 저장함 실패하면 비어있도록 수정
+		
+		if (itemNo) {
+			addRecentView(itemNo, itemName, itemImage);
+		}
+	});
+</script>
 <script>
 	const btnBid = document.getElementById("btnBid");
 	const textPrice = document.getElementById("textPrice");

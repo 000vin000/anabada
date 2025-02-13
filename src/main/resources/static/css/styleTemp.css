@@ -144,9 +144,11 @@
 }
 
 .recently-viewed-box img {
-    width: 100%;
+    width: 60px; /* 원하는 크기로 조정 */
+    height: 60px;
     border-radius: 5px;
     transition: transform 0.2s ease-in-out;
+    object-fit: cover; /* 비율을 유지하면서 이미지가 꽉 차도록 */
 }
 
 /* 사이드바 스크롤탑 버튼 */

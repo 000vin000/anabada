@@ -1,35 +1,36 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const itemNo = new URLSearchParams(window.location.search).get("tempNo"); // 상품상세페이지로 갔을때 넘버 가져오기
-    const itemName = document.querySelector(".item-name").innerText; // 이름을 가져오려고 이너텍스트를 훔쳐오는 부분
-    const itemImage = document.querySelector(".item-image").src; // 요소를 가져오는거부분 상세페이지에 맞춰서 수정되어야하는 부분
-
-    if (itemNo) {
-        addRecentView(itemNo, itemName, itemImage);
-    }
-}); // 스크립트 태그로 상세페이지에만 추가할것
+//document.addEventListener("DOMContentLoaded", () => {
+//    const itemNo = new URLSearchParams(window.location.search).get("tempNo"); // 상품상세페이지로 갔을때 넘버 가져오기
+//    const itemName = document.querySelector(".item-name").innerText; // 이름을 가져오려고 이너텍스트를 훔쳐오는 부분
+//    const itemImage = document.querySelector(".item-image").src; // 요소를 가져오는거부분 상세페이지에 맞춰서 수정되어야하는 부분
+//
+//    if (itemNo) {
+//        addRecentView(itemNo, itemName, itemImage);
+//    }
+//});
+// 스크립트 태그로 상세페이지에만 추가할것
 
 // 아래는 현재 외부 js 파일채로 사이드바가 있는 페이지에 적용하기
 // JavaScript로 쿠키에 상품 정보 저장
 function addRecentView(itemNo, itemName, itemImage) {
-    const maxItems = 5; // 최근 본 상품 최대 개수 설정
-    const cookieName = "recentItems";
+    const maxItems = 5; // 최대 저장 개수
+    const storageKey = "recentItems";
 
-    // 기존 쿠키 값 가져오기
-    let recentItems = getRecentItems();
+    // 기존 로컬스토리지 값 가져오기
+    let recentItems = JSON.parse(localStorage.getItem(storageKey)) || [];
 
     // 중복 제거 (이미 있는 상품이면 삭제)
-    recentItems = recentItems.filter(item => item.tempNo !== itemNo); // 페이지의 아이템 넘버가 쿠키안에 들어있는거면 추가하지 않도록
+    recentItems = recentItems.filter(item => item.id !== itemNo);
 
     // 새로운 상품 추가
     recentItems.unshift({ id: itemNo, name: itemName, image: itemImage });
 
-    // 최대 개수 초과 시 제거
+    // 최대 개수 초과 시 마지막 요소 제거
     if (recentItems.length > maxItems) {
         recentItems.pop();
     }
 
-    // JSON 문자열로 변환 후 쿠키 저장
-    document.cookie = `${cookieName}=${encodeURIComponent(JSON.stringify(recentItems))}; path=/; max-age=${60 * 60 * 24 * 1};`;
+    // 로컬스토리지에 저장
+    localStorage.setItem(storageKey, JSON.stringify(recentItems));
 }
 
 // 쿠키에서 최근 본 상품 가져오기
@@ -45,23 +46,31 @@ function getRecentItems() {
     return [];
 }
 
-// 사이드바에 최근 본 상품 표시
-function displayRecentProducts() {
-    const recentProducts = getRecentItems();
-    const sidebar = document.querySelector("#recent-products-sidebar");
-    sidebar.innerHTML = ""; // 기존 내용 초기화
+// 최근 본 상품 목록을 화면에 표시하는 함수
+function displayRecentViews() {
+    const storageKey = "recentItems";
+    const recentItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const container = document.getElementById("recently-viewed");
 
-    recentProducts.forEach(product => {
-        const item = document.createElement("div");
-        item.innerHTML = `
-            <a href="product.html?id=${product.id}">
-                <img src="${product.image}" alt="${product.name}" width="50">
-                <span>${product.name}</span>
-            </a>
+    if (!container) {
+		return;
+	}
+
+    container.innerHTML = ""; // 기존 목록 초기화
+
+    recentItems.forEach(item => {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("recent-item");
+
+        itemElement.innerHTML = `
+			<a href="/item/detail/${item.id}">
+	            <img src="${item.image}" alt="${item.name}" width="50" height="50">
+			</a>
         `;
-        sidebar.appendChild(item);
+
+        container.appendChild(itemElement);
     });
 }
 
 // 페이지 로드 시 최근 본 상품 목록 표시
-document.addEventListener("DOMContentLoaded", displayRecentProducts);
+document.addEventListener("DOMContentLoaded", (displayRecentViews));

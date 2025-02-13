@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,6 +45,7 @@
 	<!-- 푸터 -->
 	<jsp:include page="../footer.jsp"/>
 </body>
+<script src="/js/todaypick.js"></script>
 <%--
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
