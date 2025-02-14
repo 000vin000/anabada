@@ -4,6 +4,7 @@
 <link rel="stylesheet" type="text/css" href="/css/styleMainPage.css"> <%-- 메인페이지 css --%>
 <body>
 	<div id="categorySearchOption">
+		<label for="gender">카테고리  </label>
 		<%-- 카테고리 선택 --%>
 		<select id="gender" name="gender">
 			<option value="" selected>전체</option>
@@ -37,7 +38,7 @@
 				<c:forEach var="item" items="${itemList}">
 					<li>
 						<a href="/item/detail/${item.itemNo}" id="card">
-							<img src="data:image/png;base64,${item.image}" alt="${item.itemName} 이미지"/>
+							<img src="data:image/png;base64,${item.base64Image}" alt="${item.itemName} 이미지"/>
 							<hr id="line">
 							<p id="itemName">${item.itemName}</p> 
 							<hr id="line">

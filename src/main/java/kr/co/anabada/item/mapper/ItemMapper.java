@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.ItemImage;
 
 @Mapper
 public interface ItemMapper {

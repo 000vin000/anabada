@@ -25,8 +25,9 @@ public class ItemImage {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
-  private String base64Image;
+	private String base64Image;
 	private String userNick;	// 유저 닉네임
+	private int bidCount;	// 입찰 횟수
 	
 	public String getItemAuctionStr(String itemAuction) {
 		if (itemAuction.equals("waiting")) {
@@ -34,7 +35,7 @@ public class ItemImage {
 		} else if (itemAuction.equals("bidding")) {
 			return getCountDown(this.itemEnd);
 		} else {
-			return "마감됨";
+			return null;
 		}
 	}
 	
@@ -42,12 +43,15 @@ public class ItemImage {
 		LocalDateTime now = LocalDateTime.now();
 		Duration countdown = Duration.between(now, itemEnd);
 		
-		long hour = countdown.getSeconds() / 60 / 60;
+		long minute = countdown.getSeconds() / 60;
+		
+		long hour = minute / 60;
+		minute = minute % 60;
 		
 		long day = hour / 24;
 		hour = hour % 24;
 		
-		return day + "일 " + hour +"시간";
+		return day + "일 " + hour +"시간" + minute + "분";
 	}
 	
 	public String getStartTime(LocalDateTime itemStart) {

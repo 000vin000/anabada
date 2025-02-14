@@ -36,7 +36,7 @@ public class SearchController {
         	model.addAttribute("error", "검색 결과가 없습니다.");
         }
        
-        return "main/searchForm"; // 검색 결과를 보여줄 뷰 이름
+        return "main/searchForm";
     }
     
     // 정렬
@@ -51,13 +51,11 @@ public class SearchController {
     }
     
     public List<ItemImage> returnItemImage(String findType, String keyword) throws IOException {
-    	List<Item> itemList = null;
-    	
     	if (!(findType.equals("itemName") || findType.equals("userNick"))) {
     		throw new RuntimeException();  // 500
     	} 
     	
-    	itemList = searchService.searchItems(findType, keyword);
+    	List<ItemImage> itemList = searchService.searchItems(findType, keyword);
     	return mainService.includeImage(itemList);
     }
 }
