@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>    
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>ANABADA</title>
-	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<!-- 헤더 -->
 <div class="body-container">
-	<%@ include file="../header.jsp" %>
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>

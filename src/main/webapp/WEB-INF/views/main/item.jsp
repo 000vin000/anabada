@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<link rel="stylesheet" type="text/css" href="/css/styleMainPage.css"> <%-- 메인페이지 css --%>
 <body>
 	<div id="categorySearchOption">
 		<label for="gender">카테고리  </label>

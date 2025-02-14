@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="images/favicon.png" sizes="16x16">
     <title>ANABADA</title>
-	<link rel="stylesheet" type="text/css" href="/css/styleHeader.css"> <%-- 헤더 css --%>
+	
     <script>
         function submitSearch() {
             const findType = document.getElementById('findType').value;
