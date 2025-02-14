@@ -13,7 +13,7 @@ import kr.co.anabada.mypage.entity.Favor;
 
 @Mapper
 public interface FavorMapper {
-	@Select("SELECT * FROM favor WHERE userNo = #{userNo}")
+	@Select("SELECT * FROM favor WHERE userNo = #{userNo} ORDER BY favorNo DESC")
 	List<Favor> selectMyFavor(int userNo);
 	
 	@Select("SELECT * FROM favor WHERE userNo = #{userNo} AND itemNo = #{itemNo}")

@@ -28,10 +28,10 @@ public interface ItemMapper {
     List<Item> findItemsByUserNo(int userNo);
 	
 	@Select("""
-			SELECT i.*, u.userNick, (SELECT COUNT(*) FROM bid WHERE i.itemNo = bid.itemNo)
-			 	AS bidCount FROM item i
+			SELECT i.*, u.userNick,
+				(SELECT COUNT(*) FROM bid WHERE i.itemNo = bid.itemNo) AS bidCount FROM item i
 				JOIN user u ON i.userNo = u.userNo
-				WHERE i.itemNo = #{itemNo} ORDER BY itemEnd ASC LIMIT 1;
+				WHERE i.itemNo = #{itemNo}
 			""")
 	ItemImage findItemsByItemNo(int itemNo); // jhu
 

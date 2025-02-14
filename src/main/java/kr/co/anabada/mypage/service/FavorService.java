@@ -41,23 +41,6 @@ public class FavorService {
 		}
 		
 		return favorItemList;
-//		List<Favor> list = favorMapper.selectMyFavor(userNo);
-//		List<ItemImage> favorItemList = new ArrayList<>();
-//		for (Favor f : list) {
-//			Item item = itemMapper.findItemsByItemNo(f.getItemNo());
-//			User user = userMapper.selectByUserNo(item.getUserNo());
-//			Resource imageRep = imageMapper.imageRep(f.getItemNo());
-//			String image = null;
-//			if (imageRep != null) {
-//				byte[] bytes = imageRep.getContentAsByteArray();
-//				image = Base64.getEncoder().encodeToString(bytes);
-//			}
-//			ItemImage favorItem = new ItemImage(item, image);
-//			favorItem.setUserNick(user.getUserNick());
-//			favorItemList.add(favorItem);
-//		}
-//		
-//		return favorItemList;
 	}
 	
 	public boolean isFavorite(int userNo, int itemNo) {
