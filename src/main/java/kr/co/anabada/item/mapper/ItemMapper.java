@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import kr.co.anabada.item.entity.Item;
-import kr.co.anabada.item.entity.ItemImage;
 
 @Mapper
 public interface ItemMapper {
@@ -34,7 +33,7 @@ public interface ItemMapper {
 				WHERE i.itemNo = #{itemNo} ORDER BY itemEnd ASC LIMIT 1;
 			""")
 	ItemImage findItemsByItemNo(int itemNo); // jhu
-	
+
 	@Update("UPDATE item " +
 	        "SET itemName = #{itemName}, itemStart = #{itemStart}, itemEnd = #{itemEnd}, itemPrice = #{itemPrice}, " +
 	        "itemContent = #{itemContent}, itemStatus = #{itemStatus}, itemCate = #{itemCate}, itemAuction = #{itemAuction}, itemGender = #{itemGender}" +
