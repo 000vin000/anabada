@@ -51,7 +51,13 @@ public class SearchController {
     }
     
     public List<ItemImage> returnItemImage(String findType, String keyword) throws IOException {
-    	List<Item> itemList = searchService.searchItems(findType, keyword);
+    	List<Item> itemList = null;
+    	
+    	if (!(findType.equals("itemName") || findType.equals("userNick"))) {
+    		throw new RuntimeException();  // 500
+    	} 
+    	
+    	itemList = searchService.searchItems(findType, keyword);
     	return mainService.includeImage(itemList);
     }
 }

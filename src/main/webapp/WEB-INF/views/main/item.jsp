@@ -38,7 +38,9 @@
 					<li>
 						<a href="/item/detail/${item.itemNo}" id="card">
 							<img src="data:image/png;base64,${item.image}" alt="${item.itemName} 이미지"/>
+							<hr id="line">
 							<p id="itemName">${item.itemName}</p> 
+							<hr id="line">
 							<p id="itemPrice">${item.itemPrice}원 </p>
 							<p id="itemUserNick">${item.userNick} </p>
 							<p id="itemAuction">${item.getItemAuctionStr(item.itemAuction)}</p>
