@@ -51,6 +51,16 @@ public class CategoryController {
 	}
 	
 	public List<ItemImage> returnItemImage(String gender, String clothesType) throws IOException {
+		if (!(gender.equals("m") || gender.equals("w"))) {
+		    throw new RuntimeException();
+		}
+
+		if (!(clothesType.equals("top") || clothesType.equals("bottom") || 
+		      clothesType.equals("outer") || clothesType.equals("dress") || 
+		      clothesType.equals("etc") || clothesType.equals("set"))) {
+			throw new RuntimeException();
+		}
+		
 		List<Item> item = null;
 		
 		if (gender == "" && clothesType == "") {
