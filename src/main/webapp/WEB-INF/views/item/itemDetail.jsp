@@ -33,9 +33,10 @@
 			<input type="text" id="textPrice">
 			<input type="submit" id="btnBid" value="입찰">
 		</p>
-		<p><a href="#">입찰기록으로 이동하기</a></p>
+		<p><a href="/item/bidList">입찰기록으로 이동하기</a></p>
     </div>
     <jsp:include page="../sidebar.jsp" />
+	
 </body>
 <script src="/js/todaypick.js"></script>
 <script>
