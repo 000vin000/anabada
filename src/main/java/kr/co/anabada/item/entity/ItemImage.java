@@ -35,7 +35,7 @@ public class ItemImage {
 		} else if (itemAuction.equals("bidding")) {
 			return getCountDown(this.itemEnd);
 		} else {
-			return null;
+			return "마감됨";
 		}
 	}
 	
