@@ -16,6 +16,8 @@
     <c:if test="${not empty error}">
         <div style="color: red;">${error}</div>
     </c:if>
+	<!-- 중복확인 -->
+	<script src="/js/userJoinIdCheck.js"></script>
 	<div>
 	    <label for="userId">아이디:</label>
 	    <form:input type="text" id="userId" path="userId"/>
@@ -25,9 +27,6 @@
 	    <span id="userIdCheckResult"></span>
 	    <form:errors path="userId"></form:errors>
 	</div>
-	<!-- 외부 JavaScript 파일 포함 -->
-	<script src="/js/userJoinIdCheck.js"></script>
-    
     <div>
         <label for="userPw">비밀번호:</label>
         <form:password id="userPw" path="userPw"/>
@@ -43,11 +42,13 @@
         <form:input type="text" id="userName" path="userName" />
         <form:errors path="userName"></form:errors>
     </div>
-    <div>
-        <label for="userNick">닉네임:</label>
-        <form:input type="text" id="userNick" path="userNick" />
-        <form:errors path="userNick"></form:errors>
-    </div>
+	<div>
+	    <label for="userNick">닉네임:</label>
+	    <form:input type="text" id="userNick" path="userNick" />
+	    <!-- 결과 메시지를 표시할 영역 -->
+	    <span id="userNickCheckResult"></span>
+	    <form:errors path="userNick"></form:errors>
+	</div>	
     <div>
         <label for="userAdd">주소:</label>
         <form:input type="text" id="userAdd" path="userAdd" />
@@ -56,17 +57,19 @@
     <div>
         <label for="userEmail">이메일:</label>
         <form:input type="email" id="userEmail" path="userEmail"/>
+		<span id="userEmailCheckResult"></span>        
         <form:errors path="userEmail"></form:errors>
     </div>
-    <div>
-        <label for="userPhone1">전화번호:</label>
-        <input type="text" id="userPhone1" name="userPhone1" maxlength="3" size="3"/>
-        -
-        <input type="text" id="userPhone2" name="userPhone2" maxlength="4" size="4"/>
-        -
-        <input type="text" id="userPhone3" name="userPhone3" maxlength="4" size="4"/>
-        <form:errors path="userPhone"></form:errors>
-    </div>
+	<div>
+	    <label for="userPhone1">전화번호:</label>
+	    <input type="text" id="userPhone1" name="userPhone1" maxlength="3" size="3"/>
+	    -
+	    <input type="text" id="userPhone2" name="userPhone2" maxlength="4" size="4"/>
+	    -
+	    <input type="text" id="userPhone3" name="userPhone3" maxlength="4" size="4"/>
+	    <span id="userPhoneCheckResult"></span>
+	    <form:errors path="userPhone"></form:errors>
+	</div>
     <button type="submit">회원가입</button>
 </form:form>
 

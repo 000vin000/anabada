@@ -41,8 +41,10 @@ public class User {
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String userEmail;
     
-    @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{3,4}$", message = "올바른 전화번호 형식이 아닙니다.")
+    @Pattern(regexp = "^\\d{10,11}$", message = "전화번호는 10자리 또는 11자리 숫자여야 합니다.")
     private String userPhone;
+
+
     
     private String userStatus;
     private LocalDateTime userDeactiveDate;

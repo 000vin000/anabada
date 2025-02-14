@@ -42,34 +42,39 @@ public class UserController {
         return "user/login";
     }
     
-    // 아이디 중복 체크 API
-    @GetMapping("/users/check-duplicate")
-    @ResponseBody // JSON 응답을 위해 추가
-    public Map<String, Boolean> checkDuplicateUserId(@RequestParam String userId) {
-        boolean isDuplicate = userService.isUserIdDuplicate(userId);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isDuplicate", isDuplicate);
-        return response;
-    }
-    
+    //통합
     @GetMapping("/check-duplicate/{field}")
     @ResponseBody
     public Map<String, Boolean> checkDuplicate(@PathVariable String field, @RequestParam String value) {
         boolean isDuplicate = false;
+
         switch (field) {
             case "userId":
                 isDuplicate = userService.isUserIdDuplicate(value);
                 break;
-//            case "userNick":
-//                isDuplicate = userService.isUserNickDuplicate(value);
-//                break;
-//            case "userEmail":
-//                isDuplicate = userService.isUserEmailDuplicate(value);
-//                break;
-//            case "userPhone":
-//                isDuplicate = userService.isUserPhoneDuplicate(value);
-//                break;
+            case "userNick":
+                isDuplicate = userService.isUserNickDuplicate(value);
+                break;
+            case "userEmail":
+                isDuplicate = userService.isUserEmailDuplicate(value);
+                break;
+            case "userPhone":
+                value = value.replaceAll("-", "");
+                if (!value.matches("^\\d{10,11}$")) {
+                    // 전화번호 형식이 잘못된 경우 명확한 응답 반환
+                    Map<String, Boolean> invalidResponse = new HashMap<>();
+                    invalidResponse.put("isDuplicate", false);
+                    invalidResponse.put("invalidFormat", true); 
+                    return invalidResponse;
+                }
+                isDuplicate = userService.isUserPhoneDuplicate(value);
+                break;
+
+
+            default:
+                throw new IllegalArgumentException("Invalid field for duplication check: " + field);
         }
+
         Map<String, Boolean> response = new HashMap<>();
         response.put("isDuplicate", isDuplicate);
         return response;
@@ -95,11 +100,24 @@ public class UserController {
             bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
         }
         
+
         // 비밀번호 일치 여부 확인
         if (!user.getUserPw().equals(user.getUserPw2())) {
             bindingResult.rejectValue("userPw2", "error.userPw2", "비밀번호가 일치하지 않습니다.");
         }
-
+        // 비밀번호 형식 검사
+        if (!pattern.matcher(user.getUserPw()).matches()) {
+            bindingResult.rejectValue("userPw", "error.userPw", "비밀번호는 특수문자, 문자, 숫자를 포함하며 6자 이상이어야 합니다.");
+        }        
+        // 이메일 중복 검사
+        if (userService.isUserEmailDuplicate(user.getUserEmail())) {
+            bindingResult.rejectValue("userEmail", "error.userEmail", "이미 사용 중인 이메일입니다.");
+        }
+        // 전화번호 중복 검사
+        if (userService.isUserPhoneDuplicate(user.getUserPhone())) {
+            bindingResult.rejectValue("userPhone", "error.userPhone", "이미 사용 중인 전화번호입니다.");
+        }
+        
         // 유효성 검사 오류 확인
         if (bindingResult.hasErrors()) {
             return "user/join";

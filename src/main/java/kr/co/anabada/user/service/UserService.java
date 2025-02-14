@@ -37,15 +37,22 @@ public class UserService {
     public boolean isUserIdDuplicate(String userId) {
         return userMapper.selectByUserId(userId) != null;
     }
-//    // 닉네임
-//    public boolean isUserNickDuplicate(String userNick) {
-//        return userMapper.selectByUserNick(userNick) != null;
-//    }
-//    // 이메일
-//    public boolean isUserEmailDuplicate(String userEmail) {
-//        return userMapper.selectByUserEmail(userEmail) != null;
-//    }
-//    // 전화번호
+    // 닉네임 중복 확인
+    public boolean isUserNickDuplicate(String userNick) {
+        return userMapper.selectByUserNick(userNick) != null;
+    }
+
+    // 이메일 중복 확인
+    public boolean isUserEmailDuplicate(String userEmail) {
+        return userMapper.selectByUserEmail(userEmail) != null;
+    }
+
+    // 전화번호 중복 확인
+    public boolean isUserPhoneDuplicate(String userPhone) {
+        // 입력값에서 "-" 제거
+        userPhone = userPhone.replaceAll("-", "");
+        return userMapper.selectByUserPhone(userPhone) != null;
+    }
 //    public boolean isUserPhoneDuplicate(String userPhone) {
 //        return userMapper.selectByUserPhone(userPhone) != null;
 //    }
