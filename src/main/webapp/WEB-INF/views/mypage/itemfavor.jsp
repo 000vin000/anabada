@@ -24,7 +24,7 @@
 	            <th>이미지</th>
 	            <th>물품명</th>
 	            <th>현재가</th>
-	            <th>입찰</th>
+	            <th>입찰수</th>
 	            <th>판매자</th>
 	            <th>마감일</th>
 	            <th>관리</th>
@@ -33,12 +33,12 @@
 	    <tbody>
 	        <c:forEach var="item" items="${list}">
 	            <tr>
-	                <td><a href="/item/detail/${item.itemNo}" class="no-style"><img src="data:image/png;base64,${item.image}" alt="상품 이미지"></a></td>
+	                <td><a href="/item/detail/${item.itemNo}" class="no-style"><img src="data:image/png;base64,${item.base64Image}" alt="상품 이미지"></a></td>
 	                <td><a href="/item/detail/${item.itemNo}" class="no-style">${item.itemName}</a></td>
 	                <td>${item.itemPrice} 원 </td>
-	                <td>[입찰수]</td>
+	                <td>[${item.bidCount}]</td>
 	                <td>${item.userNick}</td>
-	                <td>${item.itemEnd}</td>
+	                <td>${item.getItemAuctionStr(item.itemAuction)}</td>
 	                <td>
 	                    <button id="removeFavor" class="btn btn-delete" onclick="removeFavor(${item.itemNo})">x</button>
 	                </td>

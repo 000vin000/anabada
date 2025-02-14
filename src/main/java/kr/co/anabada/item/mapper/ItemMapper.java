@@ -26,9 +26,14 @@ public interface ItemMapper {
 	@Select("SELECT * FROM item WHERE userNo = #{userNo}")
     List<Item> findItemsByUserNo(int userNo);
 	
-	@Select("SELECT * FROM item WHERE itemNo = #{itemNo} ORDER BY itemEnd ASC")
-	Item findItemsByItemNo(int itemNo); // jhu
-	
+	@Select("""
+			SELECT i.*, u.userNick, (SELECT COUNT(*) FROM bid WHERE i.itemNo = bid.itemNo)
+			 	AS bidCount FROM item i
+				JOIN user u ON i.userNo = u.userNo
+				WHERE i.itemNo = #{itemNo} ORDER BY itemEnd ASC LIMIT 1;
+			""")
+	ItemImage findItemsByItemNo(int itemNo); // jhu
+
 	@Update("UPDATE item " +
 	        "SET itemName = #{itemName}, itemStart = #{itemStart}, itemEnd = #{itemEnd}, itemPrice = #{itemPrice}, " +
 	        "itemContent = #{itemContent}, itemStatus = #{itemStatus}, itemCate = #{itemCate}, itemAuction = #{itemAuction}, itemGender = #{itemGender}" +
