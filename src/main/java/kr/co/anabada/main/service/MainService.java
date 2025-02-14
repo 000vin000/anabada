@@ -68,7 +68,7 @@ public class MainService {
                 Collections.sort(list, Comparator.comparing(ItemImage::getItemEnd));
                 break;
             case "popular":
-                Collections.sort(list, Comparator.comparing(ItemImage::getBidCount));
+                Collections.sort(list, Comparator.comparing(ItemImage::getBidCount).reversed());
                 break;
             case "asc":
                 Collections.sort(list, Comparator.comparing(ItemImage::getItemPrice));
