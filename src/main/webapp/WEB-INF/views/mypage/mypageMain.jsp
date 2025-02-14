@@ -22,6 +22,8 @@
 		<a href="#">구매 현황</a>
 		<a href="/mypage/itemsell">판매 현황</a>
 		<a href="/mypage/itemfavor">관심 물품</a>
+		<a href="/mypage/q">나의 문의 목록</a>
+		<a href="/mypage/a">내 상품의 문의 목록</a>
 	</div>
 
 </div>

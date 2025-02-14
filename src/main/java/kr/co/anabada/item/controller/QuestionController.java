@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.anabada.item.entity.QnA;
 import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.service.QuestionService;
+import kr.co.anabada.user.entity.User;
 
 @Controller
 public class QuestionController {
@@ -41,8 +43,8 @@ public class QuestionController {
 	 
 	 // 내가 작성한 모든 문의글 조회
 	 @GetMapping("/mypage/q")
-	 public String getQList(@RequestParam int userNo, Model model) {
-	     List<QnA> list = qService.getQList(userNo);
+	 public String getQList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
+		 List<QnA> list = qService.getQList(user.getUserNo());
 	     model.addAttribute("list", list);
 	     return "mypage/q";
 	 }
