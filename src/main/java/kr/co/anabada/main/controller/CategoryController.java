@@ -51,13 +51,13 @@ public class CategoryController {
 	}
 	
 	public List<ItemImage> returnItemImage(String gender, String clothesType) throws IOException {
-		if (!(gender.equals("m") || gender.equals("w"))) {
+		if (!(gender.equals("m") || gender.equals("w") || gender.equals(""))) {
 		    throw new RuntimeException();
 		}
 
 		if (!(clothesType.equals("top") || clothesType.equals("bottom") || 
 		      clothesType.equals("outer") || clothesType.equals("dress") || 
-		      clothesType.equals("etc") || clothesType.equals("set"))) {
+		      clothesType.equals("etc") || clothesType.equals("set") || clothesType.equals(""))) {
 			throw new RuntimeException();
 		}
 		
