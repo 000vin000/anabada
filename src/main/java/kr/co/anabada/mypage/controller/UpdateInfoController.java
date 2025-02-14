@@ -18,7 +18,8 @@ public class UpdateInfoController {
 
     @Autowired
     private UserService userService;
-    // 회원 탈퇴 관련 서비스 + 업데이트에 이용
+    //수정4
+    // 회원 탈퇴 관련 서비스 + 업데이트에 이용 
     @Autowired
     private UpdateInfoService updateInfoService; 
     
@@ -34,7 +35,7 @@ public class UpdateInfoController {
         return "mypage/updateinfo"; //
     }
 
-
+    //수정5.updateInfoService>updateInfoService
     // 회원정보 수정 처리
     @PostMapping("/updateinfo")
     public String updateUserInfo(User updatedUser, HttpSession session, Model model) {

@@ -61,7 +61,7 @@ public class CategoryController {
 			throw new RuntimeException();
 		}
 		
-		List<Item> item = null;
+		List<ItemImage> item = null;
 		
 		if (gender == "" && clothesType == "") {
 			item = mainService.selectAll();

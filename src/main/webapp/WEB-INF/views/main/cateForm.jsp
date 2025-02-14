@@ -7,11 +7,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>아이템 목록</title>
-	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css"> <%-- 사이드바 css --%>
-	<link rel="stylesheet" type="text/css" href="/css/styleMainPage.css"> <%-- 메인페이지 css --%>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 </head>
 <body>	
-	<jsp:include page="item.jsp"/>
+	<div class="body-container">
+		<jsp:include page="item.jsp"/>
+	</div>
 	<jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp"/>
 </body>

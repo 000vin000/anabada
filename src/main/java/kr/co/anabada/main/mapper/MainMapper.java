@@ -13,8 +13,8 @@ import kr.co.anabada.item.entity.ItemImage;
 @Mapper
 public interface MainMapper {
 	// 경매중인 전체 상품 정보
-	@Select("SELECT * FROM item WHERE itemAuction NOT IN ('sold', 'closed')")
-	List<Item> selectAll();
+	@Select("SELECT * FROM itemInclude")
+	List<ItemImage> selectAll();
 
 	// itemNo의 image
 	@Select("SELECT imageFile FROM image WHERE itemNo = #{itemNo} LIMIT 1")

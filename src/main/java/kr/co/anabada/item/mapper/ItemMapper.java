@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.ItemImage;
 
 @Mapper
 public interface ItemMapper {
@@ -26,9 +27,14 @@ public interface ItemMapper {
 	@Select("SELECT * FROM item WHERE userNo = #{userNo}")
     List<Item> findItemsByUserNo(int userNo);
 	
-	@Select("SELECT * FROM item WHERE itemNo = #{itemNo} ORDER BY itemEnd ASC")
-	Item findItemsByItemNo(int itemNo); // jhu
-	
+	@Select("""
+			SELECT i.*, u.userNick,
+				(SELECT COUNT(*) FROM bid WHERE i.itemNo = bid.itemNo) AS bidCount FROM item i
+				JOIN user u ON i.userNo = u.userNo
+				WHERE i.itemNo = #{itemNo}
+			""")
+	ItemImage findItemsByItemNo(int itemNo); // jhu
+
 	@Update("UPDATE item " +
 	        "SET itemName = #{itemName}, itemStart = #{itemStart}, itemEnd = #{itemEnd}, itemPrice = #{itemPrice}, " +
 	        "itemContent = #{itemContent}, itemStatus = #{itemStatus}, itemCate = #{itemCate}, itemAuction = #{itemAuction}, itemGender = #{itemGender}" +

@@ -13,23 +13,17 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import kr.co.anabada.item.entity.Item;
 import kr.co.anabada.item.entity.ItemImage;
 import kr.co.anabada.main.mapper.MainMapper;
-import kr.co.anabada.user.entity.User;
-import kr.co.anabada.user.mapper.UserMapper;
 
 @Service
 public class MainService {
     @Autowired
     private MainMapper mapper;
     
-    @Autowired
-    private UserMapper userMapper;
-    
     // 전체 item List
     @Transactional(readOnly = true)
-    public List<Item> selectAll() {
+    public List<ItemImage> selectAll() {
         return mapper.selectAll();
     }
     
@@ -40,10 +34,8 @@ public class MainService {
     }
 
     // 이미지파일이 포함된 Item List
-    public List<ItemImage> includeImage(List<Item> itemList) throws IOException {
-    	List<ItemImage> includeImageList = new ArrayList<>();
-    	
-    	for (Item i : itemList) {
+    public List<ItemImage> includeImage(List<ItemImage> itemList) throws IOException {    	
+    	for (ItemImage i : itemList) {
     		Resource imageResource = mapper.selectImage1(i.getItemNo());
     		String image = null;
     		
@@ -51,15 +43,10 @@ public class MainService {
     			byte[] bytes = imageResource.getContentAsByteArray();
     			image = Base64.getEncoder().encodeToString(bytes);
     		}
-    		ItemImage item = new ItemImage(i, image);
-    		
-    		User user = userMapper.selectByUserNo(i.getUserNo());
-    		item.setUserNick(user.getUserNick());
-    		
-    		includeImageList.add(item); 
+    		i.setBase64Image(image);
     	}
     	
-    	return includeImageList;
+    	return itemList;
     }
     
     // List 정렬
@@ -81,8 +68,7 @@ public class MainService {
                 Collections.sort(list, Comparator.comparing(ItemImage::getItemEnd));
                 break;
             case "popular":
-                // 인기 항목 정렬 로직 추가 필요 (예: 경매기록 많은순)
-                // Collections.sort(itemList, Comparator.comparing(Item::getViewCount).reversed());
+                Collections.sort(list, Comparator.comparing(ItemImage::getBidCount).reversed());
                 break;
             case "asc":
                 Collections.sort(list, Comparator.comparing(ItemImage::getItemPrice));
