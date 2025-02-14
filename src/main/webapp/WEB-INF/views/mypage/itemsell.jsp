@@ -17,7 +17,7 @@
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>
     	<li><a href="/mypage">마이페이지</a></li>
-    	<li><a href="/mypage/itemfavor">관심물품</a></li>
+    	<li><a href="/mypage/itemsell">판매현황</a></li>
     </ul>
     
 <table border="1">
@@ -32,7 +32,7 @@
             <th>가격</th>
             <th>상세보기</th>
             <th>수정하기</th>
-            <th>삭제하기</th> <!-- 삭제 버튼을 위한 열 추가 -->
+            <th>삭제하기</th>
         </tr>
     </thead>
     <tbody>
@@ -46,8 +46,13 @@
                 <td>${item.itemEnd}</td>
                 <td>${item.itemPrice}</td>
                 <td><a href="<c:url value='/item/detail/${item.itemNo}' />">상세보기</a></td>
-                <td><a href="<c:url value='/mypage/itemupdate/${item.itemNo}' />">수정하기</a></td>
-                <td>
+                <c:if test="${item.itemAuction != 'sold' && item.itemAuction != 'closed'}">
+                    <td><a href="<c:url value='/mypage/itemupdate/${item.itemNo}' />">수정하기</a></td>
+                </c:if>
+                <c:if test="${item.itemAuction == 'sold' || item.itemAuction == 'closed'}">
+                    <td></td>
+                </c:if>
+                   <td>
                     <form action="<c:url value='/mypage/itemdelete/${item.itemNo}' />" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
                         <button type="submit">삭제하기</button>
                     </form>
