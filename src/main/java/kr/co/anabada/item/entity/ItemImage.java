@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.core.io.Resource;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,23 +25,8 @@ public class ItemImage {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
-	private String image;
+  private String base64Image;
 	private String userNick;	// 유저 닉네임
-	
-	public ItemImage(Item item, String image) {
-		this.itemNo = item.getItemNo();
-		this.userNo = item.getUserNo();
-		this.itemGender = item.getItemGender();
-		this.itemCate = item.getItemCate();
-		this.itemAuction = item.getItemAuction();
-		this.itemStart = item.getItemStart();
-		this.itemEnd = item.getItemEnd();
-		this.itemPrice = item.getItemPrice();
-		this.itemName = item.getItemName();
-		this.itemContent = item.getItemContent();
-		this.itemStatus = item.getItemStatus();
-		this.image = image;
-	}
 	
 	public String getItemAuctionStr(String itemAuction) {
 		if (itemAuction.equals("waiting")) {
@@ -51,7 +34,7 @@ public class ItemImage {
 		} else if (itemAuction.equals("bidding")) {
 			return getCountDown(this.itemEnd);
 		} else {
-			return null;
+			return "마감됨";
 		}
 	}
 	
