@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.service.ItemDetailService;
 import kr.co.anabada.user.mapper.UserMapper;
 
@@ -35,13 +36,23 @@ public class ItemDetailController {
 		List<String> images = service.getAllImages(itemNo);
 		String userNick = mapper.selectUserNick(item.getUserNo());
 		long remainTime = calculateRemainTime(item.getItemEnd());
+//		List<Question> questions = service.getAllQuestions(itemNo);
 		
 		model.addAttribute("item", item);
 		model.addAttribute("images", images);
 		model.addAttribute("userNick", userNick);
 		model.addAttribute("remainTime", remainTime);
+//		model.addAttribute("questions", questions);
 		
 		return "item/itemDetail";
+	}
+	
+	@GetMapping("/questions")
+	public String viewQuestions(@PathVariable int itemNo, Model model) {
+	    List<Question> questions = service.getAllQuestions(itemNo);
+	    model.addAttribute("questions", questions);
+	    model.addAttribute("itemNo", itemNo);
+	    return "item/questions";
 	}
 	
 	private long calculateRemainTime(LocalDateTime itemEnd) {

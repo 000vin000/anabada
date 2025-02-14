@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.anabada.item.entity.Image;
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.mapper.ItemDetailMapper;
 
 @Service
@@ -61,5 +62,9 @@ public class ItemDetailService {
 		} else {
 			return 0;
 		}
+	}
+
+	public List<Question> getAllQuestions(int itemNo) {
+		return mapper.getAllQuestions(itemNo);
 	}
 }

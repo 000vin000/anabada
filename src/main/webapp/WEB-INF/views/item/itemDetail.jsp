@@ -8,7 +8,7 @@
 <title>${item.itemName}</title>
 </head>
 <body>
-	<section id="detailSection" tabindex="0">
+	<section id="detailSection">
         <h1>${item.itemName}</h1>
 		<input type="button" value="즐겨찾기">
 		<label id="currentState">상태</label>
@@ -23,14 +23,13 @@
 				<br>
 			</c:forEach>
 		</div>
-		<div>
-			<textarea rows="10" cols="35"></textarea>
-			<input type="button" id="btnQ" value="문의">
-		</div>
+    </section>
+    <section id="qnaSection">
+    	<a href="#" onclick="openQuestionsWindow('${item.itemNo}')">문의하기</a>
     </section>
     <hr>
-    <section id="bidSection" tabindex="1">
-        <h2>현재 입찰가: <label id="currentPrice">${item.itemPrice}</label></h2>
+    <section id="bidSection">
+        <h2 id="priceHeading">현재 입찰가: <label id="currentPrice">${item.itemPrice}</label></h2>
         <p>
 			입찰:
 			<input type="text" id="textPrice" disabled="disabled">
@@ -40,6 +39,7 @@
     </section>
 </body>
 <script>
+	let intervals = [];
 	const btnBid = document.getElementById("btnBid");
 	const textPrice = document.getElementById("textPrice");
 
@@ -71,6 +71,14 @@
 	
 	//문의 리스트 로드
 	//문의하기(아이템 등록자 외 모두) or 답변하기(아이템 등록자인 경우)
+	
+    function openQuestionsWindow(itemNo) {
+        window.open(
+            '/item/detail/' + itemNo + '/questions', 
+            'QuestionsWindow', 
+            'width=1000,height=800,scrollbars=yes'
+        );
+    }
 
     function updateCurrentPrice(itemNo) {
         fetch('/item/detail/' + itemNo + '/currentPrice')
@@ -83,6 +91,7 @@
     let itvPrice = setInterval(() => {
         updateCurrentPrice(${item.itemNo});
     }, 1000);
+    intervals.push(itvPrice);
 
     function updateCurrentState(itemNo) {
         fetch('/item/detail/' + itemNo + '/currentState')
@@ -97,17 +106,29 @@
         		}
             	
                 document.getElementById("currentState").innerText = data;
+                
+                if (data === "낙찰" || data === "종료") {
+                    stopAllIntervals();
+                    
+                    if (data === "낙찰") {
+                    	const priceHeading = document.getElementById("priceHeading");
+                    	priceHeading.childNodes[0].textContent = "낙찰가: ";
+                    }
+                }
             })
+    }
+    
+    function stopAllIntervals() {
+        intervals.forEach(id => clearInterval(id));
+        intervals = [];
     }
 
     let itvState = setInterval(() => {
         updateCurrentState(${item.itemNo});
     }, 1000);
-    
-    //----------------------------
+    intervals.push(itvState);
     
     let remainTime = ${remainTime};
-
     function updateRemainingTime() {
         if (remainTime <= 0) {
             document.getElementById("remainTime").innerText = "";
@@ -116,13 +137,14 @@
             let minutes = Math.floor((remainTime % 3600) / 60);
             let seconds = remainTime % 60;
             
-            document.getElementById("remainTime").innerText = hours + "시간 " + minutes + "분 " + seconds + "초 남음";
+            document.getElementById("remainTime").innerText = "남은 시간: " + hours + "시간 " + minutes + "분 " + seconds + "초";
         }
     }
 
-    setInterval(function() {
+    let itvRemainTime = setInterval(function() {
         remainTime--;
         updateRemainingTime();
     }, 1000);
+    intervals.push(itvRemainTime);
 </script>
 </html>
