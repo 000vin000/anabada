@@ -28,11 +28,10 @@ public interface ItemMapper {
     List<Item> findItemsByUserNo(int userNo);
 	
 	@Select("""
-			SELECT i.*, u.userNick, im.imageFile, count(b.bidNo) AS bidCount FROM item i
+			SELECT i.*, u.userNick, (SELECT COUNT(*) FROM bid WHERE i.itemNo = bid.itemNo)
+			 	AS bidCount FROM item i
 				JOIN user u ON i.userNo = u.userNo
-				JOIN image im ON i.itemNo = im.itemNo
-			    JOIN bid b ON i.itemNo = b.itemNo
-				WHERE i.itemNo = #{itmeNo} ORDER BY itemEnd ASC LIMIT 1;
+				WHERE i.itemNo = #{itemNo} ORDER BY itemEnd ASC LIMIT 1;
 			""")
 	ItemImage findItemsByItemNo(int itemNo); // jhu
 	

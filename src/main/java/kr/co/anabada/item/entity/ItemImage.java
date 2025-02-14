@@ -1,12 +1,8 @@
 package kr.co.anabada.item.entity;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Base64;
-
-import org.springframework.core.io.Resource;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,17 +25,9 @@ public class ItemImage {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
-	private Resource image;
+	private String base64Image;
 	private String userNick;	// 유저 닉네임
 	private int bidCount;	// 입찰 횟수
-	
-	public String getBase64Image(Resource image) throws IOException {
-		if (image != null) {
-			byte[] bytes = image.getContentAsByteArray();
-			return Base64.getEncoder().encodeToString(bytes);
-		}
-		return null;
-	}
 	
 	public String getItemAuctionStr(String itemAuction) {
 		if (itemAuction.equals("waiting")) {
@@ -55,7 +43,8 @@ public class ItemImage {
 		LocalDateTime now = LocalDateTime.now();
 		Duration countdown = Duration.between(now, itemEnd);
 		
-		long minute = countdown.getSeconds() / 60;
+		long second = countdown.getSeconds();
+		long minute = second / 60;
 		
 		long hour = minute / 60;
 		minute = minute % 60;
