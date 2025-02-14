@@ -26,7 +26,9 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE userEmail = #{userEmail}")
     User selectByUserEmail(String userEmail);
     
-
+    @Select("SELECT * FROM user WHERE userPhone = #{userPhone}")
+    User selectByUserPhone(String userPhone);
+    
     @Update("UPDATE user SET userPw = #{userPw}, userName = #{userName}, userNick = #{userNick}, userAdd = #{userAdd}, userEmail = #{userEmail}, userPhone = #{userPhone} WHERE userId = #{userId}")
     void updateUser(User user);
     
@@ -36,6 +38,7 @@ public interface UserMapper {
     //회원 탈퇴기능
     @Update("UPDATE alluser SET userStatus = #{userStatus}, userDeactiveDate = #{userDeactiveDate} WHERE userNo = #{userNo}")
     void updateUserStatus(@Param("userNo") int userNo, @Param("userStatus") String userStatus, @Param("userDeactiveDate") LocalDateTime userDeactiveDate);
+    
     @Select("SELECT * FORM alluser WHERE userNo = #{userNo}")
     User selectAllUserByUserNo(@Param("userNo") int userNo);
     

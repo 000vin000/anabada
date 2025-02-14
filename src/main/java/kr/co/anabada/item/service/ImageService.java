@@ -24,4 +24,16 @@ public class ImageService {
 	public Integer getImageNo(Image image) {
         return image.getImageNo(); 
     }
+	
+	public void updateImages(int itemNo, MultipartFile[] newImageFiles) throws Exception {
+        imageMapper.deleteImagesByItemNo(itemNo);
+
+        // 새로운 이미지를 DB에 저장
+        for (MultipartFile imageFile : newImageFiles) {
+            if (!imageFile.isEmpty()) {
+                byte[] imageBytes = imageFile.getBytes();
+                imageMapper.save(itemNo, imageBytes); // 각 이미지 데이터를 DB에 저장
+            }
+        }
+    }
 }

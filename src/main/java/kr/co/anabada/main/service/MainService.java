@@ -16,11 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.anabada.item.entity.Item;
 import kr.co.anabada.item.entity.ItemImage;
 import kr.co.anabada.main.mapper.MainMapper;
+import kr.co.anabada.user.entity.User;
+import kr.co.anabada.user.mapper.UserMapper;
 
 @Service
 public class MainService {
     @Autowired
     private MainMapper mapper;
+    
+    @Autowired
+    private UserMapper userMapper;
     
     // 전체 item List
     @Transactional(readOnly = true)
@@ -46,7 +51,12 @@ public class MainService {
     			byte[] bytes = imageResource.getContentAsByteArray();
     			image = Base64.getEncoder().encodeToString(bytes);
     		}
-    		includeImageList.add(new ItemImage(i, image)); 
+    		ItemImage item = new ItemImage(i, image);
+    		
+    		User user = userMapper.selectByUserNo(i.getUserNo());
+    		item.setUserNick(user.getUserNick());
+    		
+    		includeImageList.add(item); 
     	}
     	
     	return includeImageList;
@@ -85,6 +95,4 @@ public class MainService {
         }
         return list;
     }
-
-
 }

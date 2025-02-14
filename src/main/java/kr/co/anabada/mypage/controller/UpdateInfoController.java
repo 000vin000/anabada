@@ -18,6 +18,10 @@ public class UpdateInfoController {
 
     @Autowired
     private UserService userService;
+    // 회원 탈퇴 관련 서비스 + 업데이트에 이용
+    @Autowired
+    private UpdateInfoService updateInfoService; 
+    
 
     // 회원정보 수정 페이지 표시
     @GetMapping("/updateinfo")
@@ -30,6 +34,7 @@ public class UpdateInfoController {
         return "mypage/updateinfo"; //
     }
 
+
     // 회원정보 수정 처리
     @PostMapping("/updateinfo")
     public String updateUserInfo(User updatedUser, HttpSession session, Model model) {
@@ -37,7 +42,7 @@ public class UpdateInfoController {
         if (loggedInUser == null) {
             return "redirect:/user/login"; // 로그인 페이지로
         }
-        String result = userService.updateUserInfo(updatedUser, loggedInUser.getUserId());
+        String result = updateInfoService.updateUserInfo(updatedUser, loggedInUser.getUserId());
         if ("회원정보 변경 성공".equals(result)) {
             // 세션 정보 업데이트
             session.setAttribute("loggedInUser", updatedUser);
@@ -49,10 +54,7 @@ public class UpdateInfoController {
         }
     }
     
-    // 회원 탈퇴 관련 서비스
-    @Autowired
-    private UpdateInfoService updateInfoService; 
-    
+    // 회원 탈퇴 관련 서비스    
     @GetMapping("/deactivate")
     public String showDeactivateForm(HttpSession session, Model model) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");

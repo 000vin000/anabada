@@ -1,6 +1,8 @@
 package kr.co.anabada.item.entity;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +25,28 @@ public class Item {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
+	
+	public String getItemStatusInKorean() {
+	    if (this.itemAuction == null) {
+	        return null; 
+	    }
+
+	    switch (this.itemAuction.trim().toLowerCase()) {
+	        case "waiting":
+	            return "대기중";
+	        case "bidding":
+	            return "입찰중";
+	        case "sold":
+	            return "판매완료";
+	        case "closed":
+	            return "종료";
+	        default:
+	            return "알 수 없음";
+	    }
+	}
+
+    public void setItemStatusFromString(String auction) {
+        this.itemAuction = auction;
+    }
+
 }

@@ -28,8 +28,7 @@ public class SearchController {
     @GetMapping
     public String search(@RequestParam String findType, @RequestParam String keyword,
             				Model model) throws IOException {
-        List<Item> item = searchService.searchItems(findType, keyword);
-        List<ItemImage> itemList = mainService.includeImage(item);
+        List<ItemImage> itemList = returnItemImage(findType, keyword);
 
         if (!itemList.isEmpty()) {
         	model.addAttribute("itemList", itemList);
@@ -43,13 +42,22 @@ public class SearchController {
     // 정렬
     @GetMapping(params = "sortOrder")
     public String sortByOrder(@RequestParam String findType, @RequestParam String keyword, @RequestParam String sortOrder, Model model) throws IOException {
-        // 현재 모델에서 itemList를 가져옴
-    	List<Item> item = searchService.searchItems(findType, keyword);
-        List<ItemImage> itemList = mainService.includeImage(item);
+    	List<ItemImage> itemList = returnItemImage(findType, keyword);
         
         List<ItemImage> sortedList = mainService.sortByOrder(itemList, sortOrder);
         model.addAttribute("itemList", sortedList);
 
         return "main/searchForm";
+    }
+    
+    public List<ItemImage> returnItemImage(String findType, String keyword) throws IOException {
+    	List<Item> itemList = null;
+    	
+    	if (!(findType.equals("itemName") || findType.equals("userNick"))) {
+    		throw new RuntimeException();  // 500
+    	} 
+    	
+    	itemList = searchService.searchItems(findType, keyword);
+    	return mainService.includeImage(itemList);
     }
 }

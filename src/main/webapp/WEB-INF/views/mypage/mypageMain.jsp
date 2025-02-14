@@ -9,9 +9,8 @@
 </head>
 <body>
 	<!-- 헤더 -->
-	<jsp:include page="../header.jsp"/>
-	
 <div class="body-container">
+	<%@ include file="../header.jsp" %>
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
 		<li><a href="/">홈</a></li>
@@ -27,18 +26,6 @@
 		<a href="/mypage/q">나의 문의 목록</a>
 		<a href="/mypage/a">내 상품의 문의 목록</a>
 	</div>
-	
-	<div>
-		<p>
-			구매현황; 구매현황 리스트를 불러와서 숫자로 출력
-		</p>
-	</div>
-	
-	<div>
-		<p>
-			판매현황; 판매현황 리스트를 불러와서 숫자로 출력
-		</p>
-	</div>
 
 </div>
 
@@ -47,6 +34,7 @@
 	<!-- 푸터 -->
 	<jsp:include page="../footer.jsp"/>
 </body>
+<script src="/js/todaypick.js"></script>
 <%--
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {
