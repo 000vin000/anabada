@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import kr.co.anabada.item.entity.Image;
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.mapper.BidMapper;
 import kr.co.anabada.item.mapper.ItemDetailMapper;
 
 @Service
 public class ItemDetailService {
 	@Autowired
 	ItemDetailMapper mapper;
+	BidMapper bidMapper;
 	
 	public Item getItemByNo(int itemNo) {
 		return mapper.findItem(itemNo);
