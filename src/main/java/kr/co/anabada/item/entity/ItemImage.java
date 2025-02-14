@@ -35,7 +35,7 @@ public class ItemImage {
 		} else if (itemAuction.equals("bidding")) {
 			return getCountDown(this.itemEnd);
 		} else {
-			return null;
+			return "마감됨";
 		}
 	}
 	
@@ -43,8 +43,7 @@ public class ItemImage {
 		LocalDateTime now = LocalDateTime.now();
 		Duration countdown = Duration.between(now, itemEnd);
 		
-		long second = countdown.getSeconds();
-		long minute = second / 60;
+		long minute = countdown.getSeconds() / 60;
 		
 		long hour = minute / 60;
 		minute = minute % 60;
