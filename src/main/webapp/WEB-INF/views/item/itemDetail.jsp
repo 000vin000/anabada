@@ -21,7 +21,8 @@
 		<div>
 			<c:forEach var="image" items="${images}">
 				<!-- 동일한 이미지파일 로드 시 깨짐 문제 있음 -->
-				<img class="item-image" src="data:image/png;base64,${image}"/>
+				<img class="item-image" src="data:image/png;base64,${image}"
+					 style="width: 400px; height: 400px; object-fit: cover;"/>
 				<br>
 			</c:forEach>
 		</div>
@@ -91,13 +92,14 @@
 </script>
 <script>
 	let intervals = [];
+	let currentState = "";
+	let remainTime = 0;
 	const btnBid = document.getElementById("btnBid");
 	const textPrice = document.getElementById("textPrice");
 
 	document.addEventListener('DOMContentLoaded', function() {
 		//init
 		updateCurrentState(${item.itemNo});
-		updateRemainingTime();
 	});
 
 	btnBid.addEventListener("click", function(e) {
@@ -120,12 +122,9 @@
 	    });
 	});
 	
-	//문의 리스트 로드
-	//문의하기(아이템 등록자 외 모두) or 답변하기(아이템 등록자인 경우)
-	
     function openQuestionsWindow(itemNo) {
         window.open(
-            '/item/detail/' + itemNo + '/questions', 
+            '/item/detail/qna/' + itemNo, 
             'QuestionsWindow', 
             'width=1000,height=800,scrollbars=yes'
         );
@@ -148,6 +147,8 @@
         fetch('/item/detail/' + itemNo + '/currentState')
             .then(response => response.text())
             .then(data => {
+            	currentState = data;
+            	
             	if (data === "입찰 가능") {
             		textPrice.disabled = false;
         			btnBid.disabled = false;
@@ -166,6 +167,8 @@
                     	priceHeading.childNodes[0].textContent = "낙찰가: ";
                     }
                 }
+
+        		updateRemainingTime();
             })
     }
     
@@ -178,18 +181,41 @@
         updateCurrentState(${item.itemNo});
     }, 1000);
     intervals.push(itvState);
-    
-    let remainTime = ${remainTime};
+
     function updateRemainingTime() {
-        if (remainTime <= 0) {
-            document.getElementById("remainTime").innerText = "";
-        } else {
-            let hours = Math.floor(remainTime / 3600);
-            let minutes = Math.floor((remainTime % 3600) / 60);
-            let seconds = remainTime % 60;
-            
-            document.getElementById("remainTime").innerText = "남은 시간: " + hours + "시간 " + minutes + "분 " + seconds + "초";
+    	if (remainTime <= 0) {  			
+        	remainTime = (currentState === "대기") ? ${remainTimeStart} : ${remainTimeEnd};
+        	
+        	if (remainTime <= 0) {
+        		document.getElementById("remainTime").innerText = "";
+        		return;
+        	}
         }
+    	
+        let days = Math.floor(remainTime / 86400);
+        let hours = Math.floor((remainTime % 86400) / 3600);
+        let minutes = Math.floor((remainTime % 3600) / 60);
+        let seconds = remainTime % 60;
+
+        let timeText = "남은 시간: ";
+        if (currentState === "대기") {
+        	timeText = "시작까지 " + timeText;
+        } else if (currentState === "입찰 가능") {
+        	timeText = "종료까지 " + timeText;
+        }
+        
+        if (days > 0) {
+        	timeText += days + "일 ";
+        }
+        if (hours > 0) {
+        	timeText += hours + "시간 ";
+        }
+        if (minutes > 0) {
+        	timeText += minutes + "분 ";
+        }
+        timeText += seconds + "초";
+
+        document.getElementById("remainTime").innerText = timeText;
     }
 
     let itvRemainTime = setInterval(function() {

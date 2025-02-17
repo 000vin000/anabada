@@ -17,6 +17,8 @@ import kr.co.anabada.item.mapper.ItemDetailMapper;
 public class ItemDetailService {
 	@Autowired
 	ItemDetailMapper mapper;
+	
+	@Autowired
 	BidMapper bidMapper;
 	
 	public Item getItemByNo(int itemNo) {
