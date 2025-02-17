@@ -25,8 +25,8 @@
                 </thead>
                 <tbody>
                     <c:forEach var="item" items="${ list }">
-                        <tr>
-					        <td>${ item.getItemName() }</td> 
+                        <tr>                     
+					        <td><a href="/item/detail/${item.itemNo}">${item.itemName}</a></td>
 					        <td>${ item.getQTitle() }</td>   
 					        <td>${ item.getQContent() }</td>  
 					        <td>${ item.getQDate() }</td>     

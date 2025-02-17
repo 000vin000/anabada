@@ -28,24 +28,35 @@ public class QuestionController {
 	 @Autowired
 	 private QuestionService qService;
  	
-	 // 내가 작성한 모든 문의글 조회
-	 @GetMapping("/mypage/q")
-	 public String getQList(@RequestParam int userNo, Model model) {
-	     List<QnA> list = qService.getQList(userNo);
-	     model.addAttribute("list", list);
-	     return "mypage/q";
-	 }
+	// 내가 작성한 모든 문의글 조회
+	    @GetMapping("/mypage/q")
+	    public String getQList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
+
+	        int userNo = user.getUserNo();
+	        List<QnA> list = qService.getQList(userNo); 
+	        model.addAttribute("list", list);
+	        return "mypage/q";
+	    }
 	 
 	// 상품별 문의 목록 페이지 
 	@GetMapping("/item/detail/qna/{itemNo}")
-		public String getQnaPage(@PathVariable int itemNo, @SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
-		int userNo = user.getUserNo();
-		boolean canAnswer = qService.canAnswer(itemNo, userNo);
-		List<QnA> list = qService.getQListByItem(itemNo);
-		model.addAttribute("canAnswer", canAnswer);
-		model.addAttribute("list",list);
+	public String getQnaPage(@PathVariable int itemNo, 
+	                         @SessionAttribute(name = "loggedInUser", required = false) User user, 
+	                         Model model) {
+	    if (user != null) {
+	        int userNo = user.getUserNo();
+	        boolean canAnswer = qService.canAnswer(itemNo, userNo);
+	            
+	        model.addAttribute("canAnswer", canAnswer);
+
+	        List<QnA> myQuestionsList = qService.getQListByUserForItem(userNo, itemNo);
+	        model.addAttribute("myQuestionsList", myQuestionsList);
+	    }
 	        
-		return "item/qna";
+	    List<QnA> list = qService.getQListByItem(itemNo);        
+	    model.addAttribute("list", list);
+	        
+	    return "item/qna";
 	}
 	
 	// 문의 등록
@@ -66,25 +77,6 @@ public class QuestionController {
 	    return "redirect:/item/detail/qna/" + itemNo;
 	}
 	
-//	// 상품주인이 맞는지 확인
-//	@GetMapping("/item/detail/qna/")
-//	public String itemDetail(@PathVariable int itemNo,  
-//							@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
-//	    int userNo = user.getUserNo();  // 로그인된 사용자의 userNo
-//	    boolean canAnswer = qService.canAnswer(itemNo, userNo);
-//
-//	    List<QnA> qList = qService.getQListByItem(itemNo);
-//	    model.addAttribute("qList", qList);
-//	    model.addAttribute("canAnswer", canAnswer);
-//	    model.addAttribute("itemNo", itemNo);
-//	    model.addAttribute("userNo", userNo);
-//	    
-//	    return "item/qna";
-//	}
-
-
-
-
 
 
 }

@@ -12,6 +12,7 @@ public class QnA {
 	private int qNo;
 	private int itemNo;
 	private int userNo;
+	private String itemName;
 	private String userNick;
 	private String qTitle;
 	private String qContent;

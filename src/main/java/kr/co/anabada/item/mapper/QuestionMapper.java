@@ -40,7 +40,7 @@ public interface QuestionMapper {
     void deleteQ(int qNo);
     
     //내가 문의 한 목록
-    @Select("SELECT i.itemName, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
+    @Select("SELECT i.itemName, i.itemNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
             "FROM question q " +
             "LEFT JOIN answer a ON q.qNo = a.qNo " +
             "LEFT JOIN item i ON q.itemNo = i.itemNo " +
@@ -60,6 +60,14 @@ public interface QuestionMapper {
     @Select("SELECT userNo FROM item WHERE itemNo = #{itemNo}")
     int getItemOwner(int itemNo);
 
+    @Select("SELECT u.userNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
+            "FROM question q " +
+            "LEFT JOIN item i ON q.itemNo = i.itemNo " +
+            "LEFT JOIN answer a ON q.qNo = a.qNo " +
+            "LEFT JOIN user u ON q.userNo = u.userNo " +
+            "WHERE q.userNo = #{userNo} " +
+            "AND q.itemNo = #{itemNo}")
+    List<QnA> getQListByUserForItem(int userNo, int itemNo);
 }
 
 
