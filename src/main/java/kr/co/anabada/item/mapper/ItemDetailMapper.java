@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 
 import kr.co.anabada.item.entity.Image;
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.Question;
 
 @Mapper
 public interface ItemDetailMapper {
@@ -19,9 +20,15 @@ public interface ItemDetailMapper {
 	@Select("SELECT itemPrice FROM item WHERE itemNo = #{itemNo}")
 	int getCurrentPrice(int itemNo);
 
+	@Select("SELECT itemAuction FROM item WHERE itemNo = #{itemNo}")
+	String getCurrentState(int itemNo);
+
 	@Select("SELECT * FROM image WHERE itemNo = #{itemNo}")
 	List<Image> getAllImages(int itemNo);
 
 	@Update("UPDATE item SET itemPrice = #{itemPrice} WHERE itemNo = #{itemNo}")
 	int updatePrice(@Param("itemNo") int itemNo, @Param("itemPrice") int itemPrice);
+
+	@Select("SELECT * FROM question WHERE itemNo = #{itemNo}")
+	List<Question> getAllQuestions(int itemNo);
 }
