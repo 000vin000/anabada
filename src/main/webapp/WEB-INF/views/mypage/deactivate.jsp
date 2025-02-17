@@ -1,13 +1,16 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>회원탈퇴</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 </head>
 <body>
-<jsp:include page="../header.jsp"/>
+
 
 <div class="body-container">
     <ul class="breadcrumb" id="breadcrumb">
@@ -31,3 +34,4 @@
 </div>
 </body>
 </html>
+<%@ include file="../footer.jsp" %>

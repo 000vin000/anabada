@@ -32,8 +32,21 @@ public class UserController {
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     @GetMapping("/join")
-    public String showJoinForm(Model model) {
-    	model.addAttribute("user", new User());
+    public String showJoinForm(Model model, HttpSession session) {
+        Boolean emailVerified = (Boolean) session.getAttribute("emailVerified");
+        String verifiedEmail = (String) session.getAttribute("verificationEmail");
+
+        if (emailVerified == null || !emailVerified || verifiedEmail == null) {
+            return "redirect:/email/verification"; // 인증되지 않았으면 다시 인증 페이지로 이동
+        }
+
+        model.addAttribute("email", verifiedEmail); // 인증된 이메일 전달
+        model.addAttribute("user", new User());
+        
+        // 추가: 세션에서 인증 정보 제거하여 일회성으로 만듦
+        session.removeAttribute("emailVerified");
+        session.removeAttribute("verificationEmail");
+
         return "user/join";
     }
 
@@ -49,7 +62,14 @@ public class UserController {
                                @RequestParam("userPhone1") String phone1,
                                @RequestParam("userPhone2") String phone2,
                                @RequestParam("userPhone3") String phone3,
-                               Model model) {
+                               Model model,
+                               HttpSession session) { // 추가: HttpSession 파라미터
+        // 추가: 이메일 인증 여부 재확인
+        Boolean emailVerified = (Boolean) session.getAttribute("emailVerified");
+        if (emailVerified == null || !emailVerified) {
+            return "redirect:/email/verification";
+        }
+
         // 전화번호 조합 및 설정
         if (!phone1.isEmpty() && !phone2.isEmpty() && !phone3.isEmpty()) {
             String phoneNumber = phone1 + "-" + phone2 + "-" + phone3;
@@ -89,6 +109,9 @@ public class UserController {
         try {
             String result = userService.joinUser(user);
             if ("회원가입 성공".equals(result)) {
+                // 추가: 회원가입 성공 후 인증 정보 제거
+                session.removeAttribute("emailVerified");
+                session.removeAttribute("verificationEmail");
                 return "redirect:/user/login";
             } else {
                 model.addAttribute("error", result);

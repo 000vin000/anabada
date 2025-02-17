@@ -2,36 +2,35 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>회원정보 수정</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="/js/userJoinIdCheck.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 </head>
 <body>
 
+<script src="/js/userJoinIdCheck.js"></script>
 <div class="body-container">
     <ul class="breadcrumb" id="breadcrumb">
         <li><a href="/">홈</a></li>
         <li><a href="/mypage">마이페이지</a></li>
         <li><a href="/mypage/updateinfo">회원정보 관리</a></li>
     </ul>
-
     <h1>회원정보 관리</h1>
-
+	<a href="/mypage/deactivate">회원탈퇴</a>
+	
     <c:if test="${not empty success}">
         <p style="color: green;">${success}</p>
     </c:if>
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>
     </c:if>
-
     <form:form action="/mypage/updateinfo" method="post" modelAttribute="user">
         <h2>회원정보 수정</h2>
-
+		
         <!-- userId 필드 (숨김) -->
         <form:hidden path="userId" value="${user.userId}"/>
 
@@ -52,12 +51,12 @@
             <form:input type="text" id="userAdd" path="userAdd" required="true"/>
             <form:errors path="userAdd" cssStyle="color:red"/>
         </div>
-
-        <div>
-            <label for="userEmail">이메일:</label>
-            <form:input type="email" id="userEmail" path="userEmail" required="true"/>
-            <form:errors path="userEmail" cssStyle="color:red"/>
-        </div>
+		
+		<div>
+		    <label for="userEmail">이메일:</label>
+		    <form:input type="email" path="userEmail" value="${userEmail}" readonly="true"/>
+		    <form:errors path="userEmail" cssStyle="color:red"/>
+		</div>
 
 <div>
     <label for="userPhone1">전화번호:</label>
@@ -88,6 +87,6 @@
 
     <a href="/mypage">마이페이지로 돌아가기</a>
 </div>
-<jsp:include page="../footer.jsp"/>
 </body>
 </html>
+<%@ include file="../footer.jsp" %>

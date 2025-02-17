@@ -9,6 +9,7 @@
     <title>회원가입</title>
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 </head>
 <body>
 <h2>회원가입</h2>
@@ -58,7 +59,7 @@
     </div>
     <div>
         <label for="userEmail">이메일:</label>
-        <form:input type="email" id="userEmail" path="userEmail"/>
+		<input type="email" name="email" value="${email}" readonly>
 		<span id="userEmailCheckResult"></span>        
         <form:errors path="userEmail"></form:errors>
     </div>
@@ -74,7 +75,6 @@
 	</div>
     <button type="submit">회원가입</button>
 </form:form>
-
-<%@ include file="../footer.jsp" %>
 </body>
 </html>
+<%@ include file="../footer.jsp" %>

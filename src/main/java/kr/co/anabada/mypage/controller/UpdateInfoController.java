@@ -30,8 +30,10 @@ public class UpdateInfoController {
     // 회원정보 수정 페이지 표시
     @GetMapping("/updateinfo")
     public String showUpdateInfoForm(HttpSession session, Model model) {
+    	
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         Boolean passwordVerified = (Boolean) session.getAttribute("passwordVerified");
+        
 
         // 로그인 상태 및 비밀번호 확인 여부 검사
         if (loggedInUser == null || passwordVerified == null || !passwordVerified) {
@@ -59,6 +61,8 @@ public class UpdateInfoController {
         model.addAttribute("phone1", phone1);
         model.addAttribute("phone2", phone2);
         model.addAttribute("phone3", phone3);
+        //메일 정보 추가
+        model.addAttribute("userEmail", loggedInUser.getUserEmail());
 
         System.out.println("UpdateInfoController - showUpdateInfoForm: User phone number: " + loggedInUser.getUserPhone());
         System.out.println("UpdateInfoController - showUpdateInfoForm: Separated phone numbers: " + phone1 + ", " + phone2 + ", " + phone3);
@@ -113,10 +117,10 @@ public class UpdateInfoController {
             bindingResult.rejectValue("userNick", "error.userNick", "이미 사용 중인 닉네임입니다.");
         }
 
-        if (!loggedInUser.getUserEmail().equals(updatedUser.getUserEmail()) && userService.isUserEmailDuplicate(updatedUser.getUserEmail())) {
-            System.out.println("UpdateInfoController - updateUserInfo: 이메일 중복");
-            bindingResult.rejectValue("userEmail", "error.userEmail", "이미 사용 중인 이메일입니다.");
-        }
+//        if (!loggedInUser.getUserEmail().equals(updatedUser.getUserEmail()) && userService.isUserEmailDuplicate(updatedUser.getUserEmail())) {
+//            System.out.println("UpdateInfoController - updateUserInfo: 이메일 중복");
+//            bindingResult.rejectValue("userEmail", "error.userEmail", "이미 사용 중인 이메일입니다.");
+//        }
 
         if (!loggedInUser.getUserPhone().equals(updatedUser.getUserPhone()) && userService.isUserPhoneDuplicate(updatedUser.getUserPhone())) {
             System.out.println("UpdateInfoController - updateUserInfo: 전화번호 중복");
@@ -128,6 +132,8 @@ public class UpdateInfoController {
             System.out.println("UpdateInfoController - updateUserInfo: 유효성 검사 오류");
             return "mypage/updateinfo";
         }
+        // 추가: 기존 이메일 정보 유지
+        updatedUser.setUserEmail(loggedInUser.getUserEmail());
         
         System.out.println("UpdateInfoController - updateUserInfo: userId: " + loggedInUser.getUserId());
         String result = updateInfoService.updateUserInfo(updatedUser, loggedInUser.getUserId());
