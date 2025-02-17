@@ -15,7 +15,8 @@ public interface BidMapper {
 	
 	@Select("SELECT b.bidtime, b.bidprice, u.userNick FROM bid b " +
 	        "JOIN user u ON b.userNo = u.userNo " +
-	        "WHERE b.itemNo = #{itemNo}")
+	        "WHERE b.itemNo = #{itemNo} " +
+			"ORDER BY b.bidTime DESC")
 	List<Bid> getBidList(int itemNo);
 	
 	@Insert("INSERT INTO bid (itemNo, userNo, bidPrice, bidTime) " +

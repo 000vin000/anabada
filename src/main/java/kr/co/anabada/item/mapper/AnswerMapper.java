@@ -1,5 +1,6 @@
 package kr.co.anabada.item.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
@@ -15,9 +16,8 @@ import kr.co.anabada.item.entity.QnA;
 @Mapper
 public interface AnswerMapper {
     @Insert("INSERT INTO answer (qNo, userNo, aContent, aDate) " +
-            "VALUES (#{qNo}, #{userNo}, #{qContent}, NOW())")
-    @Options(useGeneratedKeys = true, keyProperty = "aNo")
-    void insertA(Answer a);
+            "VALUES (#{qNo}, #{userNo}, #{aContent}, #{aDate})")
+    void insertA(int qNo, int userNo, String aContent, LocalDateTime aDate);
     
     @Select("SELECT i.itemName, u2.userNick AS userNick, " +           
             "q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +           

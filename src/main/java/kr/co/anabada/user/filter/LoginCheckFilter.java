@@ -32,7 +32,7 @@ public class LoginCheckFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
 
         // 로그인이 필요한 페이지 목록
-        String[] restrictedPages = {"/mypage"}; //{"/mypage", "/qna", "/sell"}
+        String[] restrictedPages = {"/mypage", "/detail/q"}; //{"/mypage", "/qna", "/sell"}
 
         boolean needsAuthentication = false;
         for (String page : restrictedPages) {

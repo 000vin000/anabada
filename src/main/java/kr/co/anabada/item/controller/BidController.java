@@ -34,6 +34,7 @@ public class BidController {
     public String getBidList(@PathVariable("itemNo") int itemNo, Model model) {
         List<Bid> list = bidService.getBidList(itemNo);
         model.addAttribute("list", list);
+       
         return "item/bidList";
     }
 
