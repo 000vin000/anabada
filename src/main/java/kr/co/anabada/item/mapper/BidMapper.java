@@ -2,7 +2,6 @@ package kr.co.anabada.item.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -23,9 +22,6 @@ public interface BidMapper {
 			"VALUES (#{itemNo}, #{userNo}, #{bidPrice}, NOW())")
     @Options(useGeneratedKeys = true, keyProperty = "bidNo")
     void insertBid(Bid bid);
-	
-	@Delete("DELETE FROM bid WHERE bidNo = #{bidNo}")
-	void deleteBid(int bidNo);
 	
 	
 }

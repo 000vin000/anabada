@@ -7,10 +7,10 @@
 <meta charset="UTF-8">
 <title>${item.itemName}</title>
 </head>
-<body>
+<body
 	<section id="detailSection">
         <h1>${item.itemName}</h1>
-		<input type="button" value="즐겨찾기">
+		<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
 		<label id="currentState">상태</label>
 		<label>| ${item.itemStart} ~ ${item.itemEnd}</label>
 		<h3><label id="remainTime">남은 시간</label></h3>
@@ -19,7 +19,7 @@
 		<div>
 			<c:forEach var="image" items="${images}">
 				<!-- 동일한 이미지파일 로드 시 깨짐 문제 있음 -->
-				<img src="data:image/png;base64,${image}"/>
+				<img class="item-image" src="data:image/png;base64,${image}"/>
 				<br>
 			</c:forEach>
 		</div>
@@ -35,9 +35,49 @@
 			<input type="text" id="textPrice" disabled="disabled">
 			<input type="submit" id="btnBid" value="입찰" disabled="disabled">
 		</p>
-		<p><a href="#">입찰기록으로 이동하기</a></p>
+		<p><a href="/item/bidList">입찰기록으로 이동하기</a></p>
     </section>
+    <jsp:include page="../sidebar.jsp" />
 </body>
+<script src="/js/todaypick.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const itemNo = window.location.pathname.split('/').pop(); // 상품상세페이지로 갔을때 넘버 가져오기
+		// /로 배열을 나누고 마지막 요소를 itemNo에 저장함
+		const itemName = document.querySelector(".item-name").innerText;
+		// 이름을 가져오려고 이너텍스트를 훔쳐오는 부분
+		const itemImage = document.querySelector(".item-image")?.src || "";
+		// 페이지에서 이미지 클래스를 찾아서 첫번째 이미지를 가져와서 저장함 실패하면 비어있도록 수정
+		
+		if (itemNo) {
+			addRecentView(itemNo, itemName, itemImage);
+		}
+	}); // jhu
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    const favBtn = document.getElementById("favor-btn");
+	    const itemNo = favBtn.dataset.itemNo;
+		
+    	fetch(`/api/favor/${itemNo}`)
+    		.then(res => res.json())
+       		.then(data => {
+       			favBtn.textContent = data.isFavorite ? "★" : "☆";
+       	})
+	    
+	    async function toggleFavorite() {
+	        const response = await fetch(`/api/favor/${itemNo}`, { method: "POST" });
+	        if (response.status === 401) {
+	            alert("로그인이 필요합니다.");
+	        } else {
+		        const isFavorited = await response.json();
+		        favBtn.textContent = isFavorited ? "★" : "☆";
+	        }
+	    }
+	
+	    favBtn.addEventListener("click", toggleFavorite);
+	});
+</script>
 <script>
 	let intervals = [];
 	const btnBid = document.getElementById("btnBid");

@@ -6,14 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.ItemImage;
 
 @Mapper
 public interface SearchMapper {
 	// 상품명 검색
-	@Select("SELECT * FROM item WHERE itemName LIKE CONCAT('%', #{keyword}, '%') AND itemAuction = 'bidding'")
-    List<Item> selectByItemName(String keyword);
+	@Select("SELECT * FROM itemInclude WHERE itemName LIKE CONCAT('%', #{keyword}, '%')")
+    List<ItemImage> selectByItemName(String keyword);
 	
 	// 닉네임 검색
-	@Select("SELECT * FROM item WHERE userNo = (SELECT userNo FROM user WHERE userNick = #{userNick}) AND itemAuction = 'bidding'")
-	List<Item> selectByUserName(String userNick);
+	@Select("SELECT * FROM itemInclude WHERE userNo = (SELECT userNo FROM user WHERE userNick = #{userNick})")
+	List<ItemImage> selectByUserName(String userNick);
 }

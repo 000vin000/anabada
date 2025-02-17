@@ -1,16 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>ANABADA</title>
-	<link rel="stylesheet" type="text/css" href="/css/styleTemp.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<!-- 헤더 -->
-	<jsp:include page="../header.jsp"/>
-	
 <div class="body-container">
 	<!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
@@ -24,18 +22,8 @@
 		<a href="#">구매 현황</a>
 		<a href="/mypage/itemsell">판매 현황</a>
 		<a href="/mypage/itemfavor">관심 물품</a>
-	</div>
-	
-	<div>
-		<p>
-			구매현황; 구매현황 리스트를 불러와서 숫자로 출력
-		</p>
-	</div>
-	
-	<div>
-		<p>
-			판매현황; 판매현황 리스트를 불러와서 숫자로 출력
-		</p>
+		<a href="/mypage/q">나의 문의 목록</a>
+		<a href="/mypage/a">내 상품의 문의 목록</a>
 	</div>
 
 </div>
@@ -45,6 +33,7 @@
 	<!-- 푸터 -->
 	<jsp:include page="../footer.jsp"/>
 </body>
+<script src="/js/todaypick.js"></script>
 <%--
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function () {

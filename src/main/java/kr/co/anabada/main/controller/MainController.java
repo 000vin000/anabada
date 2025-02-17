@@ -20,21 +20,23 @@ public class MainController {
 
     @GetMapping("/")
     public String form(Model model) throws IOException {
-    	List<Item> itemList = mainService.selectAll();
-    	
-    	List<ItemImage> itemImageList = mainService.includeImage(itemList);
+    	List<ItemImage> itemImageList = returnItemList();
     	model.addAttribute("itemList", itemImageList);
+    	
         return "main/mainForm";
     }
 
     @GetMapping(params = "sortOrder")
     public String sortByOrder(@RequestParam String sortOrder, Model model) throws IOException {
-        List<Item> itemList = mainService.selectAll();
-        List<ItemImage> imageList = mainService.includeImage(itemList);
-        List<ItemImage> sortedList = mainService.sortByOrder(imageList, sortOrder);
+        List<ItemImage> imageList = returnItemList();
         
+        List<ItemImage> sortedList = mainService.sortByOrder(imageList, sortOrder); 
         model.addAttribute("itemList", sortedList);
         return "main/mainForm";
+    }    
+    
+    public List<ItemImage> returnItemList() throws IOException {
+    	List<ItemImage> itemList = mainService.selectAll();
+    	return mainService.includeImage(itemList);
     }
-   
 }

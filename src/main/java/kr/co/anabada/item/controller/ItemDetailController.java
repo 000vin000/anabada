@@ -15,17 +15,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.anabada.item.entity.Item;
 import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.service.ItemDetailService;
+import kr.co.anabada.item.service.BidService;
+import kr.co.anabada.item.service.ItemDetailService;
 import kr.co.anabada.user.mapper.UserMapper;
+import kr.co.anabada.user.entity.User;
 
 @Controller
 @RequestMapping("/item/detail/{itemNo}")
 public class ItemDetailController {
 	@Autowired
 	private ItemDetailService service;
+	@Autowired
+	private BidService service2;
 	
 	@Autowired
 	private UserMapper mapper;
@@ -75,10 +81,18 @@ public class ItemDetailController {
 	
 	@PatchMapping("/bid")
 	@ResponseBody
-	public ResponseEntity<String> updateItemPrice(@PathVariable int itemNo, @RequestParam int itemPrice) {
-		int row = service.updatePrice(itemNo, itemPrice);
+	public ResponseEntity<String> updateItemPrice(@PathVariable int itemNo, @RequestParam int itemPrice, @SessionAttribute(name = "loggedInUser", required = false) User user) {
+	    if (user == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자 인증 실패");
+	    }
+
+	    int userNo = user.getUserNo(); 
+	    
+	    int row = service.updatePrice(itemNo, itemPrice);
 
 	    if (row > 0) {
+	        LocalDateTime bidTime = LocalDateTime.now();
+	        service2.insertBid(itemNo, userNo, itemPrice, bidTime);
 	        return ResponseEntity.ok("입찰 성공");
 	    } else {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입찰 실패");
