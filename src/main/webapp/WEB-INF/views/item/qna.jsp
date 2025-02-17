@@ -26,7 +26,7 @@
     </script>
 </head>
 <body>
-<h1>해당 상품의 문의 리스트</h1>
+<h1>QnA</h1>
 
 <div class="container">
     <c:if test="${ not empty list }">

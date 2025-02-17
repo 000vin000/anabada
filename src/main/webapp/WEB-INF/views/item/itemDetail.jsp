@@ -27,7 +27,7 @@
 		</div>
     </section>
     <section id="qnaSection">
-    	<a href="#" onclick="openQuestionsWindow('${item.itemNo}')">문의하기</a>
+    	<a href="/item/detail/qna/${item.itemNo}">문의목록으로 이동하기</a>
     </section>
     <hr>
     <section id="bidSection">
