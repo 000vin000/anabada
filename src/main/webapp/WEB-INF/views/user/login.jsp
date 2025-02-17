@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 <%@ include file="/WEB-INF/views/header.jsp" %>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 </head>
 <body>
 <h2>로그인</h2>
@@ -25,7 +25,6 @@
     <button type="submit">로그인</button>
 </form>
 <a href="<c:url value='/user/join'/>">회원가입</a>
-
-<%@ include file="../footer.jsp" %>
 </body>
 </html>
+<%@ include file="../footer.jsp" %>
