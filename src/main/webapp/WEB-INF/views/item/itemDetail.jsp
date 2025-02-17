@@ -9,7 +9,7 @@
 	<title>${item.itemName}</title>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<body
+<body>
 	<section id="detailSection">
         <h1>${item.itemName}</h1>
 		<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
@@ -40,7 +40,7 @@
 		<p><a href="/item/bidList">입찰기록으로 이동하기</a></p>
     </section>
     <jsp:include page="../sidebar.jsp" />
-	  <jsp:include page="../footer.jsp"/>
+  	<jsp:include page="../footer.jsp"/>
 </body>
 <script src="/js/todaypick.js"></script>
 <script>
