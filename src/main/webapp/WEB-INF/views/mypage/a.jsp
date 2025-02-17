@@ -61,9 +61,9 @@
                         <td><a href="/item/detail/${item.itemNo}">${item.itemName}</a></td>
                         <td>${ item.getUserNick() }</td>
                         <td>${ item.getQTitle() }</td>   
-                        <td>${ item.getQDate() }</td>
+                        <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getQContent() }</td>  	
-                        <td>${ item.getADate() }</td>				             
+                        <td>${ item.getFormattedADate(item.getADate()) }</td>				             
                         <td>${ item.getAContent() }</td>
                         <td>
 						    <c:if test="${ empty item.getAContent() }">

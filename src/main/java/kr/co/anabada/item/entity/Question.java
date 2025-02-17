@@ -21,10 +21,7 @@ public class Question {
 	private String qContent;
 	private LocalDateTime qDate;
 	
-    public String getFormattedQDate() {
+    public String getFormattedQDate(LocalDateTime qDate) {
         return qDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
-    
-
-
 }
