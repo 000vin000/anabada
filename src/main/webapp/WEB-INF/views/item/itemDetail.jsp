@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>${item.itemName}</title>
+	<meta charset="UTF-8">
+	<title>${item.itemName}</title>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body
 	<section id="detailSection">
@@ -38,6 +40,7 @@
 		<p><a href="/item/bidList">입찰기록으로 이동하기</a></p>
     </section>
     <jsp:include page="../sidebar.jsp" />
+	  <jsp:include page="../footer.jsp"/>
 </body>
 <script src="/js/todaypick.js"></script>
 <script>
@@ -58,11 +61,19 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	    const favBtn = document.getElementById("favor-btn");
 	    const itemNo = favBtn.dataset.itemNo;
+	    const favImg = document.createElement("img");
+	    favImg.alt = "☆";
+	   	favBtn.innerHTML = "";
+	    favBtn.appendChild(favImg);
+	    
+	    function updateFavoriteUI(isFavorite) {
+			favImg.src = isFavorite ? "/images/favor-star-filled.png" : "/images/favor-star-empty.png";
+	    }
 		
     	fetch(`/api/favor/${itemNo}`)
     		.then(res => res.json())
        		.then(data => {
-       			favBtn.textContent = data.isFavorite ? "★" : "☆";
+       			updateFavoriteUI(data.isFavorite);
        	})
 	    
 	    async function toggleFavorite() {
@@ -71,12 +82,12 @@
 	            alert("로그인이 필요합니다.");
 	        } else {
 		        const isFavorited = await response.json();
-		        favBtn.textContent = isFavorited ? "★" : "☆";
+		        updateFavoriteUI(isFavorited);
 	        }
 	    }
 	
 	    favBtn.addEventListener("click", toggleFavorite);
-	});
+	}); // jhu
 </script>
 <script>
 	let intervals = [];
