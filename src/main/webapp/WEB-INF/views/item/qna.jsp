@@ -122,12 +122,13 @@
                         <td>${ item.getAContent() }</td>
                         <td>${ item.getADate() }</td>
                         <td>${ item.getUserNick() }</td>
-
-						<td>
-						    <c:if test="${ empty item.getAContent() }">
+					
+                        <td>
+						    <c:if test="${ empty item.getAContent() && canAnswer }">
 						        <button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
 						    </c:if>
 						</td>
+
                     </tr>
 
                     <tr id="editForm-${item.getQNo()}" class="edit-form">
