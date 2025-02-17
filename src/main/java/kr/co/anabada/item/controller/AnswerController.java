@@ -29,7 +29,8 @@ public class AnswerController {
     // 내 모든 물건에 대한 문의글 조회
     @GetMapping("/mypage/a")
     public String getAList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) { 
-        List<QnA> list = aService.getAList(user.getUserNo());
+    	int userNo = user.getUserNo();
+        List<QnA> list = aService.getAList(userNo);
         model.addAttribute("list", list);
     	return "mypage/a";
     }

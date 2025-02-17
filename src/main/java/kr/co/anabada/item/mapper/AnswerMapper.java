@@ -19,14 +19,15 @@ public interface AnswerMapper {
             "VALUES (#{qNo}, #{userNo}, #{aContent}, #{aDate})")
     void insertA(int qNo, int userNo, String aContent, LocalDateTime aDate);
     
-    @Select("SELECT i.itemName, u2.userNick AS userNick, " +           
-            "q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +           
+    //내가 받은 문의 목록
+    @Select("SELECT i.itemName, i.itemNo, qUser.userNick, " +           
+            "q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +           
             "FROM question q " +
             "LEFT JOIN answer a ON q.qNo = a.qNo " + 
             "LEFT JOIN item i ON q.itemNo = i.itemNo " +
-            "JOIN user u1 ON a.userNo = u1.userNo " + 
-            "JOIN user u2 ON q.userNo = u2.userNo " +  
-            "WHERE u1.userNo = #{userNo}")
+            "JOIN user qUser ON q.userNo = qUser.userNo " +
+            "JOIN user iUser ON i.userNo = iUser.userNo " +
+            "WHERE iUser.userNo = #{userNo}")
     List<QnA> getAList(int userNo);
 
     @Update("UPDATE answer SET aContent = #{aContent}, aDate = NOW() WHERE aNo = #{aNo}")
