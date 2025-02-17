@@ -1,12 +1,24 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
 <html>
 <head>
     <title>내가 받은 문의 리스트</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
     <style>
         /* 수정 폼 숨김 처리 */
         .edit-form {
             display: none;
+        }
+        
+		/* 버튼 스타일 */
+        button[type="button"] {
+            background-color: #000000; /* 버튼 배경 색상 */
+            color: white; /* 글자 색상 */
+            cursor: pointer; /* 커서 포인터로 변경 */
+            transition: background-color 0.3s; /* 배경색 전환 효과 */
+            width: 80px;
         }
     </style>
     <script>
@@ -23,7 +35,8 @@
         }
     </script>
 </head>
-<body>
+
+<body class="body-container">
 <h1>내가 받은 문의 리스트</h1>
 
 <div class="container">
@@ -78,5 +91,7 @@
         <div class="no-data">문의내역이 없습니다.</div>
     </c:if>
 </div>
+	<jsp:include page="../sidebar.jsp" />
+	<jsp:include page="../footer.jsp"/>
 </body>
 </html>

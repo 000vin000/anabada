@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>QnA</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
+    
     <style>
         /* 수정 폼을 숨기기 위한 스타일 */
         .edit-form {
@@ -15,6 +18,17 @@
         .my-questions {
             display: none;
         }
+        
+                /* 버튼 스타일 */
+        button[type="button"] {
+            background-color: #000000; /* 버튼 배경 색상 */
+            color: white; /* 글자 색상 */
+            cursor: pointer; /* 커서 포인터로 변경 */
+            transition: background-color 0.3s; /* 배경색 전환 효과 */
+            width: 80px;
+        }
+        
+        
     </style>
     <script>
         // 수정 폼을 토글하는 함수
@@ -40,7 +54,7 @@
         }
     </script>
 </head>
-<body>
+<body class="body-container">
 <h1>QnA</h1>
 
 <div class="container">
@@ -150,6 +164,7 @@
         <div class="no-data">문의내역이 없습니다.</div>
     </c:if>
 </div>
-
+	<jsp:include page="../sidebar.jsp" />
+	<jsp:include page="../footer.jsp"/>
 </body>
 </html>
