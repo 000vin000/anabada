@@ -14,11 +14,12 @@
         
 		/* 버튼 스타일 */
         button[type="button"] {
-            background-color: #000000; /* 버튼 배경 색상 */
+            background-color: #21afbf; /* 버튼 배경 색상 */
             color: white; /* 글자 색상 */
             cursor: pointer; /* 커서 포인터로 변경 */
-            transition: background-color 0.3s; /* 배경색 전환 효과 */
+            transition: background-color 0.3s; /* 배경색 전환 효과 */           
             width: 80px;
+            border: none;
         }
     </style>
     <script>
@@ -52,7 +53,6 @@
                     <th>문의내용</th>                     
                     <th>답변등록일</th>
                     <th>답변내용</th>  
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,13 +63,19 @@
                         <td>${ item.getQTitle() }</td>   
                         <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getQContent() }</td>  	
+
+                        <td>${ item.getADate() }</td>				             
+                        <td>${ item.getAContent() }</td>                      
+
                         <td>${ item.getFormattedADate(item.getADate()) }</td>				             
                         <td>${ item.getAContent() }</td>
                         <td>
+
 						    <c:if test="${ empty item.getAContent() }">
-						        <button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
-						    </c:if>
-						</td>
+								<td class="no-border">
+						        	<button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
+								</td>
+						    </c:if>						
                     </tr>
 
                     <!-- 답변 입력 폼 (기본적으로 숨겨져 있음) -->
@@ -95,4 +101,5 @@
 	<jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp"/>
 </body>
+<script src="/js/todaypick.js"></script>
 </html>

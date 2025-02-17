@@ -47,5 +47,5 @@
     <jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp"/>
 </body>
-
+<script src="/js/todaypick.js"></script>
 </html>
