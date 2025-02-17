@@ -37,7 +37,7 @@
 			<input type="text" id="textPrice" disabled="disabled">
 			<input type="submit" id="btnBid" value="입찰" disabled="disabled">
 		</p>
-		<p><a href="/item/bidList">입찰기록으로 이동하기</a></p>
+		<p><a href="/item/bidList/${item.itemNo}">입찰기록으로 이동하기</a></p>
     </section>
     <jsp:include page="../sidebar.jsp" />
   	<jsp:include page="../footer.jsp"/>
