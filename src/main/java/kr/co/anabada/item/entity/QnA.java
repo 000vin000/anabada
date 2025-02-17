@@ -1,26 +1,30 @@
 package kr.co.anabada.item.entity;
 
 import java.time.LocalDateTime;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.time.format.DateTimeFormatter;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class QnA {
-	private int qnaNo;
+	private int qNo;
 	private int itemNo;
 	private int userNo;
-	private int aNo;
-	private String itemName;
 	private String userNick;
 	private String qTitle;
 	private String qContent;
-	private LocalDateTime qDate;
-	private String aContent;
+	private LocalDateTime qDate;	    
+	private String aContent; 
 	private LocalDateTime aDate;
+
+    //LocalDateTimr을 자바스크립트에서 바로 사용할 수 없어서 바꿔주는 메서드 생성함
+    public String getFormattedQDate() {
+        return qDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+    
+    public String getFormattedADate() {
+        return aDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
 }
