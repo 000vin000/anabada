@@ -54,10 +54,12 @@
         }
     </script>
 </head>
-<body class="body-container">
-<h1>QnA</h1>
+<body >
 
-<div class="container">
+
+<div class="body-container">
+
+<h1>QnA</h1>
    <!-- 나의 문의 링크: 상품 주인이 아닐 때만 보이도록 -->
 	<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
 	    <button type="button" onclick="toggleMyQuestions()">나의 문의</button>
@@ -124,7 +126,6 @@
                     <th>답변내용</th>
                     <th>답변등록일</th> 
                     <th>질문자</th> 
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -135,13 +136,12 @@
                         <td>${ item.getQDate() }</td>
                         <td>${ item.getAContent() }</td>
                         <td>${ item.getADate() }</td>
-                        <td>${ item.getUserNick() }</td>
-					
-                        <td>
-						    <c:if test="${ empty item.getAContent() && canAnswer }">
+                        <td>${ item.getUserNick() }</td>					
+					    <c:if test="${ empty item.getAContent() && canAnswer }">
+    	                    <td class="no-border">
 						        <button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
-						    </c:if>
-						</td>
+							</td>
+					    </c:if>
 
                     </tr>
 
