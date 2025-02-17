@@ -11,7 +11,7 @@
 </head>
 <body>
 	<section id="detailSection">
-        <h1>${item.itemName}</h1>
+        <h1 class="item-name">${item.itemName}</h1>
 		<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
 		<label id="currentState">상태</label>
 		<label>| ${item.itemStart} ~ ${item.itemEnd}</label>
