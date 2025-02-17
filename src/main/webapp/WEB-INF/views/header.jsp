@@ -54,7 +54,7 @@
 </head>
 <body>
     <header>
-        <a href="/"><img src="../images/logo.png" alt="로고" /></a>
+        <a href="/"><img src="/images/logo.png" alt="로고" /></a>
         <div id="findOption">
             <select id="findType" name="findType">
                 <option value="" selected disabled>검색유형</option>

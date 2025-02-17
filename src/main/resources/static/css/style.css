@@ -418,3 +418,16 @@ nav ul li a:hover {
         font-size: 14px;
         text-align: center;
 }
+
+/* 상세페이지 즐겨찾기 버튼 */
+#favor-btn {
+    all: unset; /* 기본 스타일 제거 */
+    display: inline-block; /* 버튼 크기를 이미지 크기에 맞춤 */
+    cursor: pointer; /* 마우스 오버 시 클릭 가능하게 */
+}
+
+#favor-btn img {
+    width: 24px; /* 이미지 크기 조절 */
+    height: 24px;
+    vertical-align: middle; /* 정렬 이슈 방지 */
+}
