@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.anabada.item.entity.Image;
 import kr.co.anabada.item.entity.Item;
+import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.mapper.BidMapper;
 import kr.co.anabada.item.mapper.ItemDetailMapper;
 
@@ -24,6 +25,23 @@ public class ItemDetailService {
 
 	public int getCurrentPrice(int itemNo) {
 		return mapper.getCurrentPrice(itemNo);
+	}
+
+	public String getCurrentState(int itemNo) {
+		String state = mapper.getCurrentState(itemNo);
+		
+		switch(state) {
+		case "waiting":
+			return "대기";
+		case "bidding":
+			return "입찰 가능";
+		case "sold":
+			return "낙찰";
+		case "closed":
+			return "종료";
+		default:
+			return "unknown";
+		}
 	}
 	
 	public List<String> getAllImages(int itemNo) {
@@ -46,5 +64,9 @@ public class ItemDetailService {
 		} else {
 			return 0;
 		}
+	}
+
+	public List<Question> getAllQuestions(int itemNo) {
+		return mapper.getAllQuestions(itemNo);
 	}
 }
