@@ -19,12 +19,39 @@
 	<h1>마이페이지</h1>
 	<!-- 네비게이션 -->
 	<div class="mypage-nav">
+
 		<a href="/mypage/updateinfo"><img src="/images/board.PNG" alt="정보 수정"></a>
 		<a href="#"><img src="/images/shoppingcart.PNG" alt="구매 현황"></a>
 		<a href="/mypage/itemsell"><img src="/images/moneybag.PNG" alt="판매 현황"></a>
 	    <a href="/mypage/itemfavor"><img src="/images/star.PNG" alt="관심 물품"></a>
 	    <a href="/mypage/q"><img src="/images/qchar.PNG" alt="나의 문의 목록"></a>
 	    <a href="/mypage/a"><img src="/images/achar.PNG" alt="내 상품의 문의 목록"></a>
+
+		<a href="/mypage/updateinfo">
+			<img src="/images/board.png" alt="정보 수정">
+			<span>정보 수정</span>
+		</a>
+		<a href="#">
+			<img src="/images/shoppingcart.png" alt="구매 현황">
+			<span>구매 현황</span>
+		</a>
+		<a href="/mypage/itemsell">
+			<img src="/images/moneybag.png" alt="판매 현황">
+			<span>판매 현황</span>
+		</a>
+	    <a href="/mypage/itemfavor">
+	    	<img src="/images/star.png" alt="관심 물품">
+	    	<span>관심 물품</span>
+    	</a>
+	    <a href="/mypage/q">
+	    	<img src="/images/qchar.png" alt="나의 문의 목록">
+	    	<span>나의 문의</span>
+	    </a>
+	    <a href="/mypage/a">
+	    	<img src="/images/achar.png" alt="내 상품의 문의 목록">
+	    	<span>내 상품 문의</span>
+    	</a>
+
 	</div>
 <!-- 
 	<div>

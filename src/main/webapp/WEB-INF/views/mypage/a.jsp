@@ -61,10 +61,16 @@
                         <td><a href="/item/detail/${item.itemNo}">${item.itemName}</a></td>
                         <td>${ item.getUserNick() }</td>
                         <td>${ item.getQTitle() }</td>   
-                        <td>${ item.getQDate() }</td>
+                        <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getQContent() }</td>  	
+
                         <td>${ item.getADate() }</td>				             
                         <td>${ item.getAContent() }</td>                      
+
+                        <td>${ item.getFormattedADate(item.getADate()) }</td>				             
+                        <td>${ item.getAContent() }</td>
+                        <td>
+
 						    <c:if test="${ empty item.getAContent() }">
 								<td class="no-border">
 						        	<button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>

@@ -21,7 +21,6 @@ import kr.co.anabada.item.entity.Item;
 import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.service.ItemDetailService;
 import kr.co.anabada.item.service.BidService;
-import kr.co.anabada.item.service.ItemDetailService;
 import kr.co.anabada.user.mapper.UserMapper;
 import kr.co.anabada.user.entity.User;
 
@@ -30,6 +29,7 @@ import kr.co.anabada.user.entity.User;
 public class ItemDetailController {
 	@Autowired
 	private ItemDetailService service;
+	
 	@Autowired
 	private BidService service2;
 	
@@ -41,13 +41,15 @@ public class ItemDetailController {
 		Item item = service.getItemByNo(itemNo);
 		List<String> images = service.getAllImages(itemNo);
 		String userNick = mapper.selectUserNick(item.getUserNo());
-		long remainTime = calculateRemainTime(item.getItemEnd());
+		long remainTimeStart = calculateRemainTime(item.getItemStart());
+		long remainTimeEnd = calculateRemainTime(item.getItemEnd());
 //		List<Question> questions = service.getAllQuestions(itemNo);
 		
 		model.addAttribute("item", item);
 		model.addAttribute("images", images);
 		model.addAttribute("userNick", userNick);
-		model.addAttribute("remainTime", remainTime);
+		model.addAttribute("remainTimeStart", remainTimeStart);
+		model.addAttribute("remainTimeEnd", remainTimeEnd);
 //		model.addAttribute("questions", questions);
 		
 		return "item/itemDetail";

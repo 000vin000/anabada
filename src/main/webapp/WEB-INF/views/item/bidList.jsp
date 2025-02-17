@@ -22,7 +22,7 @@
             <tbody>
                 <c:forEach var="item" items="${ list }">
                     <tr>                        
-                        <td>${ item.getBidTime() }</td>
+                        <td>${ item.getTimeStr(item.bidTime) }</td>
                         <td>${ item.getBidPrice() }</td>
                         <td>${ item.getUserNick() }</td>
                         
