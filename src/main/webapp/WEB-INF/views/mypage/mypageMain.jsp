@@ -16,8 +16,9 @@
     	<li><a href="/mypage">마이페이지</a></li>
     </ul>
 
+	<h1>마이페이지</h1>
 	<!-- 네비게이션 -->
-	<div>
+	<div class="mypage-nav">
 		<a href="/mypage/updateinfo">정보 수정</a>
 		<a href="#">구매 현황</a>
 		<a href="/mypage/itemsell">판매 현황</a>
@@ -25,7 +26,12 @@
 		<a href="/mypage/q">나의 문의 목록</a>
 		<a href="/mypage/a">내 상품의 문의 목록</a>
 	</div>
-
+	<div>
+		구매현황 리스트
+	</div>
+	<div>
+		판매현황 리스트
+	</div>
 </div>
 
 	<!-- 사이드바 -->	

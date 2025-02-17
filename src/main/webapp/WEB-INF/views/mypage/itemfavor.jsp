@@ -17,7 +17,7 @@
     	<li><a href="/mypage">마이페이지</a></li>
     	<li><a href="/mypage/itemfavor">관심물품</a></li>
     </ul>
-
+	<h1>관심 물품</h1>
 	<table class="tableFavor">
 	    <thead>
 	        <tr>
