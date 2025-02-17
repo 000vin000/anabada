@@ -42,45 +42,7 @@ public class UserController {
         return "user/login";
     }
     
-    //통합
-    @GetMapping("/check-duplicate/{field}")
-    @ResponseBody
-    public Map<String, Boolean> checkDuplicate(@PathVariable String field, @RequestParam String value) {
-        boolean isDuplicate = false;
-
-        switch (field) {
-            case "userId":
-                isDuplicate = userService.isUserIdDuplicate(value);
-                break;
-            case "userNick":
-                isDuplicate = userService.isUserNickDuplicate(value);
-                break;
-            case "userEmail":
-                isDuplicate = userService.isUserEmailDuplicate(value);
-                break;
-            case "userPhone":
-                value = value.replaceAll("-", "");
-                if (!value.matches("^\\d{10,11}$")) {
-                    // 전화번호 형식이 잘못된 경우 명확한 응답 반환
-                    Map<String, Boolean> invalidResponse = new HashMap<>();
-                    invalidResponse.put("isDuplicate", false);
-                    invalidResponse.put("invalidFormat", true); 
-                    return invalidResponse;
-                }
-                isDuplicate = userService.isUserPhoneDuplicate(value);
-                break;
-
-
-            default:
-                throw new IllegalArgumentException("Invalid field for duplication check: " + field);
-        }
-
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("isDuplicate", isDuplicate);
-        return response;
-    }
-
-    //회원가입 유효성 검사
+    
     @PostMapping("/join")
     public String registerUser(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult,
@@ -91,10 +53,11 @@ public class UserController {
         // 전화번호 조합 및 설정
         if (!phone1.isEmpty() && !phone2.isEmpty() && !phone3.isEmpty()) {
             String phoneNumber = phone1 + "-" + phone2 + "-" + phone3;
-            if (!phoneNumber.matches("^\\d{3}-\\d{3,4}-\\d{3,4}$")) {
+            if (!phoneNumber.matches("^\\d{3}-\\d{3,4}-\\d{4}$")) {
                 bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
             } else {
-                user.setUserPhone(phoneNumber);
+                // 수정: 하이픈(-)을 제거한 전화번호 설정
+                user.setUserPhone(phoneNumber.replaceAll("-", ""));
             }
         } else {
             bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
@@ -136,6 +99,45 @@ public class UserController {
             return "user/join";
         }
     }
+   
+    //회원가입 유효성 검사 ( 즉시 )
+    @GetMapping("/check-duplicate/{field}")
+    @ResponseBody
+    public Map<String, Boolean> checkDuplicate(@PathVariable String field, @RequestParam String value) {
+        boolean isDuplicate = false;
+
+        switch (field) {
+            case "userId":
+                isDuplicate = userService.isUserIdDuplicate(value);
+                break;
+            case "userNick":
+                isDuplicate = userService.isUserNickDuplicate(value);
+                break;
+            case "userEmail":
+                isDuplicate = userService.isUserEmailDuplicate(value);
+                break;
+            case "userPhone":
+                value = value.replaceAll("-", "");
+                if (!value.matches("^\\d{10,11}$")) {
+                    // 전화번호 형식이 잘못된 경우 명확한 응답 반환
+                    Map<String, Boolean> invalidResponse = new HashMap<>();
+                    invalidResponse.put("isDuplicate", false);
+                    invalidResponse.put("invalidFormat", true); 
+                    return invalidResponse;
+                }
+                isDuplicate = userService.isUserPhoneDuplicate(value);
+                break;
+
+
+            default:
+                throw new IllegalArgumentException("Invalid field for duplication check: " + field);
+        }
+
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("isDuplicate", isDuplicate);
+        return response;
+    }
+
 
     @PostMapping("/login")
     public String loginUser(User user, HttpSession session, Model model) {
