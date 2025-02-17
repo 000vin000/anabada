@@ -260,7 +260,7 @@ nav ul li a:hover {
 .breadcrumb {
     list-style: none;
     display: flex;
-    font-size: 14px;
+    font-size: 12px;
     padding: 10px;
 }
 
@@ -279,7 +279,7 @@ nav ul li a:hover {
 
 .breadcrumb a {
     text-decoration: none;
-    color: #007bff;
+    color: #33A6A0;
 }
 
 .breadcrumb a:hover {
