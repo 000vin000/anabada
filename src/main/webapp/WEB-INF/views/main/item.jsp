@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <body>
 	<div id="categorySearchOption">
-		<label for="gender">카테고리  </label>
 		<%-- 카테고리 선택 --%>
 		<select id="gender" name="gender">
 			<option value="" selected>전체</option>
@@ -24,11 +23,11 @@
 	<div id="sortOption">
 		<select id="sortOrder" name="sortOrder" onchange="sortItems()">
 		<option value="" selected>기본순</option>
-			<option value="new">경매시작순</option>    
+			<option value="new">신규경매순</option>    
 			<option value="deadline">마감임박순</option>
 			<option value="popular">인기순</option>
-			<option value="asc">가격 오름차순</option>
-			<option value="desc">가격 내림차순</option>
+			<option value="asc">낮은가격순</option>
+			<option value="desc">높은가격순</option>
 		</select>
 	</div>
 	<div id="itemOption">
@@ -42,7 +41,7 @@
 							<p id="itemName">${item.itemName}</p> 
 							<hr id="line">
 							<p id="itemPrice">${item.itemPrice}원 </p>
-							<p id="itemUserNick">${item.userNick} </p>
+							<p id="itemUserNick">${item.userNick} | 입찰 ${item.bidCount}회</p>
 							<p id="itemAuction">${item.getItemAuctionStr(item.itemAuction)}</p>
 						</a>
 					</li>

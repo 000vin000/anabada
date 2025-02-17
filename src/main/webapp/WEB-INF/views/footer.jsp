@@ -7,7 +7,7 @@
     <title>푸터</title>
     <style>
         footer {
-            background-color: #f1f1f1; /* 배경색 */
+            background-color: #e7f9fa; /* 배경색 */
             text-align: center; /* 중앙 정렬 */
             padding: 20px 0; /* 상하 패딩 */
             position: relative; /* 위치 설정 */
@@ -29,7 +29,6 @@
 </head>
 <body>
     <footer>
-    	<hr>
         <p>&copy; 2025 ANABADA. All rights reserved.</p>
         <p><a href="#">이용약관</a> | <a href="#">개인정보처리방침</a> | <a href="#">고객센터</a></p>
     </footer>

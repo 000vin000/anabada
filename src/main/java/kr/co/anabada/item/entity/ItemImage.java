@@ -51,7 +51,7 @@ public class ItemImage {
 		long day = hour / 24;
 		hour = hour % 24;
 		
-		return day + "일 " + hour +"시간" + minute + "분";
+		return day + "일 " + hour +"시간 " + minute + "분";
 	}
 	
 	public String getStartTime(LocalDateTime itemStart) {
