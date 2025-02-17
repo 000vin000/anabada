@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>500 error</title>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
 <style>
     body {
         max-width: 1200px; /* 최대 너비 설정 */
@@ -17,9 +18,9 @@
     }
 
     #error {
-    	width: 1000px;
-    	margin: 0 auto;
-    	margin-top: 20px;
+       width: 1000px;
+       margin: 0 auto;
+       margin-top: 20px;
         border: 3px solid #000000; /* 테두리 색상 및 두께 */
         padding: 20px; /* 내부 여백 */
         border-radius: 5px; /* 모서리 둥글게 */
@@ -41,8 +42,8 @@
     }
     
     #errorMain {
-    	font-size: 20px;
-		font-weight: 700;
+       font-size: 20px;
+      font-weight: 700;
     }
 </style>
 </head>
@@ -53,5 +54,7 @@
         <p>표시할 수가 없습니다.</p>
     </div>
     <a href="/" id="toMain">메인으로 돌아가기</a>
+    
+    <jsp:include page="../footer.jsp" /> 
 </body>
 </html>

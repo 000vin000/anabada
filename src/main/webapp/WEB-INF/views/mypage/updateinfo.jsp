@@ -1,18 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/views/header.jsp" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>회원정보 관리</title>
+    <title>회원정보 수정</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/userJoinIdCheck.js"></script>
 </head>
 <body>
-<!-- 헤더 -->
-<jsp:include page="../header.jsp"/>
 
 <div class="body-container">
-    <!-- 브레드 크럼 -->
     <ul class="breadcrumb" id="breadcrumb">
         <li><a href="/">홈</a></li>
         <li><a href="/mypage">마이페이지</a></li>
@@ -20,45 +21,73 @@
     </ul>
 
     <h1>회원정보 관리</h1>
-    
-    <a href="/mypage/deactivate">회원 탈퇴</a>
 
-    <!-- 성공 및 에러 메시지 -->
     <c:if test="${not empty success}">
         <p style="color: green;">${success}</p>
     </c:if>
     <c:if test="${not empty error}">
         <p style="color: red;">${error}</p>
     </c:if>
-    
-    <!-- 회원정보 수정 -->
-    <form action="/mypage/updateinfo" method="post">
+
+    <form:form action="/mypage/updateinfo" method="post" modelAttribute="user">
         <h2>회원정보 수정</h2>
+
+        <!-- userId 필드 (숨김) -->
+        <form:hidden path="userId" value="${user.userId}"/>
+
+        <div>
+            <label for="userName">이름:</label>
+            <form:input type="text" id="userName" path="userName" required="true"/>
+            <form:errors path="userName" cssStyle="color:red"/>
+        </div>
+
+        <div>
+            <label for="userNick">닉네임:</label>
+            <form:input type="text" id="userNick" path="userNick" required="true"/>
+            <form:errors path="userNick" cssStyle="color:red"/>
+        </div>
+
+        <div>
+            <label for="userAdd">주소:</label>
+            <form:input type="text" id="userAdd" path="userAdd" required="true"/>
+            <form:errors path="userAdd" cssStyle="color:red"/>
+        </div>
+
+        <div>
+            <label for="userEmail">이메일:</label>
+            <form:input type="email" id="userEmail" path="userEmail" required="true"/>
+            <form:errors path="userEmail" cssStyle="color:red"/>
+        </div>
+
+<div>
+    <label for="userPhone1">전화번호:</label>
+    <input type="text" id="userPhone1" name="userPhone1" maxlength="3" size="3" value="${phone1}" required="true"/>
+    -
+    <input type="text" id="userPhone2" name="userPhone2" maxlength="4" size="4" value="${phone2}" required="true"/>
+    -
+    <input type="text" id="userPhone3" name="userPhone3" maxlength="4" size="4" value="${phone3}" required="true"/>
+    <form:errors path="userPhone" cssStyle="color:red"/>
+</div>
         
-        <label for="userName">이름:</label>
-        <input type="text" id="userName" name="userName" value="${user.userName}" required><br>
+       <div>
+            <label for="userPw">새 비밀번호:</label>
+            <form:password id="userPw" path="userPw" />
+            <span id="passwordRuleResult"></span>
+            <form:errors path="userPw" cssStyle="color:red"/>
+        </div>
 
-        <label for="userNick">닉네임:</label>
-        <input type="text" id="userNick" name="userNick" value="${user.userNick}" required><br>
-
-        <label for="userAdd">주소:</label>
-        <input type="text" id="userAdd" name="userAdd" value="${user.userAdd}" required><br>
-
-        <label for="userEmail">이메일:</label>
-        <input type="email" id="userEmail" name="userEmail" value="${user.userEmail}" required><br>
-
-        <label for="userPhone">전화번호:</label>
-        <input type="tel" id="userPhone" name="userPhone" value="${user.userPhone}" required><br>
-
-        <label for="userPw">비밀번호:</label>
-        <input type="password" id="userPw" name="userPw" required><br>
-
+        <div>
+            <label for="userPw2">새 비밀번호 확인:</label>
+            <form:password id="userPw2" path="userPw2"/>
+            <span id="passwordMatchResult"></span>
+            <form:errors path="userPw2" cssStyle="color:red"/>
+        </div>
+        
         <button type="submit">수정하기</button>
-    </form>
+    </form:form>
 
-    <!-- 마이페이지로 돌아가기 -->
     <a href="/mypage">마이페이지로 돌아가기</a>
 </div>
-
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>

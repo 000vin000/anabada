@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>회원 탈퇴</title>
+    <title>회원탈퇴</title>
 </head>
 <body>
 <jsp:include page="../header.jsp"/>
@@ -13,10 +13,10 @@
     <ul class="breadcrumb" id="breadcrumb">
         <li><a href="/">홈</a></li>
         <li><a href="/mypage">마이페이지</a></li>
-        <li><a href="/mypage/updateinfo">회원정보</a></li>
+        <li><a href="/mypage/updateinfo">회원정보 관리</a></li>
     </ul>
 
-    <h1>회원 탈퇴</h1>
+    <h1>회원정보 관리</h1>
     
     <a href="/mypage/updateinfo">회원정보수정</a>
 

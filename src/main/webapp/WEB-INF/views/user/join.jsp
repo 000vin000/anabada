@@ -27,16 +27,18 @@
 	    <span id="userIdCheckResult"></span>
 	    <form:errors path="userId"></form:errors>
 	</div>
-    <div>
-        <label for="userPw">비밀번호:</label>
-        <form:password id="userPw" path="userPw"/>
-        <form:errors path="userPw"></form:errors>
-    </div>
-    <div>
-        <label for="userPw2">비밀번호 확인:</label>
-        <form:password id="userPw2" path="userPw2"/>
-        <form:errors path="userPw2"></form:errors>
-    </div>
+	<div>
+	    <label for="userPw">비밀번호:</label>
+	    <form:password id="userPw" path="userPw"/>
+	    <span id="passwordRuleResult"></span>
+	    <form:errors path="userPw"></form:errors>
+	</div>
+	<div>
+	    <label for="userPw2">비밀번호 확인:</label>
+	    <form:password id="userPw2" path="userPw2"/>
+	    <span id="passwordMatchResult"></span>
+	    <form:errors path="userPw2"></form:errors>
+	</div>
     <div>
         <label for="userName">이름:</label>
         <form:input type="text" id="userName" path="userName" />
