@@ -10,9 +10,10 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css"> <%-- 사이드바 css --%>
 
 </head>
-<body class="body-container">
-<h1>내가 한 문의 리스트</h1>
-    <div class="container">
+<body >
+
+    <div class="body-container">
+    <h1>내가 한 문의 리스트</h1>
         <c:if test="${ not empty list }">
             <table>
                 <thead>

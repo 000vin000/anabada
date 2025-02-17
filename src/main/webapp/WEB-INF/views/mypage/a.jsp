@@ -36,10 +36,11 @@
     </script>
 </head>
 
-<body class="body-container">
-<h1>내가 받은 문의 리스트</h1>
+<body >
 
-<div class="container">
+
+<div class="body-container">
+<h1>내가 받은 문의 리스트</h1>
     <c:if test="${ not empty list }">
         <table>
             <thead>
