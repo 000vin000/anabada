@@ -45,7 +45,7 @@
             color: white;
             text-align: center;
         }
-        tr:nth-child(even) {
+        tr:nth-child(even) td:not(.special-column) {
             background-color: #f9f9f9;
         }
         tr:hover {
