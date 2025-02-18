@@ -68,7 +68,7 @@ public class UpdateInfoController {
         System.out.println("UpdateInfoController - showUpdateInfoForm: User phone number: " + loggedInUser.getUserPhone());
         System.out.println("UpdateInfoController - showUpdateInfoForm: Separated phone numbers: " + phone1 + ", " + phone2 + ", " + phone3);
 
-        return "mypage/updateinfo";
+        return "mypage/updateinfo"; 
     }
 
     @PostMapping("/updateinfo")
