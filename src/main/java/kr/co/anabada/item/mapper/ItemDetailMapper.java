@@ -28,7 +28,4 @@ public interface ItemDetailMapper {
 
 	@Update("UPDATE item SET itemPrice = #{itemPrice} WHERE itemNo = #{itemNo}")
 	int updatePrice(@Param("itemNo") int itemNo, @Param("itemPrice") int itemPrice);
-
-	@Select("SELECT * FROM question WHERE itemNo = #{itemNo}")
-	List<Question> getAllQuestions(int itemNo);
 }

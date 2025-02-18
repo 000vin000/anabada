@@ -53,14 +53,6 @@ public class ItemDetailController {
 		return "item/itemDetail";
 	}
 	
-	@GetMapping("/questions")
-	public String viewQuestions(@PathVariable int itemNo, Model model) {
-	    List<Question> questions = service.getAllQuestions(itemNo);
-	    model.addAttribute("questions", questions);
-	    model.addAttribute("itemNo", itemNo);
-	    return "item/questions";
-	}
-	
 	private long calculateRemainTime(LocalDateTime itemEnd) {
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(now, itemEnd);

@@ -54,8 +54,4 @@ public class ItemDetailService {
 			return 0;
 		}
 	}
-
-	public List<Question> getAllQuestions(int itemNo) {
-		return mapper.getAllQuestions(itemNo);
-	}
 }
