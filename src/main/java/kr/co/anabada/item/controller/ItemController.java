@@ -1,6 +1,10 @@
 package kr.co.anabada.item.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,11 +92,22 @@ public class ItemController {
 	//아이템 수정
 	@GetMapping("/mypage/itemupdate/{itemNo}")
 	public String showUpdateForm(@PathVariable("itemNo") int itemNo, Model model) {
+	    // 아이템 정보를 가져옵니다.
 	    Item item = itemservice.findItemById(itemNo);
-	    model.addAttribute("item", item);
-	    return "mypage/itemupdate";
+
+	    // 아이템에 해당하는 이미지 리스트를 가져옵니다.
+	    List<Image> images = imageservice.getImagesByItemNo(itemNo);
+
+	    List<String> base64Images = imageservice.getImagesBase64(itemNo); // 예외를 바로 처리
+		// 모델에 데이터 추가
+		model.addAttribute("item", item);
+		model.addAttribute("images", images);
+		model.addAttribute("base64Images", base64Images); // Base64 이미지들 모델에 추가
+
+	    return "mypage/itemupdate";  // 아이템 수정 페이지로 리턴
 	}
-	
+
+
 	@PostMapping("/mypage/itemupdate/{itemNo}")
 	public String updateItem(@PathVariable("itemNo") Integer itemNo,
 	                         @Valid @ModelAttribute("itemupCommand") Item item,
@@ -133,6 +148,15 @@ public class ItemController {
 	    }
 
 	    return "redirect:/mypage/itemsell";
+	}
+	@PostMapping("/mypage/itemupdate/deleteImage/{imageNo}/{itemNo}")
+	public String deleteImage(@PathVariable("imageNo") int imageNo, @PathVariable("itemNo") int itemNo) {
+	    try {
+	        imageservice.deleteImage(imageNo);  // 이미지 삭제
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return "redirect:/mypage/itemupdate/" + itemNo;  // 아이템 수정 페이지로 리다이렉트
 	}
 
 	@GetMapping("/mypage/itemsell")

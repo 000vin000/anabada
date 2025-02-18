@@ -31,4 +31,8 @@ public interface ImageMapper {
 
 	@Delete("DELETE FROM image WHERE itemNo = #{itemNo}")
     int deleteImagesByItemNo(int itemNo);
+	
+	@Delete("DELETE FROM image WHERE imageNo = #{imageNo}")
+	int deleteImageByImageNo(int imageNo);
+
 }
