@@ -15,7 +15,7 @@
 	    <ul class="breadcrumb" id="breadcrumb">
 			<li><a href="/">홈</a></li>
 	    	<li><a href="/mypage">마이페이지</a></li>
-	    	<li><a href="/mypage/itemfavor">구매 현황</a></li>
+	    	<li><a href="/mypage/itembuy">구매 현황</a></li>
 	    </ul>
 		<h1>구매 현황</h1>
 		<table class="tableFavor">
