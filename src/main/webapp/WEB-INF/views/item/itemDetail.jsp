@@ -24,7 +24,7 @@
 		</section>
 		
 		<section id="bidSection">
-	        <h2 id="priceHeading">현재가 <label id="currentPrice">${item.itemPrice} 원</label></h2>
+	        <h2 id="priceHeading">현재가 <label id="currentPrice">${item.addCommas(item.itemPrice)} 원</label></h2>
 	        <p>희망 입찰가
 				<input type="text" id="textPrice" disabled="disabled">
 				<input type="submit" id="btnBid" value="입찰" disabled="disabled">
@@ -88,6 +88,16 @@
 			addRecentView(itemNo, itemName, itemImage);
 		}
 	}); // jhu
+</script>
+<script>
+	function addCommas(num) {
+	    if (isNaN(num)) {
+	        return num;
+	    }
+	
+	    num = Number(num).toString();
+	    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 </script>
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
@@ -163,7 +173,7 @@
         fetch('/item/detail/' + itemNo + '/currentPrice')
             .then(response => response.text())
             .then(data => {
-                document.getElementById("currentPrice").innerText = data + " 원";
+                document.getElementById("currentPrice").innerText = addCommas(data) + " 원";
             })
     }
 
@@ -252,5 +262,7 @@
         updateRemainingTime();
     }, 1000);
     intervals.push(itvRemainTime);
+    
+    
 </script>
 </html>
