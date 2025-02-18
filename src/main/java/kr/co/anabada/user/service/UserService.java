@@ -5,14 +5,21 @@ import java.security.spec.InvalidKeySpecException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.anabada.user.entity.User;
 import kr.co.anabada.user.mapper.UserMapper;
 import kr.co.anabada.user.util.PasswordHasher; // PBKDF2 비밀번호 암호화 유틸리티 클래스 임포트
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
+@Transactional
 public class UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+	
     @Autowired
     private UserMapper userMapper;
 
@@ -26,13 +33,16 @@ public class UserService {
             String hashedPassword = PasswordHasher.hashPassword(user.getUserPw());
             user.setUserPw(hashedPassword); // 암호화된 비밀번호를 User 객체에 설정
             userMapper.insertUser(user); // DB에 사용자 정보 저장
+            logger.info("회원가입 성공: {}", user.getUserId());
             return "회원가입 성공";
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-            e.printStackTrace(); // 예외 발생 시 로그 출력
+            logger.error("비밀번호 암호화 오류", e);
             return "회원가입 실패: 비밀번호 암호화 오류";
+        } catch (Exception e) {
+            logger.error("회원가입 중 예외 발생", e);
+            return "회원가입 실패: " + e.getMessage();
         }
     }
-
     // 아이디 중복 확인
     public boolean isUserIdDuplicate(String userId) {
         return userMapper.selectByUserId(userId) != null;
@@ -82,41 +92,5 @@ public class UserService {
         return userMapper.selectByUserId(userId);
     }
     
-//    //수정1
-//    // 회원정보 수정
-//    public String updateUserInfo(User updatedUser, String userId) {
-//        User existingUser = userMapper.selectByUserId(userId); // userId로 사용자 정보 조회
-//        if (existingUser == null) {
-//            return "존재하지 않는 사용자입니다.";
-//        }
-//
-//        // 닉네임 중복 검사
-//        if (!existingUser.getUserNick().equals(updatedUser.getUserNick()) &&
-//            userMapper.selectByUserNick(updatedUser.getUserNick()) != null) {
-//            return "이미 사용 중인 닉네임입니다.";
-//        }
-//
-//        // 이메일 중복 검사
-//        if (!existingUser.getUserEmail().equals(updatedUser.getUserEmail()) &&
-//            userMapper.selectByUserEmail(updatedUser.getUserEmail()) != null) {
-//            return "이미 사용 중인 이메일입니다.";
-//        }
-//
-//        // 비밀번호 암호화 처리 (비밀번호가 변경된 경우만)
-//        if (!updatedUser.getUserPw().equals(existingUser.getUserPw())) {
-//            try {
-//                String hashedPassword = PasswordHasher.hashPassword(updatedUser.getUserPw());
-//                updatedUser.setUserPw(hashedPassword);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return "비밀번호 암호화 중 오류가 발생했습니다.";
-//            }
-//        }
-//
-//        updatedUser.setUserId(userId); // userId는 변경하지 않음
-//
-//        userMapper.updateUser(updatedUser); // DB 업데이트 호출
-//        return "회원정보 변경 성공";
-//    }   
    	
 }

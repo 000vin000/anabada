@@ -228,9 +228,9 @@
                     <tr>
                         <td>${ item.getQTitle() }</td>
                         <td>${ item.getQContent() }</td>
-                        <td>${ item.getQDate() }</td>
+                        <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getAContent() }</td>
-                        <td>${ item.getADate() }</td>
+                        <td>${ item.getFormattedADate(item.getADate()) }</td>
                         <td>${ item.getUserNick() }</td>					
                     </tr>
                 </c:forEach>
@@ -288,9 +288,9 @@
                         <tr>
                             <td>${ item.getQTitle() }</td>
                             <td>${ item.getQContent() }</td>
-                            <td>${ item.getQDate() }</td>
+                            <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                             <td>${ item.getAContent() }</td>
-                            <td>${ item.getADate() }</td>
+                            <td>${ item.getFormattedADate(item.getADate()) }</td>
                         </tr>
                     </c:forEach>
                 </tbody>
