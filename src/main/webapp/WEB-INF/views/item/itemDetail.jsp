@@ -28,7 +28,7 @@
 		</div>
     </section>
     <section id="qnaSection">
-    	<a href="/item/detail/qna/${item.itemNo}">문의목록으로 이동하기</a>
+    	<a href="#" onclick="openWindow('QnaWindow', '/item/detail/qna/${item.itemNo}')">문의하기</a>
     </section>
     <hr>
     <section id="bidSection">
@@ -38,7 +38,7 @@
 			<input type="text" id="textPrice" disabled="disabled">
 			<input type="submit" id="btnBid" value="입찰" disabled="disabled">
 		</p>
-		<p><a href="/item/bidList/${item.itemNo}">입찰기록으로 이동하기</a></p>
+		<p><a href="#" onclick="openWindow('BidlistWindow', '/item/bidList/${item.itemNo}')">입찰기록</a></p>
     </section>
     <jsp:include page="../sidebar.jsp" />
   	<jsp:include page="../footer.jsp"/>
@@ -122,11 +122,9 @@
 	    });
 	});
 	
-    function openQuestionsWindow(itemNo) {
+    function openWindow(name, url) {
         window.open(
-            '/item/detail/qna/' + itemNo, 
-            'QuestionsWindow', 
-            'width=1000,height=800,scrollbars=yes'
+            url, name, 'width=1000,height=800,scrollbars=yes'
         );
     }
 
