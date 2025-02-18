@@ -48,5 +48,9 @@ public class Item {
     public void setItemStatusFromString(String auction) {
         this.itemAuction = auction;
     }
+    
+    public String getFormattedDate(LocalDateTime time) {
+    	return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    }
 
 }
