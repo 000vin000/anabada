@@ -1,26 +1,21 @@
 package kr.co.anabada.item.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.anabada.item.entity.Image;
 import kr.co.anabada.item.mapper.ImageMapper;
-import kr.co.anabada.main.mapper.MainMapper;
 
 @Service
 public class ImageService {
 	@Autowired
 	private ImageMapper imageMapper;
-	
-	@Autowired
-	private MainMapper mainMapper;
+
 
 	public List<String> getImagesBase64(int itemNo) {
 	    // itemNo에 해당하는 모든 이미지를 가져옵니다.

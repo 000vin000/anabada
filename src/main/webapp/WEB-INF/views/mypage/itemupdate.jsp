@@ -52,11 +52,17 @@
     <c:forEach var="image" items="${images}" varStatus="status">
         <img src="data:image/png;base64,${base64Images[status.index]}" alt="Image" style="max-width: 100px; height: auto;">
         <!-- 이미지 삭제 버튼 -->
-        <form action="/mypage/itemupdate/deleteImage/${image.imageNo}/${item.itemNo}" method="post" style="display:inline;">
+        <form action="/mypage/itemupdate/deleteImage/${image.imageNo}/${item.itemNo}" method="post" style="display:inline;" onsubmit="return confirmDelete();">
           <button type="submit" style="background-color: #ccc; border: none; color: white; cursor: pointer;">X</button>
         </form>
     </c:forEach>
   </ul>
+  
+  <script>
+  function confirmDelete() {
+    return confirm("정말 이 이미지를 삭제하시겠습니까?");
+  }
+</script>
 
 <!-- 새 이미지 업로드 -->
 <form action="/mypage/itemupdate/${item.itemNo}" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event);" class="itemUp">
