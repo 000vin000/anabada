@@ -42,7 +42,7 @@ public interface UserMapper {
     @Update("UPDATE alluser SET userStatus = #{userStatus}, userDeactiveDate = #{userDeactiveDate} WHERE userNo = #{userNo}")
     void updateUserStatus(@Param("userNo") int userNo, @Param("userStatus") String userStatus, @Param("userDeactiveDate") LocalDateTime userDeactiveDate);
     
-    @Select("SELECT * FORM alluser WHERE userNo = #{userNo}")
+    @Select("SELECT * FROM alluser WHERE userNo = #{userNo}")
     User selectAllUserByUserNo(@Param("userNo") int userNo);
     
       

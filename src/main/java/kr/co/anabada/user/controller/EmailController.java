@@ -1,5 +1,6 @@
 package kr.co.anabada.user.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.anabada.user.service.EmailService;
+import kr.co.anabada.user.entity.EmailVerificationInfo;
 
 @Controller
 @RequestMapping("/email")
@@ -28,6 +30,7 @@ public class EmailController {
         session.removeAttribute("emailVerified");
         session.removeAttribute("verificationEmail");
         session.removeAttribute("verificationCode");
+        session.removeAttribute("emailVerificationInfo"); // 추가: EmailVerificationInfo 제거
         
         return "user/emailVerification";
     }
@@ -38,10 +41,10 @@ public class EmailController {
         String verificationCode = emailService.generateVerificationCode();
         emailService.sendVerificationEmail(email, verificationCode);
 
-        // 세션에 인증 코드 저장 (5분 후 만료)
+        // 세션에 인증 코드 저장
         session.setAttribute("verificationCode", verificationCode);
         session.setAttribute("verificationEmail", email);
-        session.setMaxInactiveInterval(300); // 5분
+        session.setMaxInactiveInterval(300); 
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "인증 코드가 이메일로 전송되었습니다.");
@@ -52,9 +55,14 @@ public class EmailController {
     @ResponseBody
     public Map<String, String> verifyEmail(@RequestParam String code, HttpSession session) {
         String storedCode = (String) session.getAttribute("verificationCode");
+        String email = (String) session.getAttribute("verificationEmail");
 
         Map<String, String> response = new HashMap<>();
         if (storedCode != null && storedCode.equals(code)) {
+            // 추가: EmailVerificationInfo 객체 생성 및 세션에 저장
+            EmailVerificationInfo verificationInfo = new EmailVerificationInfo(email, LocalDateTime.now());
+            session.setAttribute("emailVerificationInfo", verificationInfo);
+            
             session.setAttribute("emailVerified", true);
             response.put("message", "이메일 인증이 완료되었습니다.");
             response.put("status", "success");
