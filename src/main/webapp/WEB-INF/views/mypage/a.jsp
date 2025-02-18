@@ -66,13 +66,12 @@
                         <td>${ item.getQContent() }</td>  	                    
                         <td>${ item.getFormattedADate(item.getADate()) }</td>				             
                         <td>${ item.getAContent() }</td>
+                        
 						<td style="border: none;">
 						    <c:if test="${ empty item.getAContent() }">
 						        <button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
 						    </c:if>
-						</td>
-
-					
+						</td>				
                     </tr>
 
                     <!-- 답변 입력 폼 (기본적으로 숨겨져 있음) -->
