@@ -1,9 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>상품등록</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
 <script>
   // 페이지 로드 시 오늘 날짜를 yyyy-MM-dd 형식으로 설정
   window.onload = function() {
@@ -58,63 +61,64 @@
     return true;
   }
 </script>
-
-  </script>
 </head>
 <body>
-<h1>상품등록</h1>
-<form method="POST" enctype="multipart/form-data" onsubmit="return validateForm(event)">
-  <label for="itemName">제목:</label>
-  <input type="text" id="itemName" name="itemName" required><br><br>
+<div class="body-container">
+<h1>상품 등록</h1>
+<form method="POST" enctype="multipart/form-data" onsubmit="return validateForm(event)" class="itemUp">
+  <div>
+  <label for="itemName">제목</label>
+  <input type="text" id="itemName" name="itemName" required>
+  </div>
 
-  <label for="imageFile">이미지:</label>
-  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" required multiple><br><br>
+  <div class="uploadImage">
+  <label for="imageFile">이미지</label>
+  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" required multiple>
+  </div>
+  
+  <div class="startEnd">
+  <label for="itemStart">경매 시작시간</label>
+  <input type="datetime-local" id="itemStart" name="itemStart" required>
+  <label for="itemEnd" id="tabEnd">경매 마감시간</label>
+  <input type="datetime-local" id="itemEnd" name="itemEnd" required>
+  </div>
+	
+  <label>카테고리</label><br>
+  <label for="itemGender">성별</label>
+  <div class="uploadCate">
+  <label for="itemGender0"><input type="radio" id="itemGender0" name="itemGender" value="m" required>남성</label>
+  <label for="itemGender1"><input type="radio" id="itemGender1" name="itemGender" value="w" required>여성</label>
+  </div>
+  
+  <label for="itemCate">의류 종류</label>
+  <div class="uploadCate">
+  <label for="itemCate0"><input type="radio" id="itemCate0" name="itemCate" value="top" required>상의</label>
+  <label for="itemCate1"><input type="radio" id="itemCate1" name="itemCate" value="bottom" required>하의</label>
+  <label for="itemCate2"><input type="radio" id="itemCate2" name="itemCate" value="outer" required>아우터</label>
+  <label for="itemCate3"><input type="radio" id="itemCate3" name="itemCate" value="dress" required>원피스</label>
+  <label for="itemCate4"><input type="radio" id="itemCate4" name="itemCate" value="etc" required>기타</label>
+  <label for="itemCate5"><input type="radio" id="itemCate5" name="itemCate" value="set" required>셋업</label>
+  </div>
+  
+  <div class="uploadPrice">
+  <label for="itemPrice" class="uploadContent">가격</label>
+  <input type="number" id="itemPrice" name="itemPrice" required>
+  </div>
 
-  <label for="itemStart">경매 시작시간:</label>
-  <input type="datetime-local" id="itemStart" name="itemStart" required><br><br>
+  <label for="itemContent" class="uploadContent">내용</label>
+  <textarea id="description" name="itemContent" rows="4" cols="50" required></textarea><br>
 
-  <label for="itemEnd">경매 마감시간:</label>
-  <input type="datetime-local" id="itemEnd" name="itemEnd" required><br><br>
-
-  <label>카테고리</label><br><br>
-  <label for="itemGender">성별:</label><br>
-  <input type="radio" id="itemGender0" name="itemGender" value="m" required>
-  <label for="itemGender0">남성</label><br>
-  <input type="radio" id="itemGender1" name="itemGender" value="w" required>
-  <label for="itemGender1">여성</label><br><br>
-
-  <label for="itemCate">의류 종류:</label><br>
-  <input type="radio" id="itemCate0" name="itemCate" value="top" required>
-  <label for="itemCate0">상의</label><br>
-  <input type="radio" id="itemCate1" name="itemCate" value="bottom" required>
-  <label for="itemCate1">하의</label><br>
-  <input type="radio" id="itemCate2" name="itemCate" value="outer" required>
-  <label for="itemCate2">아우터</label><br>
-  <input type="radio" id="itemCate3" name="itemCate" value="dress" required>
-  <label for="itemCate3">원피스</label><br>
-  <input type="radio" id="itemCate4" name="itemCate" value="etc" required>
-  <label for="itemCate4">기타</label><br>
-  <input type="radio" id="itemCate5" name="itemCate" value="set" required>
-  <label for="itemCate5">셋업</label><br><br>
-
-  <label for="itemPrice">가격:</label>
-  <input type="number" id="itemPrice" name="itemPrice" required><br><br>
-
-  <label for="itemContent">내용:</label><br>
-  <textarea id="description" name="itemContent" rows="4" cols="50" required></textarea><br><br>
-
-  <label for="itemStatus">상품상태:</label><br>
-  <input type="radio" id="itemStatus0" name="itemStatus" value="high" required>
-  <label for="itemStatus0">상</label>
-  <input type="radio" id="itemStatus1" name="itemStatus" value="mid" required>
-  <label for="itemStatus1">중</label>
-  <input type="radio" id="itemStatus2" name="itemStatus" value="low" required>
-  <label for="itemStatus2">하</label><br><br>
-
-  <input type="submit" value="등록"><br>
-
+  <label for="itemStatus">상품상태</label>
+  <div class="uploadCate">
+  <label for="itemStatus0"><input type="radio" id="itemStatus0" name="itemStatus" value="high" required>상</label>
+  <label for="itemStatus1"><input type="radio" id="itemStatus1" name="itemStatus" value="mid" required>중</label>
+  <label for="itemStatus2"><input type="radio" id="itemStatus2" name="itemStatus" value="low" required>하</label>
+  </div>
+  
+  <input type="submit" value="등록" class="uploadBtn">
 </form>
-
-<a href="/mypage">마이페이지로 돌아가기</a>
+<a href="/mypage" class="toMypage">마이페이지로 돌아가기</a>
+</div>
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>

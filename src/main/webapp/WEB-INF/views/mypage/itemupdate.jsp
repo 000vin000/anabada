@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="../header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>상품 수정</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
   <script>
     // 페이지 로드 시 오늘 날짜를 yyyy-MM-dd 형식으로 설정
     window.onload = function() {
@@ -42,78 +44,76 @@
   </script>
 </head>
 <body>
+<div class="body-container">
 <h1>상품 수정</h1>
-
   <!-- 기존 이미지들 및 삭제 폼 -->
-  <label>기존 이미지</label><br>
+  <label style="font-weight: bold; font-size: 18px; color: #21afbf; margin-right: 5px;">기존 이미지</label>
   <ul>
     <c:forEach var="image" items="${images}" varStatus="status">
-      <li>
-        <img src="data:image/png;base64,${base64Images[status.index]}" alt="Image" style="max-width: 200px; height: auto;">
+        <img src="data:image/png;base64,${base64Images[status.index]}" alt="Image" style="max-width: 100px; height: auto;">
         <!-- 이미지 삭제 버튼 -->
         <form action="/mypage/itemupdate/deleteImage/${image.imageNo}/${item.itemNo}" method="post" style="display:inline;">
-          <button type="submit">삭제</button>
+          <button type="submit" style="background-color: #ccc; border: none; color: white; cursor: pointer;">X</button>
         </form>
-      </li>
     </c:forEach>
   </ul>
 
-
 <!-- 새 이미지 업로드 -->
-<form action="/mypage/itemupdate/${item.itemNo}" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event);">
+<form action="/mypage/itemupdate/${item.itemNo}" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event);" class="itemUp">
+  <div class="uploadImage">
   <input type="hidden" name="itemNo" value="${item.itemNo}">
+  <label for="imageFile">이미지</label>
+  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" multiple>
+  </div>
+  
+  <div>
+  <label for="itemName">제목</label>
+  <input type="text" id="itemName" name="itemName" value="${item.itemName}" required>
+  </div>
+  
+  <div class="startEnd">
+  <label for="itemStart">경매 시작시간</label>
+  <input type="datetime-local" id="itemStart" name="itemStart" value="${item.itemStart}" required>
+  <label for="itemEnd" id="tabEnd">경매 마감시간</label>
+  <input type="datetime-local" id="itemEnd" name="itemEnd" value="${item.itemEnd}" required>
+  </div>
 
-  <label for="imageFile">이미지:</label>
-  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" multiple><br><br>
+  <label>카테고리</label><br>
+  <label for="itemGender">성별</label>
+  <div class="uploadCate">
+  <label for="itemGender0"><input type="radio" id="itemGender0" name="itemGender" value="m" ${item.itemGender == 'm' ? 'checked' : ''} required>남성</label>
+  <label for="itemGender1"><input type="radio" id="itemGender1" name="itemGender" value="w" ${item.itemGender == 'w' ? 'checked' : ''} required>여성</label>
+  </div>
+  
+  <label for="itemCate">의류 종류</label>
+  <div class="uploadCate">
+  <label for="top"><input type="radio" id="top" name="itemCate" value="top" ${item.itemCate == 'top' ? 'checked' : ''} required>상의</label>
+  <label for="bottom"><input type="radio" id="bottom" name="itemCate" value="bottom" ${item.itemCate == 'bottom' ? 'checked' : ''} required>하의</label>
+  <label for="outer"><input type="radio" id="outer" name="itemCate" value="outer" ${item.itemCate == 'outer' ? 'checked' : ''} required>아우터</label>
+  <label for="dress"><input type="radio" id="dress" name="itemCate" value="dress" ${item.itemCate == 'dress' ? 'checked' : ''} required>원피스</label>
+  <label for="etc"><input type="radio" id="etc" name="itemCate" value="etc" ${item.itemCate == 'etc' ? 'checked' : ''} required>기타</label>
+  <label for="set"><input type="radio" id="set" name="itemCate" value="set" ${item.itemCate == 'set' ? 'checked' : ''} required>셋업</label>
+  </div>
 
-  <label for="itemName">제목:</label>
-  <input type="text" id="itemName" name="itemName" value="${item.itemName}" required><br><br>
+  <div class="uploadPrice">
+  <label for="itemPrice" class="uploadContent">가격</label>
+  <input type="number" id="itemPrice" name="itemPrice" value="${item.itemPrice}" required>
+  </div>
+  
+  <label for="itemContent" class="uploadContent">내용</label>
+  <textarea id="description" name="itemContent" rows="4" cols="50" required>${item.itemContent}</textarea><br>
 
-  <label for="itemStart">경매 시작시간:</label>
-  <input type="datetime-local" id="itemStart" name="itemStart" value="${item.itemStart}" required><br><br>
-
-  <label for="itemEnd">경매 마감시간:</label>
-  <input type="datetime-local" id="itemEnd" name="itemEnd" value="${item.itemEnd}" required><br><br>
-
-  <label>카테고리</label><br><br>
-  <label>성별:</label><br>
-  <input type="radio" id="itemGender0" name="itemGender" value="m" ${item.itemGender == 'm' ? 'checked' : ''} required>
-  <label for="itemGender0">남성</label><br>
-  <input type="radio" id="itemGender1" name="itemGender" value="w" ${item.itemGender == 'w' ? 'checked' : ''} required>
-  <label for="itemGender1">여성</label><br><br>
-
-  <label>의류 종류:</label><br>
-  <input type="radio" id="top" name="itemCate" value="top" ${item.itemCate == 'top' ? 'checked' : ''} required>
-  <label for="top">상의</label><br>
-  <input type="radio" id="bottom" name="itemCate" value="bottom" ${item.itemCate == 'bottom' ? 'checked' : ''} required>
-  <label for="bottom">하의</label><br>
-  <input type="radio" id="outer" name="itemCate" value="outer" ${item.itemCate == 'outer' ? 'checked' : ''} required>
-  <label for="outer">아우터</label><br>
-  <input type="radio" id="dress" name="itemCate" value="dress" ${item.itemCate == 'dress' ? 'checked' : ''} required>
-  <label for="dress">원피스</label><br>
-  <input type="radio" id="etc" name="itemCate" value="etc" ${item.itemCate == 'etc' ? 'checked' : ''} required>
-  <label for="etc">기타</label><br>
-  <input type="radio" id="set" name="itemCate" value="set" ${item.itemCate == 'set' ? 'checked' : ''} required>
-  <label for="set">셋업</label><br><br>
-
-  <label for="itemPrice">가격:</label>
-  <input type="number" id="itemPrice" name="itemPrice" value="${item.itemPrice}" required><br><br>
-
-  <label for="itemContent">내용:</label><br>
-  <textarea id="description" name="itemContent" rows="4" cols="50" required>${item.itemContent}</textarea><br><br>
-
-  <label for="itemStatus">상품상태:</label><br>
-  <input type="radio" id="itemStatus0" name="itemStatus" value="high" ${item.itemStatus == 'high' ? 'checked' : ''} required>
-  <label for="itemStatus0">상</label>
-  <input type="radio" id="itemStatus1" name="itemStatus" value="mid" ${item.itemStatus == 'mid' ? 'checked' : ''} required>
-  <label for="itemStatus1">중</label>
-  <input type="radio" id="itemStatus2" name="itemStatus" value="low" ${item.itemStatus == 'low' ? 'checked' : ''} required>
-  <label for="itemStatus2">하</label><br><br>
-
-  <input type="submit" value="수정"><br>
-
+  <label for="itemStatus">상품상태</label>
+  <div class="uploadCate">
+  <label for="itemStatus0"><input type="radio" id="itemStatus0" name="itemStatus" value="high" ${item.itemStatus == 'high' ? 'checked' : ''} required>상</label>
+  <label for="itemStatus1"><input type="radio" id="itemStatus1" name="itemStatus" value="mid" ${item.itemStatus == 'mid' ? 'checked' : ''} required>중</label>
+  <label for="itemStatus2"><input type="radio" id="itemStatus2" name="itemStatus" value="low" ${item.itemStatus == 'low' ? 'checked' : ''} required>하</label>
+  </div>
+  
+  <input type="submit" value="수정" class="uploadBtn">
 </form>
-
-<a href="/mypage">마이페이지로 돌아가기</a>
+<a href="/mypage" class="toMypage">마이페이지로 돌아가기</a>
+</div>
+<jsp:include page="../footer.jsp"/>
 </body>
 </html>
