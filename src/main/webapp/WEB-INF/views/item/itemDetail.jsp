@@ -165,7 +165,7 @@
 	
     function openWindow(name, url) {
         window.open(
-            url, name, 'width=1000,height=800,scrollbars=yes'
+            url, name, 'width=650,height=800,scrollbars=yes'
         );
     }
 
