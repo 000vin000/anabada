@@ -692,14 +692,9 @@ input[type="radio"] + label {
 	width: 620px;
 }
 
-#NameSection h1 {
-	margin-right: 0;
-}
-#NameSection button {
-	margin-left: 0;
-}
-#NameSection a {
-	margin-left: auto;
+#NameSection div {
+	display: flex;
+	gap: 20px;
 }
 
 #qnaList {
