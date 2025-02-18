@@ -63,6 +63,7 @@ public class UpdateInfoController {
         model.addAttribute("phone3", phone3);
         //메일 정보 추가
         model.addAttribute("userEmail", loggedInUser.getUserEmail());
+        model.addAttribute("userAdd", loggedInUser.getUserAdd());
 
         System.out.println("UpdateInfoController - showUpdateInfoForm: User phone number: " + loggedInUser.getUserPhone());
         System.out.println("UpdateInfoController - showUpdateInfoForm: Separated phone numbers: " + phone1 + ", " + phone2 + ", " + phone3);
@@ -72,12 +73,13 @@ public class UpdateInfoController {
 
     @PostMapping("/updateinfo")
     public String updateUserInfo(@ModelAttribute("user") @Valid User updatedUser,
-                               BindingResult bindingResult,
-                               HttpSession session,
-                               Model model,
-                               @RequestParam("userPhone1") String phone1,
-                               @RequestParam("userPhone2") String phone2,
-                               @RequestParam("userPhone3") String phone3) {
+                                 BindingResult bindingResult,
+                                 HttpSession session,
+                                 Model model,
+                                 @RequestParam("userPhone1") String phone1,
+                                 @RequestParam("userPhone2") String phone2,
+                                 @RequestParam("userPhone3") String phone3,
+                                 @RequestParam("detailAddress") String detailAddress) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
             return "redirect:/user/login";
@@ -95,6 +97,10 @@ public class UpdateInfoController {
             }
         } else {
             bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
+        }
+        
+        if (!detailAddress.isEmpty()) {
+            updatedUser.setUserAdd(updatedUser.getUserAdd() + " " + detailAddress);
         }
 
         // 유효성 검사 실패 시
