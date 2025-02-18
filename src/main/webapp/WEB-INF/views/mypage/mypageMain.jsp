@@ -44,24 +44,5 @@
 	<jsp:include page="../footer.jsp"/>
 </body>
 <script src="/js/todaypick.js"></script>
-<%--
-<script type="text/javascript">
-	document.addEventListener("DOMContentLoaded", function () {
-	    const path = window.location.pathname.split("/").filter(Boolean);
-	    const breadcrumbContainer = document.getElementById("breadcrumb");
-	
-	    let fullPath = "/";
-	    breadcrumbContainer.innerHTML = `<li><a href="/">홈</a></li>`;
-	
-	    path.forEach((segment, index) => {
-	        fullPath += segment + "/";
-	        if (index === path.length - 1) {
-	            breadcrumbContainer.innerHTML += `<li>${decodeURIComponent(segment)}</li>`;
-	        } else {
-	            breadcrumbContainer.innerHTML += `<li><a href="${fullPath}">${decodeURIComponent(segment)}</a></li>`;
-	        }
-	    });
-	});
-</script>
- --%>
+
 </html>
