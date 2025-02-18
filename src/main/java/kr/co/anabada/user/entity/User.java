@@ -45,7 +45,6 @@ public class User {
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String userEmail;
     
-    // 수정: 전화번호 형식 검증 어노테이션 삭제
     private String userPhone;
     
     private String userStatus;
