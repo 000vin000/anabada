@@ -29,6 +29,11 @@ body {
     border: none; /* 테두리 없음 */
     border-radius: 4px; /* 모서리 둥글게 */
     cursor: pointer; /* 커서 모양 */
+    transition: background-color 0.3s; /* 애니메이션 효과 */
+}
+
+#categorySearchOption input[type="button"]:hover {
+	background-color: #2adbe0;
 }
 
 #gender {
@@ -208,6 +213,10 @@ input[type="button"] {
     border: none;
 }
 
+input[type="button"]:hover {
+	background-color: #2adbe0;
+}
+
 nav ul {
     list-style-type: none; /* 리스트 스타일 제거 */
     padding: 0; /* 기본 패딩 제거 */
@@ -247,6 +256,7 @@ nav ul li a:hover {
 #itemUpload a:hover {
     transform: scale(1.05); /* 약간 확대 */
     transition: background-color 0.3s, transform 0.2s; /* 전환 효과 */
+    background-color: #2adbe0;
 }
 
 .body-container {
@@ -518,6 +528,10 @@ nav ul li a:hover {
             cursor: pointer;
             transition: background-color 0.3s;
         }
+        
+        #loginBtn:hover {
+        	background-color: #2adbe0;
+        }
 
         .error-message {
             color: red;
@@ -530,16 +544,20 @@ nav ul li a:hover {
             text-align: center;
             margin-top: 15px;
             font-size: 14px;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
+		.signup-link:hover {
+			background-color: #e7f9fa;
+		}
+		
         .signup-link a {
             color: #21afbf;
             text-decoration: none;
             font-size: 18px;
-        }
-
-        .signup-link a:hover {
-            text-decoration: underline;
         }
         
 /* 마이페이지 - 마이페이지로 돌아가기 버튼 */
@@ -556,7 +574,12 @@ nav ul li a:hover {
         font-size: 16px; /* 글자 크기 */
         cursor: pointer; /* 마우스 커서 변경 */
         text-align: center;
+        transition: background-color 0.3s;
     }
+    
+.toMypage:hover {
+	background-color: #2adbe0;
+}
     
 /* 판매현황 - 상세보기, 수정하기, 삭제하기 버튼 */
 .showDetail {
@@ -737,6 +760,7 @@ input[type="radio"] + label {
 	font-weight: 700;
 	border: 2.5px solid white;
 	font-size: 14px;
+	transition: border 0.3s;
 }
 
 #bidList:hover {
@@ -750,8 +774,8 @@ input[type="radio"] + label {
 }
 
 #btnBid {
-		width: 50px;
-		height: 30px;
+		width: 60px;
+		height: 35px;
         background-color: #21afbf; /* 배경색 */
         color: white; /* 글자색 */
         border: none; /* 테두리 없애기 */
@@ -759,6 +783,13 @@ input[type="radio"] + label {
         text-align: center;
         border: 3px solid #21afbf; /* 테두리 색상 */
         cursor: pointer; /* 마우스 커서 변경 */
+        transition: transform 0.3s; /* 애니메이션 효과 */
+        
+}
+
+#btnBid:hover {
+	background-color: #2adbe0;
+	border: 3px solid #2adbe0;
 }
 
 #btnBid:disabled {
