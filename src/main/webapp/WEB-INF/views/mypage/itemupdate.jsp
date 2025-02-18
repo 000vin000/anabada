@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,14 +43,31 @@
 </head>
 <body>
 <h1>상품 수정</h1>
+
+  <!-- 기존 이미지들 및 삭제 폼 -->
+  <label>기존 이미지</label><br>
+  <ul>
+    <c:forEach var="image" items="${images}" varStatus="status">
+      <li>
+        <img src="data:image/png;base64,${base64Images[status.index]}" alt="Image" style="max-width: 200px; height: auto;">
+        <!-- 이미지 삭제 버튼 -->
+        <form action="/mypage/itemupdate/deleteImage/${image.imageNo}/${item.itemNo}" method="post" style="display:inline;">
+          <button type="submit">삭제</button>
+        </form>
+      </li>
+    </c:forEach>
+  </ul>
+
+
+<!-- 새 이미지 업로드 -->
 <form action="/mypage/itemupdate/${item.itemNo}" method="post" enctype="multipart/form-data" onsubmit="return validateForm(event);">
   <input type="hidden" name="itemNo" value="${item.itemNo}">
 
+  <label for="imageFile">이미지:</label>
+  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" multiple><br><br>
+
   <label for="itemName">제목:</label>
   <input type="text" id="itemName" name="itemName" value="${item.itemName}" required><br><br>
-
-  <label for="imageFile">이미지:</label>
-  <input type="file" id="imageFile" name="imageFiles[]" accept="image/*" multiple required><br><br>
 
   <label for="itemStart">경매 시작시간:</label>
   <input type="datetime-local" id="itemStart" name="itemStart" value="${item.itemStart}" required><br><br>

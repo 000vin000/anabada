@@ -38,7 +38,7 @@ public interface ItemMapper {
 	@Update("UPDATE item " +
 	        "SET itemName = #{itemName}, itemStart = #{itemStart}, itemEnd = #{itemEnd}, itemPrice = #{itemPrice}, " +
 	        "itemContent = #{itemContent}, itemStatus = #{itemStatus}, itemCate = #{itemCate}, itemAuction = #{itemAuction}, itemGender = #{itemGender}" +
-	        "WHERE itemNo = #{itemNo}")
+	        " WHERE itemNo = #{itemNo}")
 	int updateItem(Item item);
 	
 	@Select("SELECT * FROM item WHERE itemNo = #{itemNo}")

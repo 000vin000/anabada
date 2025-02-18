@@ -18,7 +18,7 @@ public class ItemService {
     }
 	
 	 public List<Item> findItemsByUserNo(int userNo) {
-	        return itemMapper.findItemsByUserNo(userNo);  // userNo를 기준으로 아이템을 조회
+	       return itemMapper.findItemsByUserNo(userNo);  // userNo를 기준으로 아이템을 조회
 	    }
 	 
 	 public void updateItem(Item item) {
