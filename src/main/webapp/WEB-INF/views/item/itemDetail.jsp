@@ -10,36 +10,67 @@
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<section id="detailSection">
-        <h1 class="item-name">${item.itemName}</h1>
-		<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
-		<label id="currentState">상태</label>
-		<label>| ${item.itemStart} ~ ${item.itemEnd}</label>
-		<h3><label id="remainTime">남은 시간</label></h3>
-		<p>게시자: ${userNick}</p>
-		<p>설명: ${item.itemContent}</p>
-		<div>
-			<c:forEach var="image" items="${images}">
-				<!-- 동일한 이미지파일 로드 시 깨짐 문제 있음 -->
-				<img class="item-image" src="data:image/png;base64,${image}"
-					 style="width: 400px; height: 400px; object-fit: cover;"/>
-				<br>
-			</c:forEach>
-		</div>
-    </section>
-    <section id="qnaSection">
-    	<a href="#" onclick="openWindow('QnaWindow', '/item/detail/qna/${item.itemNo}')">문의하기</a>
-    </section>
-    <hr>
-    <section id="bidSection">
-        <h2 id="priceHeading">현재 입찰가: <label id="currentPrice">${item.itemPrice}</label></h2>
-        <p>
-			입찰:
-			<input type="text" id="textPrice" disabled="disabled">
-			<input type="submit" id="btnBid" value="입찰" disabled="disabled">
-		</p>
-		<p><a href="#" onclick="openWindow('BidlistWindow', '/item/bidList/${item.itemNo}')">입찰기록</a></p>
-    </section>
+	<div class="body-container">
+		<section id="NameSection">
+			<div>
+				<h1 class="item-name">${item.itemName}</h1>
+				<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
+			</div>
+			<button onclick="openWindow('QnaWindow', '/item/detail/qna/${item.itemNo}')" id="qnaList">문의하기</button>
+		</section>
+		
+		<section id="QnASection">
+			<label id="remainTime">남은 시간</label>
+		</section>
+		
+		<section id="bidSection">
+	        <h2 id="priceHeading">현재가 <label id="currentPrice">${item.addCommas(item.itemPrice)} 원</label></h2>
+	        <p>희망 입찰가
+				<input type="text" id="textPrice" disabled="disabled">
+				<input type="submit" id="btnBid" value="입찰" disabled="disabled">
+			</p>
+			<p><button onclick="openWindow('BidlistWindow', '/item/bidList/${item.itemNo}')" id="bidList">입찰기록</button></p>
+	    </section>
+		
+		<section id="detailSection">
+		    <table>
+		        <tr>
+		            <th>판매자</th>
+		            <td>${userNick}</td>
+		        </tr>
+		        <tr>
+		            <th>카테고리</th>
+		            <td>${item.getCategoryStr(item.itemGender, item.itemCate)}</td>
+		        </tr>
+		        <tr>
+		            <th>경매일자</th>
+		            <td>${item.getFormattedDate(item.itemStart)} ~ ${item.getFormattedDate(item.itemEnd)}
+		            	( <label id="currentState">상태</label> )</td>
+		        </tr>
+		        <tr>
+		            <th>상품 상태</th>
+		            <td>${item.getStatusStr(item.itemStatus)}</td>
+		        </tr>
+		        <tr>
+		            <th>설명</th>
+		            <td>${item.itemContent}</td>
+		        </tr>
+		        <tr>
+		            <th>이미지</th>
+		            <td>
+		                <div class="image-gallery">
+		                    <c:forEach var="image" items="${images}">
+		                        <img class="item-image" src="data:image/png;base64,${image}" 
+		                             style="width: 500px; height: 500px; object-fit: cover; margin: 5px;"/><br>
+		                    </c:forEach>
+		                </div>
+		            </td>
+		        </tr>
+		    </table>
+		</section>
+	    
+    	<button onclick="window.history.back()" class="toMypage">뒤로가기</button>
+    </div>
     <jsp:include page="../sidebar.jsp" />
   	<jsp:include page="../footer.jsp"/>
 </body>
@@ -57,6 +88,16 @@
 			addRecentView(itemNo, itemName, itemImage);
 		}
 	}); // jhu
+</script>
+<script>
+	function addCommas(num) {
+	    if (isNaN(num)) {
+	        return num;
+	    }
+	
+	    num = Number(num).toString();
+	    return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
 </script>
 <script>
 	document.addEventListener("DOMContentLoaded", function () {
@@ -132,7 +173,7 @@
         fetch('/item/detail/' + itemNo + '/currentPrice')
             .then(response => response.text())
             .then(data => {
-                document.getElementById("currentPrice").innerText = data;
+                document.getElementById("currentPrice").innerText = addCommas(data) + " 원";
             })
     }
 
@@ -195,7 +236,7 @@
         let minutes = Math.floor((remainTime % 3600) / 60);
         let seconds = remainTime % 60;
 
-        let timeText = "남은 시간: ";
+        let timeText = "남은 시간 : ";
         if (currentState === "대기") {
         	timeText = "시작까지 " + timeText;
         } else if (currentState === "입찰 가능") {
@@ -221,5 +262,7 @@
         updateRemainingTime();
     }, 1000);
     intervals.push(itvRemainTime);
+    
+    
 </script>
 </html>

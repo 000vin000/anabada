@@ -1,5 +1,6 @@
 package kr.co.anabada.item.entity;
 
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +26,11 @@ public class Item {
 	private String itemName;
 	private String itemContent;
 	private String itemStatus;
+	
+	public String addCommas(int num) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        return formatter.format(num);
+    }
 	
 	public String getItemStatusInKorean() {
 	    if (this.itemAuction == null) {
@@ -53,4 +59,26 @@ public class Item {
     	return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
+    public String getStatusStr(String itemStatus) {
+    	if (itemStatus.equals("high")) return "상";
+    	else if (itemStatus.equals("mid")) return "중";
+    	else return "하";
+    }
+    
+    public String getCategoryStr(String itemGender, String itemCate) {
+    	String gender = null;
+    	String cate = null;
+    	
+    	if (itemGender.equals("m")) gender = "남성 ";
+    	else gender = "여성 ";
+    	
+    	if (itemCate.equals("top")) cate = "상의";
+    	else if (itemCate.equals("bottom")) cate = "하의";
+    	else if (itemCate.equals("dress")) cate = "원피스";
+    	else if (itemCate.equals("outer")) cate = "아우터";
+    	else if (itemCate.equals("etc")) cate = "기타";
+    	else cate = "세트상품";
+    	
+    	return gender + cate;
+    }
 }
