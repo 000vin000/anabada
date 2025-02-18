@@ -132,46 +132,72 @@
         }
     }
 
-    // 문의 등록 폼 토글 함수
-    function toggleAddQuestionForm(button) {
-        var form = document.getElementById('addQuestionForm');
-        toggleSection(form, button);
-    }
 
-    // 나의 문의 목록 토글 함수
-    function toggleMyQuestions(button) {
-        var myQuestions = document.getElementById('myQuestions');
-        toggleSection(myQuestions, button);
-    }
+        // 나의 문의 목록을 토글하는 함수
+        function toggleMyQuestions(button) {
+            var myQuestions = document.getElementById('myQuestions');
+            
+            // 이미 열려있는 토글을 닫기
+            if (openToggle && openToggle !== myQuestions) {
+                openToggle.style.display = "none";
+                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+            }
 
-    // 전체 문의 목록 토글 함수
-    function toggleAllQuestions(button) {
-        var allQuestions = document.getElementById('allQuestions');
-        toggleSection(allQuestions, button);
-    }
-
-    // 공통 토글 함수 (모든 토글 버튼에 적용 가능)
-    function toggleSection(section, button) {
-        // 기존 열린 토글이 있으면 닫기
-        if (openToggle && openToggle !== section) {
-            openToggle.style.display = "none";
-            if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색 원래대로
+            // 새로운 폼 토글
+            if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
+                myQuestions.style.display = "block"; // 나의 문의 보이기
+                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+                openToggle = myQuestions;
+            } else {
+                myQuestions.style.display = "none"; // 나의 문의 숨기기
+                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+                openToggle = null;
+            }
         }
 
-        // 현재 클릭한 토글을 열거나 닫기
-        if (section.style.display === "none" || section.style.display === "") {
-            section.style.display = "block";
-            button.style.backgroundColor = "#00d4da";
-            openToggle = section;
-            openButton = button; // 현재 버튼 저장
-        } else {
-            section.style.display = "none";
-            button.style.backgroundColor = "#21afbf";
-            openToggle = null;
-            openButton = null;
-        }
-    }
+        // 문의 등록 폼을 토글하는 함수
+        function toggleAddQuestionForm(button) {
+            var form = document.getElementById('addQuestionForm');
+            
+            // 이미 열려있는 토글을 닫기
+            if (openToggle && openToggle !== form) {
+                openToggle.style.display = "none";
+                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+            }
 
+            // 새로운 폼 토글
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block"; // 폼 보이기
+                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+                openToggle = form;
+            } else {
+                form.style.display = "none"; // 폼 숨기기
+                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+                openToggle = null;
+            }
+        }
+
+        // 전체 상품 문의목록을 토글하는 함수
+        function toggleAllQuestions(button) {
+            var allQuestions = document.getElementById('allQuestions');
+            
+            // 이미 열려있는 토글을 닫기
+            if (openToggle && openToggle !== allQuestions) {
+                openToggle.style.display = "none";
+                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+            }
+
+            // 새로운 폼 토글
+            if (allQuestions.style.display === "none" || allQuestions.style.display === "") {
+                allQuestions.style.display = "block"; // 전체 문의 목록 보이기
+                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+                openToggle = allQuestions;
+            } else {
+                allQuestions.style.display = "none"; // 전체 문의 목록 숨기기
+                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+                openToggle = null;
+            }
+        }
     </script>
 </head>
 <body>
@@ -180,58 +206,61 @@
 
     <h1>QnA</h1>
     
-     <!-- 상품 전체 문의목록 제목 추가 -->
-    <c:if test="${ not empty list }">
-        <div class="button-container">
-            <button type="button" onclick="toggleAllQuestions(this)">전체문의</button>
-        </div>
-    </c:if>
+<!-- 상품 전체 문의목록 제목 추가 -->
+<div class="button-container">
+    <button type="button" onclick="toggleAllQuestions(this)">전체문의</button>
+</div>
 
-    <!-- 전체 문의 목록 -->
+<!-- 전체 문의 목록 -->
+<div id="allQuestions" class="all-questions">
     <c:if test="${ not empty list }">
-        <div id="allQuestions" class="all-questions">
-            <table>
-                <thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>문의제목</th>
+                    <th>문의내용</th>
+                    <th>문의등록일</th>
+                    <th>답변내용</th>
+                    <th>답변등록일</th> 
+                    <th>질문자</th> 
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="item" items="${ list }">
                     <tr>
-                        <th>문의제목</th>
-                        <th>문의내용</th>
-                        <th>문의등록일</th>
-                        <th>답변내용</th>
-                        <th>답변등록일</th> 
-                        <th>질문자</th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="item" items="${ list }">
-                        <tr>
-                            <td>${ item.getQTitle() }</td>
-                            <td>${ item.getQContent() }</td>
-                            <td>${ item.getQDate() }</td>
-                            <td>${ item.getAContent() }</td>
-                            <td>${ item.getADate() }</td>
-                            <td>${ item.getUserNick() }</td>					
-                            <c:if test="${ empty item.getAContent() && canAnswer }">
-                                <td class="no-border">
-                                    <button type="button" onclick="toggleEditForm(${item.getQNo()}, this)">답변하기</button>
-                                </td>
-                            </c:if>
-                        </tr>
-
-                        <tr id="editForm-${item.getQNo()}" class="edit-form">
-                            <td colspan="7">
-                                <form action="/item/detail/insertA/${item.getQNo()}" method="post">
-                                    <input type="hidden" name="qNo" value="${item.getQNo()}">
-                                    <label for="aContent">답변 내용</label>
-                                    <textarea name="aContent" required>${item.getAContent()}</textarea><br><br>
-                                    <button type="submit">답변 등록</button>
-                                </form>
+                        <td>${ item.getQTitle() }</td>
+                        <td>${ item.getQContent() }</td>
+                        <td>${ item.getQDate() }</td>
+                        <td>${ item.getAContent() }</td>
+                        <td>${ item.getADate() }</td>
+                        <td>${ item.getUserNick() }</td>					
+                        <c:if test="${ empty item.getAContent() && canAnswer }">
+                            <td class="no-border">
+                                <button type="button" onclick="toggleEditForm(${item.getQNo()}, this)">답변하기</button>
                             </td>
-                        </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
+                        </c:if>
+                    </tr>
+
+                    <tr id="editForm-${item.getQNo()}" class="edit-form">
+                        <td colspan="7">
+                            <form action="/item/detail/insertA/${item.getQNo()}" method="post">
+                                <input type="hidden" name="qNo" value="${item.getQNo()}">
+                                <label for="aContent">답변 내용</label>
+                                <textarea name="aContent" required>${item.getAContent()}</textarea><br><br>
+                                <button type="submit">답변 등록</button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
     </c:if>
+    
+    <c:if test="${ empty list }">
+        <p>문의내역이 없습니다.</p>
+    </c:if>
+</div>
+
 
     <!-- 문의 등록 버튼: 로그인한 사용자만 보이도록 -->
     <c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
@@ -293,9 +322,6 @@
         </div>
     </c:if>
 
-    <c:if test="${ empty list }">
-        <div class="no-data">문의내역이 없습니다.</div>
-    </c:if>
 </div>
 
 <jsp:include page="../sidebar.jsp" />
