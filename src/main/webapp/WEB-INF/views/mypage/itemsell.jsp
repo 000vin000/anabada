@@ -57,7 +57,7 @@
         </c:forEach>
     </tbody>
 </table>
-	<a href="/mypage" id="toMypage">마이페이지로 돌아가기</a>
+	<a href="/mypage" class="toMypage">마이페이지로 돌아가기</a>
 </div>
 	<jsp:include page="../sidebar.jsp" />
 	<jsp:include page="../footer.jsp" />
