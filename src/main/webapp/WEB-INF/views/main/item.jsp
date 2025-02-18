@@ -40,7 +40,7 @@
 							<hr id="line">
 							<p id="itemName">${item.itemName}</p> 
 							<hr id="line">
-							<p id="itemPrice">${item.itemPrice}원 </p>
+							<p id="itemPrice">${item.addCommas(item.itemPrice)}원 </p>
 							<p id="itemUserNick">${item.userNick} | 입찰 ${item.bidCount}회</p>
 							<p id="itemAuction">${item.getItemAuctionStr(item.itemAuction)}</p>
 						</a>
