@@ -104,52 +104,56 @@
         }
     </style>
     <script>
-        // 현재 열린 토글을 추적할 변수
-        let openToggle = null;
+ 	// 현재 열린 토글과 버튼을 추적할 변수
+    let openToggle = null;
+    let openButton = null;
 
-        // 수정 폼을 토글하는 함수
-        function toggleEditForm(qNo, button) {
-            var form = document.getElementById('editForm-' + qNo);
-            
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
+    // 토글 함수 수정
+    function toggleEditForm(qNo, button) {
+        var form = document.getElementById('editForm-' + qNo);
 
-            // 새로운 폼 토글
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "table-row"; // 폼 보이기
-                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-                openToggle = form;
-            } else {
-                form.style.display = "none"; // 폼 숨기기
-                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-                openToggle = null;
-            }
+        // 기존에 열려있는 토글이 있으면 닫고 버튼 색상 원래대로 복구
+        if (openToggle && openToggle !== form) {
+            openToggle.style.display = "none";
+            if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
         }
+
+        // 새로운 폼 토글
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "table-row"; // 폼 보이기
+            button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+            openToggle = form;
+            openButton = button; // 현재 버튼 저장
+        } else {
+            form.style.display = "none"; // 폼 숨기기
+            button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+            openToggle = null;
+            openButton = null; // 버튼도 초기화
+        }
+    }
+
 
         // 나의 문의 목록을 토글하는 함수
-        function toggleMyQuestions(button) {
-            var myQuestions = document.getElementById('myQuestions');
+	function toggleMyQuestions(button) {
+		var myQuestions = document.getElementById('myQuestions');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== myQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
+		// 이미 열려있는 토글을 닫기
+		if (openToggle && openToggle !== myQuestions) {
+			openToggle.style.display = "none";
+			openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+		}
 
-            // 새로운 폼 토글
-            if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
-                myQuestions.style.display = "block"; // 나의 문의 보이기
-                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-                openToggle = myQuestions;
-            } else {
-                myQuestions.style.display = "none"; // 나의 문의 숨기기
-                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-                openToggle = null;
-            }
-        }
+		// 새로운 폼 토글
+		if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
+			myQuestions.style.display = "block"; // 나의 문의 보이기
+			button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+			openToggle = myQuestions;
+		} else {
+			myQuestions.style.display = "none"; // 나의 문의 숨기기
+			button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+			openToggle = null;
+		}
+	}
 
         // 문의 등록 폼을 토글하는 함수
         function toggleAddQuestionForm(button) {
