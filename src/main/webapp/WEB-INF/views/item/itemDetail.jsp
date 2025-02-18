@@ -13,7 +13,7 @@
 	<div class="body-container">
 		<section id="NameSection">
 			<div>
-				<h1>${item.itemName}</h1>
+				<h1 class="item-name">${item.itemName}</h1>
 				<button id="favor-btn" data-item-id="${item.itemNo}">☆</button>
 			</div>
 			<button onclick="openWindow('QnaWindow', '/item/detail/qna/${item.itemNo}')" id="qnaList">문의하기</button>
