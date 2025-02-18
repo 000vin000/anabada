@@ -111,11 +111,6 @@
         function toggleEditForm(qNo, button) {
             var form = document.getElementById('editForm-' + qNo);
 
-            // 기존에 열려있는 토글이 있으면 닫고 버튼 색상 원래대로 복구
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
 
             // 새로운 폼 토글
             if (form.style.display === "none" || form.style.display === "") {
@@ -135,12 +130,6 @@
         function toggleMyQuestions(button) {
             var myQuestions = document.getElementById('myQuestions');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== myQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
             // 새로운 폼 토글
             if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
                 myQuestions.style.display = "block"; // 나의 문의 보이기
@@ -157,11 +146,6 @@
         function toggleAddQuestionForm(button) {
             var form = document.getElementById('addQuestionForm');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
 
             // 새로운 폼 토글
             if (form.style.display === "none" || form.style.display === "") {
@@ -179,12 +163,6 @@
         function toggleAllQuestions(button) {
             var allQuestions = document.getElementById('allQuestions');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== allQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
             // 새로운 폼 토글
             if (allQuestions.style.display === "none" || allQuestions.style.display === "") {
                 allQuestions.style.display = "block"; // 전체 문의 목록 보이기
