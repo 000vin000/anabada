@@ -104,7 +104,7 @@
         }
     </style>
     <script>
- 	// 현재 열린 토글과 버튼을 추적할 변수
+ // 현재 열린 토글과 버튼을 추적할 변수
     let openToggle = null;
     let openButton = null;
 
@@ -132,72 +132,46 @@
         }
     }
 
+    // 문의 등록 폼 토글 함수
+    function toggleAddQuestionForm(button) {
+        var form = document.getElementById('addQuestionForm');
+        toggleSection(form, button);
+    }
 
-        // 나의 문의 목록을 토글하는 함수
-	function toggleMyQuestions(button) {
-		var myQuestions = document.getElementById('myQuestions');
-            
-		// 이미 열려있는 토글을 닫기
-		if (openToggle && openToggle !== myQuestions) {
-			openToggle.style.display = "none";
-			openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-		}
+    // 나의 문의 목록 토글 함수
+    function toggleMyQuestions(button) {
+        var myQuestions = document.getElementById('myQuestions');
+        toggleSection(myQuestions, button);
+    }
 
-		// 새로운 폼 토글
-		if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
-			myQuestions.style.display = "block"; // 나의 문의 보이기
-			button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-			openToggle = myQuestions;
-		} else {
-			myQuestions.style.display = "none"; // 나의 문의 숨기기
-			button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-			openToggle = null;
-		}
-	}
+    // 전체 문의 목록 토글 함수
+    function toggleAllQuestions(button) {
+        var allQuestions = document.getElementById('allQuestions');
+        toggleSection(allQuestions, button);
+    }
 
-        // 문의 등록 폼을 토글하는 함수
-        function toggleAddQuestionForm(button) {
-            var form = document.getElementById('addQuestionForm');
-            
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
-            // 새로운 폼 토글
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block"; // 폼 보이기
-                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-                openToggle = form;
-            } else {
-                form.style.display = "none"; // 폼 숨기기
-                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-                openToggle = null;
-            }
+    // 공통 토글 함수 (모든 토글 버튼에 적용 가능)
+    function toggleSection(section, button) {
+        // 기존 열린 토글이 있으면 닫기
+        if (openToggle && openToggle !== section) {
+            openToggle.style.display = "none";
+            if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색 원래대로
         }
 
-        // 전체 상품 문의목록을 토글하는 함수
-        function toggleAllQuestions(button) {
-            var allQuestions = document.getElementById('allQuestions');
-            
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== allQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
-            // 새로운 폼 토글
-            if (allQuestions.style.display === "none" || allQuestions.style.display === "") {
-                allQuestions.style.display = "block"; // 전체 문의 목록 보이기
-                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-                openToggle = allQuestions;
-            } else {
-                allQuestions.style.display = "none"; // 전체 문의 목록 숨기기
-                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-                openToggle = null;
-            }
+        // 현재 클릭한 토글을 열거나 닫기
+        if (section.style.display === "none" || section.style.display === "") {
+            section.style.display = "block";
+            button.style.backgroundColor = "#00d4da";
+            openToggle = section;
+            openButton = button; // 현재 버튼 저장
+        } else {
+            section.style.display = "none";
+            button.style.backgroundColor = "#21afbf";
+            openToggle = null;
+            openButton = null;
         }
+    }
+
     </script>
 </head>
 <body>
