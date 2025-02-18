@@ -11,6 +11,7 @@
         .edit-form {
             display: none;
         }
+               
         
 		/* 버튼 스타일 */
         button[type="button"] {
@@ -62,20 +63,16 @@
                         <td>${ item.getUserNick() }</td>
                         <td>${ item.getQTitle() }</td>   
                         <td>${ item.getFormattedQDate(item.getQDate()) }</td>
-                        <td>${ item.getQContent() }</td>  	
-
-                        <td>${ item.getADate() }</td>				             
-                        <td>${ item.getAContent() }</td>                      
-
+                        <td>${ item.getQContent() }</td>  	                    
                         <td>${ item.getFormattedADate(item.getADate()) }</td>				             
                         <td>${ item.getAContent() }</td>
-                        <td>
-
+						<td style="border: none;">
 						    <c:if test="${ empty item.getAContent() }">
-								<td class="no-border">
-						        	<button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
-								</td>
-						    </c:if>						
+						        <button type="button" onclick="toggleEditForm(${item.getQNo()})">답변하기</button>
+						    </c:if>
+						</td>
+
+					
                     </tr>
 
                     <!-- 답변 입력 폼 (기본적으로 숨겨져 있음) -->
