@@ -43,14 +43,12 @@ public class ItemDetailController {
 		String userNick = mapper.selectUserNick(item.getUserNo());
 		long remainTimeStart = calculateRemainTime(item.getItemStart());
 		long remainTimeEnd = calculateRemainTime(item.getItemEnd());
-//		List<Question> questions = service.getAllQuestions(itemNo);
 		
 		model.addAttribute("item", item);
 		model.addAttribute("images", images);
 		model.addAttribute("userNick", userNick);
 		model.addAttribute("remainTimeStart", remainTimeStart);
 		model.addAttribute("remainTimeEnd", remainTimeEnd);
-//		model.addAttribute("questions", questions);
 		
 		return "item/itemDetail";
 	}
@@ -78,7 +76,8 @@ public class ItemDetailController {
 	@GetMapping("/currentState")
 	@ResponseBody
 	public String getCurrentState(@PathVariable int itemNo) {
-		return service.getCurrentState(itemNo);
+		String state = service.getCurrentState(itemNo);
+		return Item.getItemStatusInKorean(state);
 	}
 	
 	@PatchMapping("/bid")
@@ -89,7 +88,6 @@ public class ItemDetailController {
 	    }
 
 	    int userNo = user.getUserNo(); 
-	    
 	    int row = service.updatePrice(itemNo, itemPrice);
 
 	    if (row > 0) {

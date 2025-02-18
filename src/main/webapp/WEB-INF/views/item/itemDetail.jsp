@@ -188,7 +188,7 @@
             .then(data => {
             	currentState = data;
             	
-            	if (data === "입찰 가능") {
+            	if (data === "입찰중") {
             		textPrice.disabled = false;
         			btnBid.disabled = false;
         		} else {
@@ -198,10 +198,10 @@
             	
                 document.getElementById("currentState").innerText = data;
                 
-                if (data === "낙찰" || data === "종료") {
+                if (data === "판매완료" || data === "종료") {
                     stopAllIntervals();
                     
-                    if (data === "낙찰") {
+                    if (data === "판매완료") {
                     	const priceHeading = document.getElementById("priceHeading");
                     	priceHeading.childNodes[0].textContent = "낙찰가: ";
                     }
@@ -223,7 +223,7 @@
 
     function updateRemainingTime() {
     	if (remainTime <= 0) {  			
-        	remainTime = (currentState === "대기") ? ${remainTimeStart} : ${remainTimeEnd};
+        	remainTime = (currentState === "대기중") ? ${remainTimeStart} : ${remainTimeEnd};
         	
         	if (remainTime <= 0) {
         		document.getElementById("remainTime").innerText = "";
@@ -237,9 +237,9 @@
         let seconds = remainTime % 60;
 
         let timeText = "남은 시간 : ";
-        if (currentState === "대기") {
+        if (currentState === "대기중") {
         	timeText = "시작까지 " + timeText;
-        } else if (currentState === "입찰 가능") {
+        } else if (currentState === "입찰중") {
         	timeText = "종료까지 " + timeText;
         }
         

@@ -50,6 +50,13 @@ public class Item {
 	            return "알 수 없음";
 	    }
 	}
+	
+	//itemAuction만 변환 필요할때
+	public static String getItemStatusInKorean(String itemAuction) {
+		Item temp = new Item();
+        temp.itemAuction = itemAuction;
+        return temp.getItemStatusInKorean();
+	}
 
     public void setItemStatusFromString(String auction) {
         this.itemAuction = auction;
