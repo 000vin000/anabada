@@ -53,4 +53,26 @@ public class Item {
     	return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
+    public String getStatusStr(String itemStatus) {
+    	if (itemStatus.equals("high")) return "상";
+    	else if (itemStatus.equals("mid")) return "중";
+    	else return "하";
+    }
+    
+    public String getCategoryStr(String itemGender, String itemCate) {
+    	String gender = null;
+    	String cate = null;
+    	
+    	if (itemGender.equals("m")) gender = "남성 ";
+    	else gender = "여성 ";
+    	
+    	if (itemCate.equals("top")) cate = "상의";
+    	else if (itemCate.equals("bottom")) cate = "하의";
+    	else if (itemCate.equals("dress")) cate = "원피스";
+    	else if (itemCate.equals("outer")) cate = "아우터";
+    	else if (itemCate.equals("etc")) cate = "기타";
+    	else cate = "세트상품";
+    	
+    	return gender + cate;
+    }
 }
