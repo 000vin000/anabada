@@ -36,6 +36,10 @@
             padding: 12px;
             text-align: left;
         }
+        td.special-column {
+		    border: none;
+		    pointer-events: none;
+		}
         th {
             background-color: #4CAF50;
             color: white;
@@ -107,6 +111,7 @@
             <table>
                 <c:forEach var="item" items="${ list }">
                     <c:if test="${item.itemNo != previousItemNo}">
+                        <td class="special-column"></td>
                         <tr>
                             <td colspan="2">
                                 <a class="black-item-name" href="/item/detail/${item.itemNo}">${item.itemName}</a>
