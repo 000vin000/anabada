@@ -37,7 +37,7 @@
             color: white; /* 글자 색상 */
             cursor: pointer; /* 커서 포인터로 변경 */
             transition: background-color 0.3s; /* 배경색 전환 효과 */
-            width: 150px;
+            width: 180px;
             border: none;
             padding: 8px 15px; /* 버튼 내부 여백 */
             border-radius: 4px; /* 버튼 테두리 둥글게 */
@@ -103,34 +103,33 @@
         }
     </style>
     <script>
- // 현재 열린 토글과 버튼을 추적할 변수
-    let openToggle = null;
-    let openButton = null;
+        // 현재 열린 토글과 버튼을 추적할 변수
+        let openToggle = null;
+        let openButton = null;
 
-    // 토글 함수 수정
-    function toggleEditForm(qNo, button) {
-        var form = document.getElementById('editForm-' + qNo);
+        // 토글 함수 수정
+        function toggleEditForm(qNo, button) {
+            var form = document.getElementById('editForm-' + qNo);
 
-        // 기존에 열려있는 토글이 있으면 닫고 버튼 색상 원래대로 복구
-        if (openToggle && openToggle !== form) {
-            openToggle.style.display = "none";
-            if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+            // 기존에 열려있는 토글이 있으면 닫고 버튼 색상 원래대로 복구
+            if (openToggle && openToggle !== form) {
+                openToggle.style.display = "none";
+                if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
+            }
+
+            // 새로운 폼 토글
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "table-row"; // 폼 보이기
+                button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
+                openToggle = form;
+                openButton = button; // 현재 버튼 저장
+            } else {
+                form.style.display = "none"; // 폼 숨기기
+                button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
+                openToggle = null;
+                openButton = null; // 버튼도 초기화
+            }
         }
-
-        // 새로운 폼 토글
-        if (form.style.display === "none" || form.style.display === "") {
-            form.style.display = "table-row"; // 폼 보이기
-            button.style.backgroundColor = "#00d4da"; // 버튼 색상 변경
-            openToggle = form;
-            openButton = button; // 현재 버튼 저장
-        } else {
-            form.style.display = "none"; // 폼 숨기기
-            button.style.backgroundColor = "#21afbf"; // 원래 색상으로 변경
-            openToggle = null;
-            openButton = null; // 버튼도 초기화
-        }
-    }
-
 
         // 나의 문의 목록을 토글하는 함수
         function toggleMyQuestions(button) {
@@ -233,22 +232,6 @@
                         <td>${ item.getAContent() }</td>
                         <td>${ item.getADate() }</td>
                         <td>${ item.getUserNick() }</td>					
-                        <c:if test="${ empty item.getAContent() && canAnswer }">
-                            <td class="no-border">
-                                <button type="button" onclick="toggleEditForm(${item.getQNo()}, this)">답변하기</button>
-                            </td>
-                        </c:if>
-                    </tr>
-
-                    <tr id="editForm-${item.getQNo()}" class="edit-form">
-                        <td colspan="7">
-                            <form action="/item/detail/insertA/${item.getQNo()}" method="post">
-                                <input type="hidden" name="qNo" value="${item.getQNo()}">
-                                <label for="aContent">답변 내용</label>
-                                <textarea name="aContent" required>${item.getAContent()}</textarea><br><br>
-                                <button type="submit">답변 등록</button>
-                            </form>
-                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -260,67 +243,73 @@
     </c:if>
 </div>
 
+<!-- 문의 등록 버튼: 로그인한 사용자만 보이도록 -->
+<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
+    <div class="button-container">
+        <button type="button" onclick="toggleAddQuestionForm(this)">문의 등록</button>
+    </div>
+</c:if>
 
-    <!-- 문의 등록 버튼: 로그인한 사용자만 보이도록 -->
-    <c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
-        <div class="button-container">
-            <button type="button" onclick="toggleAddQuestionForm(this)">문의 등록</button>
-        </div>
-    </c:if>
+<!-- 문의 등록 폼: 로그인한 사용자만 보이도록 -->
+<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
+    <div id="addQuestionForm" class="edit-form">
+        <form action="/item/detail/insertQ/${itemNo}" method="post">
+            <input type="hidden" name="itemNo" value="${itemNo}">
+            <input type="text" name="qTitle" placeholder="문의 제목" required>
+            <textarea name="qContent" placeholder="문의 내용을 입력하세요." required></textarea>
+            <button type="submit">문의 등록</button>
+        </form>
+    </div>
+</c:if>
 
-    <!-- 문의 등록 폼: 로그인한 사용자만 보이도록 -->
-    <c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
-        <div id="addQuestionForm" class="edit-form">
-            <form action="/item/detail/insertQ/${itemNo}" method="post">
-                <input type="hidden" name="itemNo" value="${itemNo}">
-                <input type="text" name="qTitle" placeholder="문의 제목" required>
-                <textarea name="qContent" placeholder="문의 내용을 입력하세요." required></textarea>
-                <button type="submit">문의 등록</button>
-            </form>
-        </div>
-    </c:if>
+<!-- 나의 문의 링크: 상품 주인이 아닐 때만 보이도록 -->
+<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
+    <div class="button-container">
+        <button type="button" onclick="toggleMyQuestions(this)">나의 문의</button>
+    </div>
+</c:if>
 
-    <!-- 나의 문의 링크: 상품 주인이 아닐 때만 보이도록 -->
-    <c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
-        <div class="button-container">
-            <button type="button" onclick="toggleMyQuestions(this)">나의 문의</button>
-        </div>
-    </c:if>
-
-    <!-- 나의 문의 목록: 상품 주인이 아닐 때만 보이도록 -->
-    <c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
-        <div id="myQuestions" class="my-questions">
-            <c:if test="${ not empty myQuestionsList }">
-                <table>
-                    <thead>
+<!-- 나의 문의 목록: 상품 주인이 아닐 때만 보이도록 -->
+<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == false }">
+    <div id="myQuestions" class="my-questions">
+        <c:if test="${ not empty myQuestionsList }">
+            <table>
+                <thead>
+                    <tr>
+                        <th>문의제목</th>
+                        <th>문의내용</th>
+                        <th>문의등록일</th>
+                        <th>답변내용</th>
+                        <th>답변등록일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="item" items="${ myQuestionsList }">
                         <tr>
-                            <th>문의제목</th>
-                            <th>문의내용</th>
-                            <th>문의등록일</th>
-                            <th>답변내용</th>
-                            <th>답변등록일</th>
+                            <td>${ item.getQTitle() }</td>
+                            <td>${ item.getQContent() }</td>
+                            <td>${ item.getQDate() }</td>
+                            <td>${ item.getAContent() }</td>
+                            <td>${ item.getADate() }</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="item" items="${ myQuestionsList }">
-                            <tr>
-                                <td>${ item.getQTitle() }</td>
-                                <td>${ item.getQContent() }</td>
-                                <td>${ item.getQDate() }</td>
-                                <td>${ item.getAContent() }</td>
-                                <td>${ item.getADate() }</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </c:if>
 
-            <c:if test="${ empty myQuestionsList }">
-                <div class="no-data">등록한 문의가 없습니다.</div>
-            </c:if>
-        </div>
-    </c:if>
-
+        <c:if test="${ empty myQuestionsList }">
+            <div class="no-data">등록한 문의가 없습니다.</div>
+        </c:if>
+    </div>
+</c:if>
+<!-- 상품 주인일 때만 답변하기 버튼 보이도록 수정 -->
+<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == true }">
+    <div class="button-container">
+        <a href="/mypage/a">
+            <button type="button">답변하러가기</button>
+        </a>
+    </div>
+</c:if>
 </div>
 
 </body>

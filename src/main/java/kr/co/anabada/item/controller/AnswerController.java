@@ -44,14 +44,18 @@ public class AnswerController {
 
         int userNo = user.getUserNo();
         LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println(qNo);
+     
         aService.insertA(qNo, userNo, aContent, currentTime);
 
         int itemNo = qService.getQuestionByQNo(qNo).getItemNo();  
 
-        redirectAttributes.addAttribute("itemNo", itemNo); 
-        return "redirect:/item/detail/qna/" + itemNo; 
+     
+        redirectAttributes.addAttribute("itemNo", itemNo);
+        redirectAttributes.addAttribute("qNo", qNo); 
+        return "redirect:/mypage/a";  
+
     }
+
 
 
 
