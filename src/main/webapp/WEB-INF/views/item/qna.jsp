@@ -259,6 +259,7 @@
                         <th>문의등록일</th>
                         <th>답변내용</th>
                         <th>답변등록일</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -267,12 +268,26 @@
                             <td>${ item.getQTitle() }</td>
                             <td>${ item.getQContent() }</td>
                             <td>${ item.getFormattedQDate(item.getQDate()) }</td>
-                            <td>${ item.getAContent() }</td>
+                            <td>
+                                <c:if test="${ not empty item.getAContent() }">
+                                    ${ item.getAContent() } 
+                                </c:if>
+                            </td>
                             <td>${ item.getFormattedADate(item.getADate()) }</td>
+                            <td style="border:none;">
+                            	<c:if test="${ empty item.getAContent() }">
+                                        <form action="/item/detail/deleteQ/${item.QNo}/${item.itemNo}" method="post" style="display:inline;">
+                                        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');" style="background-color: gray; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 8px;">
+                                            삭제
+                                        </button>
+                                    </form>                                                       
+                                </c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+            
         </c:if>
 
         <c:if test="${ empty myQuestionsList }">
