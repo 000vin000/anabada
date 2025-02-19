@@ -25,7 +25,7 @@
 		
 		<section id="bidSection">
 	        <h2 id="priceHeading">현재가 <label id="currentPrice">${item.addCommas(item.itemPrice)} 원</label></h2>
-	        <p>희망 입찰가
+	        <p id="desiredBidPrice">희망 입찰가
 				<input type="text" id="textPrice" disabled="disabled">
 				<input type="submit" id="btnBid" value="입찰" disabled="disabled">
 			</p>
@@ -188,6 +188,8 @@
             .then(data => {
             	currentState = data;
             	
+            	const desiredBidPrice = document.getElementById("desiredBidPrice");
+            	
             	if (data === "입찰 가능") {
             		textPrice.disabled = false;
         			btnBid.disabled = false;
@@ -200,11 +202,14 @@
                 
                 if (data === "낙찰" || data === "종료") {
                     stopAllIntervals();
+                    desiredBidPrice.style.display = "none";
                     
                     if (data === "낙찰") {
                     	const priceHeading = document.getElementById("priceHeading");
-                    	priceHeading.childNodes[0].textContent = "낙찰가: ";
+                    	priceHeading.childNodes[0].textContent = "낙찰가 ";
                     }
+                } else {
+                	desiredBidPrice.style.display = "block";
                 }
 
         		updateRemainingTime();
