@@ -19,7 +19,7 @@ public class QuestionService {
     
 
    
-    // 기존 문의 조회 
+    // 답변할 때 해당하는 특정 질문 
     public Question getQuestionByQNo(int qNo) {
         return questionMapper.getQuestionByQNo(qNo);
     }
