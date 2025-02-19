@@ -189,6 +189,15 @@
 	        let data = await response.text();
 	        currentState = data;
 	
+	        if (data === "판매완료" || data === "종료") {
+	            stopAllIntervals();
+
+				document.getElementById("remainTime").innerText = "";
+	            const priceHeading = document.getElementById("priceHeading");
+	            const heading = (data === "판매완료") ? "낙찰가: " : "종료가: ";
+	            priceHeading.childNodes[0].textContent = heading;
+	        }
+	    	
 	        if (data === "입찰중") {
 	            textPrice.disabled = false;
 	            btnBid.disabled = false;
@@ -198,15 +207,6 @@
 	        }
 
 	        document.getElementById("currentState").innerText = data;
-	
-	        if (data === "판매완료" || data === "종료") {
-	            stopAllIntervals();
-
-				document.getElementById("remainTime").innerText = "";
-	            const priceHeading = document.getElementById("priceHeading");
-	            const heading = (data === "판매완료") ? "낙찰가: " : "종료가: ";
-	            priceHeading.childNodes[0].textContent = heading;
-	        }
     	} catch (error) {
             console.error('updateCurrentState(itemNo): ', error);
         }
@@ -226,9 +226,11 @@
     		if (remainTime <= 0) {
     			await updateCurrentState(${item.itemNo});
     			
-    			if (currentState === "입찰중") {
-    				await initRemainTime(itemNo, "end");
-    			} else return;
+    			if (currentState !== "입찰중") {
+    				return;
+    			} else {
+    				await initRemainTime(itemNo, "end");    				
+    			}
     		}
 
     		let days = Math.floor(remainTime / 86400);
