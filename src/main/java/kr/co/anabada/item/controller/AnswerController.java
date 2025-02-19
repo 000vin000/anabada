@@ -36,7 +36,7 @@ public class AnswerController {
     }
     
     // 답변 등록
-    @PostMapping("/item/detail/insertA/{qNo}")
+    @PostMapping("/mypage/a/insertA/{qNo}")
     public String insertA(@PathVariable int qNo,
                           @RequestParam String aContent,
                           @SessionAttribute(name = "loggedInUser", required = false) User user,
@@ -54,6 +54,24 @@ public class AnswerController {
         redirectAttributes.addAttribute("qNo", qNo); 
         return "redirect:/mypage/a";  
 
+    }
+    
+    // 상품 상세페이지에서 답변 등록
+    @PostMapping("/item/detail/insertA/{qNo}")
+    public String insertAA(@PathVariable int qNo,
+                          @RequestParam String aContent,
+                          @SessionAttribute(name = "loggedInUser", required = false) User user,
+                          RedirectAttributes redirectAttributes) {
+    	int userNo = user.getUserNo();
+    	LocalDateTime currentTime = LocalDateTime.now();
+    	
+    	aService.insertA( qNo, userNo, aContent, currentTime);
+    
+    	 int itemNo = qService.getQuestionByQNo(qNo).getItemNo();
+         redirectAttributes.addAttribute("itemNo", itemNo);
+         redirectAttributes.addAttribute("qNo", qNo); 
+         return "redirect:/item/detail/qna/" + itemNo;
+    	
     }
 
 

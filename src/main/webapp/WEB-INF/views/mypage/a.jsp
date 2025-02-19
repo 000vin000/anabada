@@ -35,12 +35,17 @@
             padding: 12px;
             text-align: left;
         }
+        
+        td.special-column {
+		    border: none;
+		    pointer-events: none;
+		}
         th {
             background-color: #4CAF50;
             color: white;
             text-align: center;
         }
-        tr:nth-child(even) {
+        tr:nth-child(even) td:not(.special-column){
             background-color: #f9f9f9;
         }
         tr:hover {
@@ -172,6 +177,7 @@
                 <c:forEach var="item" items="${ list }">
                     <!-- Display the product name only once -->
                     <c:if test="${item.itemNo != previousItemNo}">
+                    <td class="special-column"></td>
                         <tr>
                             <td colspan="2">
                                 <a class="black-item-name" href="/item/detail/${item.itemNo}">${item.itemName}</a>
@@ -194,7 +200,6 @@
                                     <span class="date">${ item.getFormattedQDate(item.getQDate()) }</span>
                                 </div>
 
-               
                                 <c:if test="${ not empty item.getAContent() }">
                                     <div class="toggle-section">
                                         <img src="/images/A.png" style="width: 50px; height: auto;"><br>
@@ -206,7 +211,7 @@
                           
                                 <c:if test="${ empty item.getAContent() }">
                                     <div class="answer-form" id="answerForm-${item.getQNo()}">
-                                        <form action="/item/detail/insertA/${item.getQNo()}" method="post">
+                                        <form action="/mypate/a/insertA/${item.getQNo()}" method="post">
                                             <input type="hidden" name="qNo" value="${item.getQNo()}">
                                             <label for="aContent"></label>
                                             <textarea name="aContent" required></textarea><br><br>
@@ -233,7 +238,7 @@
     <jsp:include page="../sidebar.jsp" />
     <jsp:include page="../footer.jsp"/>
 </body>
-
+<script src="/js/todaypick.js"></script>
 <script>
 	window.onload = function() {
 	   

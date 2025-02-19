@@ -1,5 +1,6 @@
 package kr.co.anabada.user.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -20,33 +21,39 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import kr.co.anabada.user.entity.User;
 import kr.co.anabada.user.service.UserService;
+import kr.co.anabada.user.entity.EmailVerificationInfo;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
     @Autowired
     private UserService userService;
     
-    // 비밀번호 패턴 정의
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
     private static final Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
 
     @GetMapping("/join")
     public String showJoinForm(Model model, HttpSession session) {
-        Boolean emailVerified = (Boolean) session.getAttribute("emailVerified");
-        String verifiedEmail = (String) session.getAttribute("verificationEmail");
+        EmailVerificationInfo verificationInfo = (EmailVerificationInfo) session.getAttribute("emailVerificationInfo");
 
-        if (emailVerified == null || !emailVerified || verifiedEmail == null) {
-            return "redirect:/email/verification"; // 인증되지 않았으면 다시 인증 페이지로 이동
+        System.out.println("showJoinForm - verificationInfo: " + verificationInfo);
+
+        if (verificationInfo == null || isVerificationExpired(verificationInfo)) {
+            System.out.println("이메일 인증이 필요합니다. 인증 페이지로 리다이렉트합니다.");
+            return "redirect:/email/verification";
         }
 
-        model.addAttribute("email", verifiedEmail); // 인증된 이메일 전달
+        model.addAttribute("email", verificationInfo.getEmail());
         model.addAttribute("user", new User());
-        
-        // 추가: 세션에서 인증 정보 제거하여 일회성으로 만듦
-        session.removeAttribute("emailVerified");
-        session.removeAttribute("verificationEmail");
 
+        System.out.println("회원가입 폼을 표시합니다.");
         return "user/join";
     }
 
@@ -55,7 +62,6 @@ public class UserController {
         return "user/login";
     }
     
-    
     @PostMapping("/join")
     public String registerUser(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult,
@@ -63,67 +69,59 @@ public class UserController {
                                @RequestParam("userPhone2") String phone2,
                                @RequestParam("userPhone3") String phone3,
                                Model model,
-                               HttpSession session) { // 추가: HttpSession 파라미터
-        // 추가: 이메일 인증 여부 재확인
-        Boolean emailVerified = (Boolean) session.getAttribute("emailVerified");
-        if (emailVerified == null || !emailVerified) {
+                               HttpSession session) {
+        
+        String fullPhone = phone1 + phone2 + phone3;
+        user.setUserPhone(fullPhone);      
+        logger.info("회원가입 시도: {}", user.toString());
+        
+        if (!fullPhone.matches("^\\d{10,11}$")) {
+            bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
+        }
+        
+        EmailVerificationInfo verificationInfo = (EmailVerificationInfo) session.getAttribute("emailVerificationInfo");
+        if (verificationInfo == null || isVerificationExpired(verificationInfo)) {
+            System.out.println("이메일 인증이 만료되었습니다. 인증 페이지로 리다이렉트합니다.");
             return "redirect:/email/verification";
         }
 
-        // 전화번호 조합 및 설정
-        if (!phone1.isEmpty() && !phone2.isEmpty() && !phone3.isEmpty()) {
-            String phoneNumber = phone1 + "-" + phone2 + "-" + phone3;
-            if (!phoneNumber.matches("^\\d{3}-\\d{3,4}-\\d{4}$")) {
-                bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
-            } else {
-                // 수정: 하이픈(-)을 제거한 전화번호 설정
-                user.setUserPhone(phoneNumber.replaceAll("-", ""));
-            }
-        } else {
-            bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
-        }
-        
-
-        // 비밀번호 일치 여부 확인
         if (!user.getUserPw().equals(user.getUserPw2())) {
             bindingResult.rejectValue("userPw2", "error.userPw2", "비밀번호가 일치하지 않습니다.");
         }
-        // 비밀번호 형식 검사
         if (!pattern.matcher(user.getUserPw()).matches()) {
             bindingResult.rejectValue("userPw", "error.userPw", "비밀번호는 특수문자, 문자, 숫자를 포함하며 6자 이상이어야 합니다.");
         }        
-        // 이메일 중복 검사
         if (userService.isUserEmailDuplicate(user.getUserEmail())) {
             bindingResult.rejectValue("userEmail", "error.userEmail", "이미 사용 중인 이메일입니다.");
         }
-        // 전화번호 중복 검사
         if (userService.isUserPhoneDuplicate(user.getUserPhone())) {
             bindingResult.rejectValue("userPhone", "error.userPhone", "이미 사용 중인 전화번호입니다.");
         }
         
-        // 유효성 검사 오류 확인
         if (bindingResult.hasErrors()) {
             return "user/join";
         }
-        
         try {
-            String result = userService.joinUser(user);
-            if ("회원가입 성공".equals(result)) {
-                // 추가: 회원가입 성공 후 인증 정보 제거
-                session.removeAttribute("emailVerified");
-                session.removeAttribute("verificationEmail");
-                return "redirect:/user/login";
+            // UserService.joinUser 호출 후 로그 추가
+            String joinResult = userService.joinUser(user);
+            logger.info("회원가입 결과: {}", joinResult); // 추가된 로그
+            
+            if ("회원가입 성공".equals(joinResult)) {
+                session.removeAttribute("emailVerificationInfo");
+                model.addAttribute("successMessage", "회원가입이 성공적으로 완료되었습니다.");
+                return "user/login"; // 로그인 페이지로 이동
             } else {
-                model.addAttribute("error", result);
+                model.addAttribute("error", joinResult);
                 return "user/join";
             }
         } catch (Exception e) {
-            model.addAttribute("error", "회원가입 중 문제가 발생했습니다.");
+            // 예외 처리 시 로거를 사용하여 상세한 오류 정보 기록
+            logger.error("회원가입 중 예외 발생", e);
+            model.addAttribute("error", "회원가입 중 오류가 발생했습니다.");
             return "user/join";
         }
     }
    
-    //회원가입 유효성 검사 ( 즉시 )
     @GetMapping("/check-duplicate/{field}")
     @ResponseBody
     public Map<String, Boolean> checkDuplicate(@PathVariable String field, @RequestParam String value) {
@@ -142,7 +140,6 @@ public class UserController {
             case "userPhone":
                 value = value.replaceAll("-", "");
                 if (!value.matches("^\\d{10,11}$")) {
-                    // 전화번호 형식이 잘못된 경우 명확한 응답 반환
                     Map<String, Boolean> invalidResponse = new HashMap<>();
                     invalidResponse.put("isDuplicate", false);
                     invalidResponse.put("invalidFormat", true); 
@@ -150,8 +147,6 @@ public class UserController {
                 }
                 isDuplicate = userService.isUserPhoneDuplicate(value);
                 break;
-
-
             default:
                 throw new IllegalArgumentException("Invalid field for duplication check: " + field);
         }
@@ -161,31 +156,31 @@ public class UserController {
         return response;
     }
 
-
     @PostMapping("/login")
     public String loginUser(User user, HttpSession session, Model model) {
         try {
-            // 로그인 처리 로직 호출
             String result = userService.loginUser(user.getUserId(), user.getUserPw());
             if ("로그인 성공".equals(result)) {
-                // 주석: 로그인 성공 시 사용자의 전체 정보를 조회하여 세션에 저장
                 User fullUserInfo = userService.getUserByUserId(user.getUserId());
-                session.setAttribute("loggedInUser", fullUserInfo); // 세션에 사용자 전체 정보 저장
-                return "redirect:/"; // 로그인 성공 시 메인 페이지로 리다이렉트
+                session.setAttribute("loggedInUser", fullUserInfo);
+                return "redirect:/";
             } else {
-                model.addAttribute("error", result); // 에러 메시지 전달
+                model.addAttribute("error", result);
                 return "user/login";
             }
         } catch (Exception e) {
-            model.addAttribute("error", "로그인 중 문제가 발생했습니다. 관리자에게 문의하세요."); // 예외 처리 메시지 전달
+            model.addAttribute("error", "로그인 중 문제가 발생했습니다. 관리자에게 문의하세요.");
             return "user/login";
         }
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // 세션 무효화 처리
-        return "redirect:/"; // 로그아웃 후 메인 페이지로 리다이렉트
+        session.invalidate();
+        return "redirect:/";
     }
     
+    private boolean isVerificationExpired(EmailVerificationInfo info) {
+        return LocalDateTime.now().isAfter(info.getVerificationTime().plusMinutes(3));
+    }
 }
