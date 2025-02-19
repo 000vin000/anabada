@@ -1,5 +1,6 @@
 package kr.co.anabada.item.entity;
 
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,11 @@ public class ItemImage {
 	private String base64Image;
 	private String userNick;	// 유저 닉네임
 	private int bidCount;	// 입찰 횟수
+	
+	public String addCommas(int num) {
+        NumberFormat formatter = NumberFormat.getInstance();
+        return formatter.format(num);
+    }
 	
 	public String getItemAuctionStr(String itemAuction) {
 		if (itemAuction.equals("waiting")) {

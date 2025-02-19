@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.hibernate.validator.constraints.ParameterScriptAssert;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.anabada.item.entity.QnA;
 import kr.co.anabada.item.entity.Question;
@@ -30,14 +31,16 @@ public interface QuestionMapper {
             "LEFT JOIN item i ON q.itemNo = i.itemNo " +
             "WHERE q.qNo = #{qNo}")  
     Question getQuestionByQNo(int qNo);
-
     
-    @Update("UPDATE question SET qContent = #{qContent} WHERE qNo = #{qNo}")
-    void updateQ(@Param("qContent") String qContent, @Param("qNo") int qNo);
     
-    // 문의 삭제
-    @Delete("DELETE FROM question WHERE qNo = #{qNo}")
-    void deleteQ(int qNo);
+    // 마이페이지에서 문의 삭제
+    @Delete("DELETE FROM question WHERE qNo = #{qNo} AND itemNo = #{itemNo}")
+    void deleteQ(int qNo, int itemNo);
+    
+    // 상품페이지에서 문의 삭제
+    @Delete("DELETE FROM question WHERE qNo = #{qNo} AND itemNo = #{itemNo} AND userNo = #{userNo}")
+    void deleteQQ(int qNo, int itemNo, int userNo);
+    
     
     //내가 문의 한 목록
     @Select("SELECT i.itemName, i.itemNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
@@ -58,9 +61,14 @@ public interface QuestionMapper {
     
     // 아이템 주인만 답변할 수 있도록 체크
     @Select("SELECT userNo FROM item WHERE itemNo = #{itemNo}")
-    int getItemOwner(int itemNo);
-
-    @Select("SELECT u.userNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
+    Integer getItemOwner(int itemNo);
+    
+    // 질문한 유저가 맞는지 체크
+    @Select ("SELECT userNo FROM question WHERE qNo = #{qNo}")
+    int getQOwner(int qNo);
+    
+    //상품 상세페이지에서 나의 질문 목록
+    @Select("SELECT i.itemNo, u.userNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
             "FROM question q " +
             "LEFT JOIN item i ON q.itemNo = i.itemNo " +
             "LEFT JOIN answer a ON q.qNo = a.qNo " +

@@ -111,11 +111,6 @@
         function toggleEditForm(qNo, button) {
             var form = document.getElementById('editForm-' + qNo);
 
-            // 기존에 열려있는 토글이 있으면 닫고 버튼 색상 원래대로 복구
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                if (openButton) openButton.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
 
             // 새로운 폼 토글
             if (form.style.display === "none" || form.style.display === "") {
@@ -130,17 +125,13 @@
                 openButton = null; // 버튼도 초기화
             }
         }
+        
+        
 
         // 나의 문의 목록을 토글하는 함수
         function toggleMyQuestions(button) {
             var myQuestions = document.getElementById('myQuestions');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== myQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
             // 새로운 폼 토글
             if (myQuestions.style.display === "none" || myQuestions.style.display === "") {
                 myQuestions.style.display = "block"; // 나의 문의 보이기
@@ -157,11 +148,6 @@
         function toggleAddQuestionForm(button) {
             var form = document.getElementById('addQuestionForm');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== form) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
 
             // 새로운 폼 토글
             if (form.style.display === "none" || form.style.display === "") {
@@ -179,12 +165,6 @@
         function toggleAllQuestions(button) {
             var allQuestions = document.getElementById('allQuestions');
             
-            // 이미 열려있는 토글을 닫기
-            if (openToggle && openToggle !== allQuestions) {
-                openToggle.style.display = "none";
-                openToggle.previousElementSibling.style.backgroundColor = "#21afbf"; // 이전 버튼 색상 원래대로
-            }
-
             // 새로운 폼 토글
             if (allQuestions.style.display === "none" || allQuestions.style.display === "") {
                 allQuestions.style.display = "block"; // 전체 문의 목록 보이기
@@ -227,12 +207,32 @@
                 <c:forEach var="item" items="${ list }">
                     <tr>
                         <td>${ item.getQTitle() }</td>
-                        <td>${ item.getQContent() }</td>
-                        <td>${ item.getQDate() }</td>
+                        <td>
+                                <c:if test="${ not empty item.getAContent() }">
+                                    ${ item.getAContent() } 
+                                </c:if>
+						</td>
+                        <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getAContent() }</td>
-                        <td>${ item.getADate() }</td>
-                        <td>${ item.getUserNick() }</td>					
+                        <td>${ item.getFormattedADate(item.getADate()) }</td>
+                        <td>${ item.getUserNick() }</td>	
+                        <td style="border:none">	
+							 <c:if test="${ empty item.getAContent() }">
+                                    <div class="answer-form" id="answerForm-${item.getQNo()}">
+                                    
+
+                                        <form action="/item/detail/insertA/${item.getQNo()}" method="post">
+                                            <input type="hidden" name="qNo" value="${item.getQNo()}">
+                                            <label for="aContent"></label>
+                                            <textarea name="aContent" required></textarea><br><br>
+                                            <input type="image" src="/images/A.png" style="width: 50px; height: auto;" alt="답변 등록" />
+                                        </form>
+                                    </div>
+                                </c:if>
+						</td>		
                     </tr>
+
+
                 </c:forEach>
             </tbody>
         </table>
@@ -281,6 +281,7 @@
                         <th>문의등록일</th>
                         <th>답변내용</th>
                         <th>답변등록일</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -288,13 +289,28 @@
                         <tr>
                             <td>${ item.getQTitle() }</td>
                             <td>${ item.getQContent() }</td>
-                            <td>${ item.getQDate() }</td>
-                            <td>${ item.getAContent() }</td>
-                            <td>${ item.getADate() }</td>
+                            <td>${ item.getFormattedQDate(item.getQDate()) }</td>
+                            <td>
+                                <c:if test="${ not empty item.getAContent() }">
+                                    ${ item.getAContent() } 
+                                </c:if>
+                            </td>
+                            <td>${ item.getFormattedADate(item.getADate()) }</td>
+                            <td style="border:none;">
+                            	<c:if test="${ empty item.getAContent() }">
+                            	
+                                        <form action="/item/detail/deleteQ/${item.QNo}/${item.itemNo}" method="post" style="display:inline;">
+                                        <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');" style="background-color: gray; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 8px;">
+                                            삭제
+                                        </button>
+                                    </form>                                                       
+                                </c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+            
         </c:if>
 
         <c:if test="${ empty myQuestionsList }">
@@ -302,14 +318,7 @@
         </c:if>
     </div>
 </c:if>
-<!-- 상품 주인일 때만 답변하기 버튼 보이도록 수정 -->
-<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == true }">
-    <div class="button-container">
-        <a href="/mypage/a">
-            <button type="button">답변하러가기</button>
-        </a>
-    </div>
-</c:if>
+
 </div>
 
 </body>

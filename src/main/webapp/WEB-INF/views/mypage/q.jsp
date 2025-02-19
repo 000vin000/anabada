@@ -36,12 +36,16 @@
             padding: 12px;
             text-align: left;
         }
+        td.special-column {
+		    border: none;
+		    pointer-events: none;
+		}
         th {
             background-color: #4CAF50;
             color: white;
             text-align: center;
         }
-        tr:nth-child(even) {
+        tr:nth-child(even) td:not(.special-column) {
             background-color: #f9f9f9;
         }
         tr:hover {
@@ -107,6 +111,7 @@
             <table>
                 <c:forEach var="item" items="${ list }">
                     <c:if test="${item.itemNo != previousItemNo}">
+                        <td class="special-column"></td>
                         <tr>
                             <td colspan="2">
                                 <a class="black-item-name" href="/item/detail/${item.itemNo}">${item.itemName}</a>
@@ -119,8 +124,17 @@
                             <span class="toggle-btn" onclick="toggleVisibility('inquiry-${item.itemNo}-${item.getQNo()}')">
                                 ${item.getQTitle()}
                             <c:if test="${ empty item.getAContent() }">
-                                <span class="waiting-answer">답변대기</span>
+                                <span class="waiting-answer">답변대기</span> 
+								<form action="/mypage/q/deleteQ/${item.QNo}/${item.itemNo}" method="post" style="display:inline;">
+					                <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');" style="background-color: gray; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 8px;">
+									    삭제
+									</button>
+
+					            </form>                                                          
                             </c:if>
+                            
+
+
                             </span>
                             <div id="inquiry-${item.itemNo}-${item.getQNo()}" class="toggle-content">
                                 <div class="toggle-section">
@@ -134,6 +148,7 @@
 								        ${ item.getAContent() }
 								        <span class="date">${ item.getFormattedADate(item.getADate()) }</span>
 								    </c:if>
+								    
 								</div>
                             </div>
                         </td>

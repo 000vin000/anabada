@@ -18,6 +18,13 @@
                 <div class="error-message">${error}</div>
             </c:if>
 
+            <!-- 성공 메시지 처리 -->
+            <c:if test="${not empty successMessage}">
+                <script>
+                    alert("${successMessage}");
+                </script>
+            </c:if>
+
             <div class="form-group">
                 <label for="userId">아이디</label>
                 <input type="text" id="userId" name="userId" required />

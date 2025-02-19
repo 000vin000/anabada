@@ -27,36 +27,36 @@ import kr.co.anabada.user.entity.User;
 public class QuestionController {
 	 @Autowired
 	 private QuestionService qService;
- 	
-	// 내가 작성한 모든 문의글 조회
-	    @GetMapping("/mypage/q")
-	    public String getQList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
-
-	        int userNo = user.getUserNo();
-	        List<QnA> list = qService.getQList(userNo); 
-	        model.addAttribute("list", list);
-	        return "mypage/q";
-	    }
 	 
-	// 상품별 문의 목록 페이지 
-	@GetMapping("/item/detail/qna/{itemNo}")
-	public String getQnaPage(@PathVariable int itemNo, 
-	                         @SessionAttribute(name = "loggedInUser", required = false) User user, 
-	                         Model model) {
-	    if (user != null) {
-	        int userNo = user.getUserNo();
-	        boolean canAnswer = qService.canAnswer(itemNo, userNo);
-	            
-	        model.addAttribute("canAnswer", canAnswer);
+		// 상품별 문의 목록 페이지 
+		@GetMapping("/item/detail/qna/{itemNo}")
+		public String getQnaPage(@PathVariable int itemNo, 
+		                         @SessionAttribute(name = "loggedInUser", required = false) User user, 
+		                         Model model) {
+		    if (user != null) {
+		        int userNo = user.getUserNo();
+		        boolean canAnswer = qService.canAnswer(itemNo, userNo);
+		            
+		        model.addAttribute("canAnswer", canAnswer);
 
-	        List<QnA> myQuestionsList = qService.getQListByUserForItem(userNo, itemNo);
-	        model.addAttribute("myQuestionsList", myQuestionsList);
-	    }
-	        
-	    List<QnA> list = qService.getQListByItem(itemNo);        
-	    model.addAttribute("list", list);
-	        
-	    return "item/qna";
+		        List<QnA> myQuestionsList = qService.getQListByUserForItem(userNo, itemNo);
+		        model.addAttribute("myQuestionsList", myQuestionsList);
+		    }
+		        
+		    List<QnA> list = qService.getQListByItem(itemNo);        
+		    model.addAttribute("list", list);
+		        
+		    return "item/qna";
+		}
+ 	
+	//내가 작성한 모든 문의글 조회
+	@GetMapping("/mypage/q")
+	public String getQList(@SessionAttribute(name = "loggedInUser", required = false) User user, Model model) {
+
+		int userNo = user.getUserNo();
+		List<QnA> list = qService.getQList(userNo); 
+		model.addAttribute("list", list);
+		return "mypage/q";
 	}
 	
 	// 문의 등록
@@ -76,6 +76,36 @@ public class QuestionController {
 	    redirectAttributes.addAttribute("itemNo", itemNo);	    
 	    return "redirect:/item/detail/qna/" + itemNo;
 	}
+	
+	// 마이페이지에서 문의 삭제
+	@PostMapping("/mypage/q/deleteQ/{qNo}/{itemNo}")
+	public String deleteQ(@PathVariable int itemNo, @PathVariable int qNo, 
+						@SessionAttribute(name = "loggedInUser", required = false) User user,
+						RedirectAttributes redirectAttributes) {
+	        
+			qService.deleteQ(qNo, itemNo);
+	        
+	        redirectAttributes.addFlashAttribute("message", "문의가 삭제되었습니다.");
+	        return "redirect:/mypage/q";
+	}
+	
+	// 상세페이지에서 문의삭제
+	@PostMapping("/item/detail/deleteQ/{qNo}/{itemNo}")
+	public String deleteQQ(@PathVariable int itemNo, @PathVariable int qNo, 
+	                       @SessionAttribute(name = "loggedInUser", required = false) User user, Model model,
+	                       RedirectAttributes redirectAttributes) {
+		
+		int userNo = user.getUserNo();	    
+		boolean canQDelete = qService.canQDelete(qNo, userNo);
+		model.addAttribute("canQDelete", canQDelete);
+		qService.deleteQQ(qNo, itemNo, userNo);
+	    redirectAttributes.addFlashAttribute("message", "문의가 삭제되었습니다.");
+	    redirectAttributes.addAttribute("itemNo", itemNo);
+	    return "redirect:/item/detail/qna/" + itemNo;
+	}
+	
+
+	
 	
 
 
