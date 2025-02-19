@@ -217,7 +217,7 @@
                         <td>${ item.getFormattedADate(item.getADate()) }</td>
                         <td>${ item.getUserNick() }</td>	
                         <td style="border:none">	
-							 <c:if test="${ empty item.getAContent() }">
+							 <c:if test="${empty item.getAContent() && not empty sessionScope.loggedInUser && canAnswer}">
                                     <div class="answer-form" id="answerForm-${item.getQNo()}">
                                     
 

@@ -25,7 +25,7 @@ public interface QuestionMapper {
     void insertQ(int itemNo, int userNo, String qTitle, String qContent, LocalDateTime qDate);
 
     
-    
+    // 답변 등록 할 때 특정 질문 조회
     @Select("SELECT i.itemNo, q.qNo, q.qTitle, q.qContent, q.qDate " + 
             "FROM question q " + 
             "LEFT JOIN item i ON q.itemNo = i.itemNo " +
@@ -42,7 +42,7 @@ public interface QuestionMapper {
     void deleteQQ(int qNo, int itemNo, int userNo);
     
     
-    //내가 문의 한 목록
+    // 내가 문의 한 목록
     @Select("SELECT i.itemName, i.itemNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate " +
             "FROM question q " +
             "LEFT JOIN answer a ON q.qNo = a.qNo " +
@@ -50,7 +50,7 @@ public interface QuestionMapper {
             "WHERE q.userNo = #{userNo}")
     List<QnA> getQList(int userNo);  
     
-    //상품별 문의 목록
+    // 상품별 문의 목록
     @Select("SELECT i.itemNo, q.qNo, q.qTitle, q.qContent, q.qDate, a.aContent, a.aDate, u.userNick " +
             "FROM question q " +
             "LEFT JOIN answer a ON q.qNo = a.qNo " +
