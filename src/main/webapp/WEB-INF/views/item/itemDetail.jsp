@@ -153,6 +153,7 @@
 	        if (!response.ok) {
 	            throw new Error("입찰 실패");
 	        }
+	        textPrice.value = "";
 	        return response.json();
 	    })
 	    .then(data => {
@@ -161,6 +162,8 @@
 	    .catch(error => {
 	        console.error("오류 발생:", error);
 	    });
+		
+		
 	});
 	
     function openWindow(name, url) {
