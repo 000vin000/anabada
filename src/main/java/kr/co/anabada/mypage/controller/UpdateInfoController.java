@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import kr.co.anabada.mypage.dto.PasswordChangeForm;
 import kr.co.anabada.mypage.service.UpdateInfoService;
 import kr.co.anabada.user.entity.User;
 import kr.co.anabada.user.service.UserService;
@@ -72,7 +73,7 @@ public class UpdateInfoController {
     }
 
     @PostMapping("/updateinfo")
-    public String updateUserInfo(@ModelAttribute("user") @Valid User updatedUser,
+    public String updateUserInfo(@ModelAttribute("user") User updatedUser,  // @Valid 제거
                                  BindingResult bindingResult,
                                  HttpSession session,
                                  Model model,
@@ -80,77 +81,125 @@ public class UpdateInfoController {
                                  @RequestParam("userPhone2") String phone2,
                                  @RequestParam("userPhone3") String phone3,
                                  @RequestParam("detailAddress") String detailAddress) {
+        System.out.println("UpdateInfoController - updateUserInfo: 메서드 시작");
+        
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
+            System.out.println("UpdateInfoController - updateUserInfo: 로그인된 사용자 없음");
             return "redirect:/user/login";
         }
 
+        System.out.println("UpdateInfoController - updateUserInfo: 현재 로그인 사용자 정보: " + loggedInUser);
+
+        // 기존 비밀번호 유지
+        updatedUser.setUserPw(loggedInUser.getUserPw());
+        updatedUser.setUserPw2(loggedInUser.getUserPw());  // userPw2도 설정
+
         // 전화번호 조합 및 설정
-        if (!phone1.isEmpty() && !phone2.isEmpty() && !phone3.isEmpty()) {
-            String phoneNumber = phone1 + "-" + phone2 + "-" + phone3;
-            // 수정: 하이픈(-)이 없는 전화번호 형식 검사
-            if (!phoneNumber.replaceAll("-", "").matches("^\\d{10,11}$")) {
-                bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
-            } else {
-                // 수정: 하이픈(-)을 제거한 전화번호 설정
-                updatedUser.setUserPhone(phoneNumber.replaceAll("-", ""));
-            }
+        String phoneNumber = phone1 + phone2 + phone3;
+        System.out.println("UpdateInfoController - updateUserInfo: 조합된 전화번호: " + phoneNumber);
+        
+        if (!phoneNumber.matches("^\\d{10,11}$")) {
+            System.out.println("UpdateInfoController - updateUserInfo: 전화번호 형식 오류");
+            bindingResult.rejectValue("userPhone", "error.userPhone", "올바른 전화번호 형식이 아닙니다.");
         } else {
-            bindingResult.rejectValue("userPhone", "error.userPhone", "전화번호는 필수 입력값입니다.");
+            updatedUser.setUserPhone(phoneNumber);
         }
         
         if (!detailAddress.isEmpty()) {
             updatedUser.setUserAdd(updatedUser.getUserAdd() + " " + detailAddress);
         }
+        System.out.println("UpdateInfoController - updateUserInfo: 업데이트된 주소: " + updatedUser.getUserAdd());
 
-        // 유효성 검사 실패 시
-        if (bindingResult.hasErrors()) {
-            System.out.println("UpdateInfoController - updateUserInfo: 유효성 검사 실패");
-            return "mypage/updateinfo";
+        // 수동으로 유효성 검사 수행
+        if (updatedUser.getUserName() == null || updatedUser.getUserName().trim().isEmpty()) {
+            bindingResult.rejectValue("userName", "error.userName", "이름은 필수 입력값입니다.");
+        }
+        if (updatedUser.getUserNick() == null || updatedUser.getUserNick().trim().isEmpty()) {
+            bindingResult.rejectValue("userNick", "error.userNick", "닉네임은 필수 입력값입니다.");
+        }
+        // 필요한 다른 필드들에 대해서도 유사한 검사 수행
+
+        // 닉네임, 전화번호 중복 검사 (변경된 경우에만)
+        if (!loggedInUser.getUserNick().equals(updatedUser.getUserNick())) {
+            System.out.println("UpdateInfoController - updateUserInfo: 닉네임 변경 감지");
+            if (userService.isUserNickDuplicate(updatedUser.getUserNick())) {
+                System.out.println("UpdateInfoController - updateUserInfo: 닉네임 중복");
+                bindingResult.rejectValue("userNick", "error.userNick", "이미 사용 중인 닉네임입니다.");
+            }
+        }
+
+        if (!loggedInUser.getUserPhone().equals(updatedUser.getUserPhone())) {
+            System.out.println("UpdateInfoController - updateUserInfo: 전화번호 변경 감지");
+            if (userService.isUserPhoneDuplicate(updatedUser.getUserPhone())) {
+                System.out.println("UpdateInfoController - updateUserInfo: 전화번호 중복");
+                bindingResult.rejectValue("userPhone", "error.userPhone", "이미 사용 중인 전화번호입니다.");
+            }
         }
         
-        //수정사항
-        if (!updatedUser.getUserPw().equals(updatedUser.getUserPw2())) {
-            System.out.println("UpdateInfoController - updateUserInfo: 비밀번호 불일치");
-            // 수정: 비밀번호 불일치 오류 메시지를 BindingResult에 추가
-            bindingResult.rejectValue("userPw2", "error.userPw2", "비밀번호가 일치하지 않습니다.");
-            return "mypage/updateinfo";
-        }
-        
-        // 닉네임, 이메일, 전화번호 중복 검사 (변경된 경우에만)
-        if (!loggedInUser.getUserNick().equals(updatedUser.getUserNick()) && userService.isUserNickDuplicate(updatedUser.getUserNick())) {
-            System.out.println("UpdateInfoController - updateUserInfo: 닉네임 중복");
-            bindingResult.rejectValue("userNick", "error.userNick", "이미 사용 중인 닉네임입니다.");
-        }
-
-//        if (!loggedInUser.getUserEmail().equals(updatedUser.getUserEmail()) && userService.isUserEmailDuplicate(updatedUser.getUserEmail())) {
-//            System.out.println("UpdateInfoController - updateUserInfo: 이메일 중복");
-//            bindingResult.rejectValue("userEmail", "error.userEmail", "이미 사용 중인 이메일입니다.");
-//        }
-
-        if (!loggedInUser.getUserPhone().equals(updatedUser.getUserPhone()) && userService.isUserPhoneDuplicate(updatedUser.getUserPhone())) {
-            System.out.println("UpdateInfoController - updateUserInfo: 전화번호 중복");
-            bindingResult.rejectValue("userPhone", "error.userPhone", "이미 사용 중인 전화번호입니다.");
-        }
-        
-        // 유효성 검사 오류 확인
+        // 유효성 검사 오류 확인 및 처리
         if (bindingResult.hasErrors()) {
             System.out.println("UpdateInfoController - updateUserInfo: 유효성 검사 오류");
+            bindingResult.getAllErrors().forEach(error -> {
+                System.out.println("Error: " + error.getDefaultMessage());
+            });
+            model.addAttribute("errors", bindingResult.getAllErrors());
             return "mypage/updateinfo";
         }
-        // 추가: 기존 이메일 정보 유지
+
+        // 기존 이메일 정보 유지
         updatedUser.setUserEmail(loggedInUser.getUserEmail());
-        
+
+        System.out.println("UpdateInfoController - updateUserInfo: 업데이트할 사용자 정보: " + updatedUser);
 
         String result = updateInfoService.updateUserInfo(updatedUser, loggedInUser.getUserId());
+        System.out.println("UpdateInfoController - updateUserInfo: 업데이트 결과: " + result);
+        
         if ("회원정보 변경 성공".equals(result)) {
-            // 세션 정보 업데이트
             session.setAttribute("loggedInUser", updatedUser);
             model.addAttribute("successMessage", "회원정보가 성공적으로 변경되었습니다.");
-            return "mypage/updateinfo"; // 회원정보 수정 페이지로 이동
         } else {
             model.addAttribute("error", result);
-            return "mypage/updateinfo";
+        }
+        return "mypage/updateinfo";
+    }
+
+
+    
+    @GetMapping("/changePassword")
+    public String showChangePasswordForm(Model model) {
+        model.addAttribute("passwordChangeForm", new PasswordChangeForm());
+        return "mypage/changePassword";
+    }
+
+    //비번번경
+    @PostMapping("/changePassword")
+    public String changePassword(@ModelAttribute("passwordChangeForm") @Valid PasswordChangeForm form,
+                                 BindingResult bindingResult,
+                                 HttpSession session,
+                                 Model model) {
+        if (bindingResult.hasErrors()) {
+            return "mypage/changePassword";
+        }
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/user/login";
+        }
+
+        if (!form.getNewPassword().equals(form.getConfirmNewPassword())) {
+            bindingResult.rejectValue("confirmNewPassword", "error.confirmNewPassword", "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+            return "mypage/changePassword";
+        }
+
+        String result = updateInfoService.changePassword(loggedInUser.getUserId(), form.getCurrentPassword(), form.getNewPassword());
+        
+        if ("비밀번호가 성공적으로 변경되었습니다.".equals(result)) {
+            model.addAttribute("successMessage", "비밀번호가 성공적으로 변경되었습니다.");
+            return "mypage/changePassword"; // 비밀번호 변경 페이지로 이동
+        } else {
+            model.addAttribute("error", result);
+            return "mypage/changePassword";
         }
     }
 

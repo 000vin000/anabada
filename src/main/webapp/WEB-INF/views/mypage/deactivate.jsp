@@ -19,8 +19,9 @@
         </ul>
 
         <h1>회원정보 관리</h1>
-        
-        <a href="/mypage/updateinfo" class="update-info-link">회원 정보</a>
+    <a href="/mypage/updateinfo" class="update-info-link">회원 정보</a>    
+    <a href="/mypage/changePassword" class="change-password-link">비밀번호 변경</a>
+    <a href="/mypage/deactivate" class="withdraw-link">회원 탈퇴</a>
 
         <form action="/mypage/deactivate" method="post">
             <h2>회원 탈퇴</h2>

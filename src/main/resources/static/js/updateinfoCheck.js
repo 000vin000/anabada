@@ -59,16 +59,11 @@ $('#userPhone1, #userPhone2, #userPhone3').on('input', function() {
     }
 });
 
-// 비밀번호 규칙 체크 (입력 즉시)
-$('#userPw').on('input', function() {
-    checkPasswordRule($(this).val());
-    checkPasswordMatch();
-});
-
-// 비밀번호 확인 체크 (입력 즉시)
-$('#userPw2').on('input', function() {
-    checkPasswordMatch();
-});
+// 비밀번호 관련 함수 및 이벤트 리스너 제거
+// $('#userPw').on('input', function() { ... }); 삭제
+// $('#userPw2').on('input', function() { ... }); 삭제
+// function checkPasswordRule(password) { ... } 삭제
+// function checkPasswordMatch() { ... } 삭제
 
 // 중복 체크 함수
 function checkDuplicate(field, value, resultSelector) {

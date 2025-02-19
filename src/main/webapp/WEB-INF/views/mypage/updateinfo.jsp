@@ -27,6 +27,8 @@
     </ul>
     
     <h1>회원정보 관리</h1>
+    <a href="/mypage/updateinfo" class="update-info-link">회원 정보</a>    
+    <a href="/mypage/changePassword" class="change-password-link">비밀번호 변경</a>
     <a href="/mypage/deactivate" class="withdraw-link">회원 탈퇴</a>
     
     <c:if test="${not empty success}">
@@ -40,7 +42,7 @@
         <h2>회원정보 수정</h2>
         
         <form:hidden path="userId" value="${user.userId}"/>
-
+   		 <form:hidden path="userPw" value="${user.userPw}"/>  <!-- 기존 비밀번호를 숨김 필드로 추가 -->
         <div>
             <label for="userName">이름:</label>
             <form:input type="text" id="userName" path="userName" required="true" />
@@ -75,20 +77,7 @@
             <form:errors path="userPhone" cssClass="error-message" />
         </div>
         
-        <div>
-            <label for="userPw">새 비밀번호:</label>
-            <form:password id="userPw" path="userPw" />
-            <span id="passwordRuleResult"></span>
-            <form:errors path="userPw" cssClass="error-message" />
-        </div>
 
-        <div>
-            <label for="userPw2">새 비밀번호 확인:</label>
-            <form:password id="userPw2" path="userPw2" />
-            <span id="passwordMatchResult"></span>
-            <form:errors path="userPw2" cssClass="error-message" />
-        </div>
-        
         <button type="submit">수정하기</button>
     </form:form>
 </div>
