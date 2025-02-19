@@ -24,8 +24,10 @@
 		        	<th>이미지</th>
 		            <th>상품명</th>
 		            <th>상태</th>
-		            <th>최근 입찰가</th>
-		            <th>최근 입찰시간</th>
+		            <th>입찰가</th>
+		            <th>현재가</th>
+		            <th>입찰시간</th>
+		            <th>마감시간</th>
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -35,7 +37,9 @@
 		                <td><a href="/item/detail/${item.itemNo}" style="text-decoration: none; color: inherit;">${item.itemName}</a></td>
 		                <td>${item.getItemAuctionName()}</td>
 		                <td>${item.bidPrice}원</td>
+		                <td>${item.itemPrice}원</td>
 		                <td>${item.getFormattedBidTime()}</td>
+		                <td>${item.getFormattedItemEnd()}</td>
 		            </tr>
 		        </c:forEach>
 	    	</tbody>

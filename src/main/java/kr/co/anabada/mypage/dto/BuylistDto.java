@@ -20,7 +20,9 @@ public class BuylistDto {
 	private byte[] imageFile;
 	private String itemAuction;
 	private int bidPrice;
+	private int itemPrice;
 	private LocalDateTime bidTime;
+	private LocalDateTime itemEnd;
 	
 	public String getImageBase64() {
         if (imageFile != null && imageFile.length > 0) {
@@ -51,7 +53,16 @@ public class BuylistDto {
             return "";
         }
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss"); // 원하는 형식으로 변경
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
         return bidTime.format(formatter);
+    }
+	
+	public String getFormattedItemEnd() {
+        if (itemEnd == null) {
+            return "";
+        }
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+        return itemEnd.format(formatter);
     }
 }
