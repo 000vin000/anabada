@@ -25,7 +25,7 @@
 		
 		<section id="bidSection">
 	        <h2 id="priceHeading">현재가 <label id="currentPrice">${item.addCommas(item.itemPrice)} 원</label></h2>
-	        <p>희망 입찰가
+	        <p id="desiredBidPrice">희망 입찰가
 				<input type="text" id="textPrice" disabled="disabled">
 				<input type="submit" id="btnBid" value="입찰" disabled="disabled">
 			</p>
@@ -153,6 +153,7 @@
 	        if (!response.ok) {
 	            throw new Error("입찰 실패");
 	        }
+	        textPrice.value = "";
 	        return response.json();
 	    })
 	    .then(data => {
@@ -161,11 +162,13 @@
 	    .catch(error => {
 	        console.error("오류 발생:", error);
 	    });
+		
+		
 	});
 	
     function openWindow(name, url) {
         window.open(
-            url, name, 'width=1000,height=800,scrollbars=yes'
+            url, name, 'width=650,height=800,scrollbars=yes'
         );
     }
 
@@ -188,10 +191,13 @@
             .then(data => {
             	currentState = data;
             	
+            	const desiredBidPrice = document.getElementById("desiredBidPrice");
+            	
             	if (data === "입찰 가능") {
             		textPrice.disabled = false;
         			btnBid.disabled = false;
         		} else {
+        			textPrice.style.backgroundColor = "#eeeeee";
         			textPrice.disabled = true;
         			btnBid.disabled = true;
         		}
@@ -200,13 +206,16 @@
                 
                 if (data === "낙찰" || data === "종료") {
                     stopAllIntervals();
+                    desiredBidPrice.style.display = "none";
                     
                     if (data === "낙찰") {
                     	const priceHeading = document.getElementById("priceHeading");
-                    	priceHeading.childNodes[0].textContent = "낙찰가: ";
+                    	priceHeading.childNodes[0].textContent = "낙찰가 ";
                     }
+                } else {
+                	desiredBidPrice.style.display = "block";
                 }
-
+                
         		updateRemainingTime();
             })
     }
