@@ -194,6 +194,7 @@
             		textPrice.disabled = false;
         			btnBid.disabled = false;
         		} else {
+        			textPrice.style.backgroundColor = "#eeeeee";
         			textPrice.disabled = true;
         			btnBid.disabled = true;
         		}
@@ -211,7 +212,7 @@
                 } else {
                 	desiredBidPrice.style.display = "block";
                 }
-
+                
         		updateRemainingTime();
             })
     }
