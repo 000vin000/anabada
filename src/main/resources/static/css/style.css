@@ -992,6 +992,26 @@ input[type="radio"] + label {
 }
 
 /* 회원정보 수정 페이지 스타일 */
+.update-info-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e7f4f7;
+    color: #333;
+    border-radius: 5px;
+    border: 1px solid #bcd9e8;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+    margin-bottom: 20px; /* 필요 시 간격 추가 */
+}
+
+.update-info-link:hover {
+    background-color: #d0e6ec;
+    transform: scale(1.05);
+}
+
+
 .update-info-container {
     max-width: 800px;
     margin: 0 auto;
@@ -1059,9 +1079,10 @@ input[type="radio"] + label {
 .update-info-container .error-message {
     color: red;
     font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 15px;
+    margin-top: 5px; /* 여기서 마진을 조정 */
+    margin-bottom: 15px; /* 필요시 유지 */
 }
+
 
 .update-info-container button[type="submit"] {
     width: 100%;
@@ -1186,9 +1207,75 @@ input[type="radio"] + label {
     transform: scale(1.05);
 }
 
+.change-password-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e7f4f7;
+    color: #333;
+    border-radius: 5px;
+    border: 1px solid #bcd9e8;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.change-password-link:hover {
+    background-color: #d0e6ec;
+    transform: scale(1.05);
+}
+
+/* 비번변경 페이지 */
+/* 비밀번호 변경 페이지 - 내부 테두리 제거 */
+.change-password-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    border: none; /* 테두리 없애기 */
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.change-password-container h2 {
+    color: #333;
+}
+
+.change-password-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.change-password-container input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* 외부 테두리는 유지 */
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.change-password-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #21afbf;
+    color: white;
+    border: none; /* 버튼 테두리 없애기 */
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.change-password-container button[type="submit"]:hover {
+    background-color: #2adbe0;
+}
+
+.change-password-container .error-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}
 
 
-
-		
-		
-		
