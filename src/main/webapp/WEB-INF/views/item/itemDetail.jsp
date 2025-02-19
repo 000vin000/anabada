@@ -162,11 +162,18 @@
 
         fetch('/item/detail/${item.itemNo}/bid?itemPrice=' + price, { method: "PATCH" })
             .then(response => {
-                if (!response.ok) throw new Error("입찰 실패");
-                return response.json();
+            	if (!response.ok) {
+                    return response.text()
+                    .then(message => { throw new Error(message); }); 
+                }
+                return response.text();
             })
-            .then(data => console.log("서버 응답:", data))
-            .catch(error => console.error("오류 발생:", error));
+            .then(data => {
+            	alert(data);
+            })
+            .catch(error => {
+            	alert(error.message);
+            });
     });
 	
     function openWindow(name, url) {
