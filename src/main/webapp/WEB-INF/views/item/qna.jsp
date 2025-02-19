@@ -125,6 +125,8 @@
                 openButton = null; // 버튼도 초기화
             }
         }
+        
+        
 
         // 나의 문의 목록을 토글하는 함수
         function toggleMyQuestions(button) {
@@ -205,12 +207,32 @@
                 <c:forEach var="item" items="${ list }">
                     <tr>
                         <td>${ item.getQTitle() }</td>
-                        <td>${ item.getQContent() }</td>
+                        <td>
+                                <c:if test="${ not empty item.getAContent() }">
+                                    ${ item.getAContent() } 
+                                </c:if>
+						</td>
                         <td>${ item.getFormattedQDate(item.getQDate()) }</td>
                         <td>${ item.getAContent() }</td>
                         <td>${ item.getFormattedADate(item.getADate()) }</td>
-                        <td>${ item.getUserNick() }</td>					
+                        <td>${ item.getUserNick() }</td>	
+                        <td style="border:none">	
+							 <c:if test="${ empty item.getAContent() }">
+                                    <div class="answer-form" id="answerForm-${item.getQNo()}">
+                                    
+
+                                        <form action="/item/detail/insertA/${item.getQNo()}" method="post">
+                                            <input type="hidden" name="qNo" value="${item.getQNo()}">
+                                            <label for="aContent"></label>
+                                            <textarea name="aContent" required></textarea><br><br>
+                                            <input type="image" src="/images/A.png" style="width: 50px; height: auto;" alt="답변 등록" />
+                                        </form>
+                                    </div>
+                                </c:if>
+						</td>		
                     </tr>
+
+
                 </c:forEach>
             </tbody>
         </table>
@@ -276,6 +298,7 @@
                             <td>${ item.getFormattedADate(item.getADate()) }</td>
                             <td style="border:none;">
                             	<c:if test="${ empty item.getAContent() }">
+                            	
                                         <form action="/item/detail/deleteQ/${item.QNo}/${item.itemNo}" method="post" style="display:inline;">
                                         <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');" style="background-color: gray; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 8px;">
                                             삭제
@@ -295,14 +318,7 @@
         </c:if>
     </div>
 </c:if>
-<!-- 상품 주인일 때만 답변하기 버튼 보이도록 수정 -->
-<c:if test="${ not empty sessionScope.loggedInUser && canAnswer == true }">
-    <div class="button-container">
-        <a href="/mypage/a">
-            <button type="button">답변하러가기</button>
-        </a>
-    </div>
-</c:if>
+
 </div>
 
 </body>
