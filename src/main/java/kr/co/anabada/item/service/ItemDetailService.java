@@ -1,5 +1,6 @@
 package kr.co.anabada.item.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -30,20 +31,15 @@ public class ItemDetailService {
 	}
 
 	public String getCurrentState(int itemNo) {
-		String state = mapper.getCurrentState(itemNo);
-		
-		switch(state) {
-		case "waiting":
-			return "대기";
-		case "bidding":
-			return "입찰 가능";
-		case "sold":
-			return "낙찰";
-		case "closed":
-			return "종료";
-		default:
-			return "unknown";
-		}
+		return mapper.getCurrentState(itemNo);
+	}
+	
+	public LocalDateTime getItemStart(int itemNo) {
+		return mapper.getItemStart(itemNo);
+	}
+	
+	public LocalDateTime getItemEnd(int itemNo) {
+		return mapper.getItemEnd(itemNo);
 	}
 	
 	public List<String> getAllImages(int itemNo) {
@@ -66,9 +62,5 @@ public class ItemDetailService {
 		} else {
 			return 0;
 		}
-	}
-
-	public List<Question> getAllQuestions(int itemNo) {
-		return mapper.getAllQuestions(itemNo);
 	}
 }

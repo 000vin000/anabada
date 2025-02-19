@@ -20,7 +20,7 @@
 		</section>
 		
 		<section id="QnASection">
-			<label id="remainTime">남은 시간</label>
+			<label id="remainTime"></label>
 		</section>
 		
 		<section id="bidSection">
@@ -138,33 +138,36 @@
 	const btnBid = document.getElementById("btnBid");
 	const textPrice = document.getElementById("textPrice");
 
-	document.addEventListener('DOMContentLoaded', function() {
-		//init
-		updateCurrentState(${item.itemNo});
-	});
-
-	btnBid.addEventListener("click", function(e) {
-		let price = textPrice.value;
-
-		fetch('/item/detail/' + ${item.itemNo} + '/bid?itemPrice=' + price, {
-	        method: "PATCH",
-	    })
-	    .then(response => {
-	        if (!response.ok) {
-	            throw new Error("입찰 실패");
-	        }
-	        textPrice.value = "";
-	        return response.json();
-	    })
-	    .then(data => {
-	        console.log("서버 응답:", data);
-	    })
-	    .catch(error => {
-	        console.error("오류 발생:", error);
-	    });
+	document.addEventListener('DOMContentLoaded', async function() {
+		await updateCurrentState(${item.itemNo});
+		let inner = await updateRemainTime(${item.itemNo});
+		await inner();
 		
-		
+		startInterval(() => updateCurrentPrice(${item.itemNo}), 1000);
+		startInterval(inner, 1000);
 	});
+	
+	function startInterval(f, s) {
+	    let interval = setInterval(f, s);
+	    intervals.push(interval);
+	}
+    
+    function stopAllIntervals() {
+        intervals.forEach(id => clearInterval(id));
+        intervals = [];
+    }
+
+    btnBid.addEventListener("click", function() {
+        let price = textPrice.value;
+
+        fetch('/item/detail/${item.itemNo}/bid?itemPrice=' + price, { method: "PATCH" })
+            .then(response => {
+                if (!response.ok) throw new Error("입찰 실패");
+                return response.json();
+            })
+            .then(data => console.log("서버 응답:", data))
+            .catch(error => console.error("오류 발생:", error));
+    });
 	
     function openWindow(name, url) {
         window.open(
@@ -180,98 +183,84 @@
             })
     }
 
-    let itvPrice = setInterval(() => {
-        updateCurrentPrice(${item.itemNo});
-    }, 1000);
-    intervals.push(itvPrice);
+    async function updateCurrentState(itemNo) {
+    	try {
+	        let response = await fetch('/item/detail/' + itemNo + '/currentState');
+	        let data = await response.text();
+	        currentState = data;
+	
+	        if (data === "판매완료" || data === "종료") {
+	            stopAllIntervals();
 
-    function updateCurrentState(itemNo) {
-        fetch('/item/detail/' + itemNo + '/currentState')
-            .then(response => response.text())
-            .then(data => {
-            	currentState = data;
-            	
-            	const desiredBidPrice = document.getElementById("desiredBidPrice");
-            	
-            	if (data === "입찰 가능") {
-            		textPrice.disabled = false;
-        			btnBid.disabled = false;
-        		} else {
-        			textPrice.style.backgroundColor = "#eeeeee";
-        			textPrice.disabled = true;
-        			btnBid.disabled = true;
-        		}
-            	
-                document.getElementById("currentState").innerText = data;
-                
-                if (data === "낙찰" || data === "종료") {
-                    stopAllIntervals();
-                    desiredBidPrice.style.display = "none";
-                    
-                    if (data === "낙찰") {
-                    	const priceHeading = document.getElementById("priceHeading");
-                    	priceHeading.childNodes[0].textContent = "낙찰가 ";
-                    }
-                } else {
-                	desiredBidPrice.style.display = "block";
-                }
-                
-        		updateRemainingTime();
-            })
-    }
-    
-    function stopAllIntervals() {
-        intervals.forEach(id => clearInterval(id));
-        intervals = [];
-    }
+				      document.getElementById("remainTime").innerText = "";
+	            const priceHeading = document.getElementById("priceHeading");
+	            const heading = (data === "판매완료") ? "낙찰가: " : "종료가: ";
+	            priceHeading.childNodes[0].textContent = heading;
+	        }
+	    	
+	        if (data === "입찰중") {
+	            textPrice.disabled = false;
+	            btnBid.disabled = false;
+	        } else {
+	            textPrice.disabled = true;
+	            btnBid.disabled = true;
+	        }
 
-    let itvState = setInterval(() => {
-        updateCurrentState(${item.itemNo});
-    }, 1000);
-    intervals.push(itvState);
-
-    function updateRemainingTime() {
-    	if (remainTime <= 0) {  			
-        	remainTime = (currentState === "대기") ? ${remainTimeStart} : ${remainTimeEnd};
-        	
-        	if (remainTime <= 0) {
-        		document.getElementById("remainTime").innerText = "";
-        		return;
-        	}
+	        document.getElementById("currentState").innerText = data;
+    	} catch (error) {
+            console.error('updateCurrentState(itemNo): ', error);
         }
+    }
+	
+	async function initRemainTime(itemNo, type) {
+		const response = await fetch('/item/detail/' + itemNo + '/remainTime/' + type);
+        const data = await response.json();
+        remainTime = data;
+	}
+
+	async function updateRemainTime(itemNo) {
+    	let type = (currentState === "대기중") ? "start" : "end";
+    	await initRemainTime(itemNo, type);
     	
-        let days = Math.floor(remainTime / 86400);
-        let hours = Math.floor((remainTime % 86400) / 3600);
-        let minutes = Math.floor((remainTime % 3600) / 60);
-        let seconds = remainTime % 60;
+    	let inner = async function() {
+    		if (remainTime <= 0) {
+    			await updateCurrentState(${item.itemNo});
+    			
+    			if (currentState !== "입찰중") {
+    				return;
+    			} else {
+    				await initRemainTime(itemNo, "end");    				
+    			}
+    		}
 
-        let timeText = "남은 시간 : ";
-        if (currentState === "대기") {
-        	timeText = "시작까지 " + timeText;
-        } else if (currentState === "입찰 가능") {
-        	timeText = "종료까지 " + timeText;
-        }
+    		let days = Math.floor(remainTime / 86400);
+            let hours = Math.floor((remainTime % 86400) / 3600);
+            let minutes = Math.floor((remainTime % 3600) / 60);
+            let seconds = remainTime % 60;
+
+            let timeText = "남은 시간 : ";
+            if (currentState === "대기중") {
+            	timeText = "시작까지 " + timeText;
+            } else if (currentState === "입찰중") {
+            	timeText = "종료까지 " + timeText;
+            }
+            
+            if (days > 0) {
+            	timeText += days + "일 ";
+            }
+            if (hours > 0) {
+            	timeText += hours + "시간 ";
+            }
+            if (minutes > 0) {
+            	timeText += minutes + "분 ";
+            }
+            timeText += seconds + "초";
+
+            document.getElementById("remainTime").innerText = timeText;
+            remainTime--;
+        };
         
-        if (days > 0) {
-        	timeText += days + "일 ";
-        }
-        if (hours > 0) {
-        	timeText += hours + "시간 ";
-        }
-        if (minutes > 0) {
-        	timeText += minutes + "분 ";
-        }
-        timeText += seconds + "초";
-
-        document.getElementById("remainTime").innerText = timeText;
+        return inner;
     }
-
-    let itvRemainTime = setInterval(function() {
-        remainTime--;
-        updateRemainingTime();
-    }, 1000);
-    intervals.push(itvRemainTime);
-    
-    
 </script>
 </html>
