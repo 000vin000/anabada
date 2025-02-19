@@ -141,19 +141,16 @@ public class UpdateInfoController {
         // 추가: 기존 이메일 정보 유지
         updatedUser.setUserEmail(loggedInUser.getUserEmail());
         
-        System.out.println("UpdateInfoController - updateUserInfo: userId: " + loggedInUser.getUserId());
-        String result = updateInfoService.updateUserInfo(updatedUser, loggedInUser.getUserId());
-        System.out.println("UpdateInfoController - updateUserInfo: updateInfoService.updateUserInfo() 결과: " + result);
 
+        String result = updateInfoService.updateUserInfo(updatedUser, loggedInUser.getUserId());
         if ("회원정보 변경 성공".equals(result)) {
             // 세션 정보 업데이트
-            updatedUser.setUserId(loggedInUser.getUserId());
             session.setAttribute("loggedInUser", updatedUser);
-            model.addAttribute("success", "회원정보가 성공적으로 변경되었습니다.");
-            return "redirect:/mypage";
+            model.addAttribute("successMessage", "회원정보가 성공적으로 변경되었습니다.");
+            return "mypage/updateinfo"; // 회원정보 수정 페이지로 이동
         } else {
             model.addAttribute("error", result);
-            return "mypage/updateinfo"; // 다시 수정 페이지로 이동
+            return "mypage/updateinfo";
         }
     }
 

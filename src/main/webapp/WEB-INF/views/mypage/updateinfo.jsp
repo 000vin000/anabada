@@ -13,6 +13,11 @@
     <script src="/js/updateinfoCheck.js"></script>
 </head>
 <body>
+<c:if test="${not empty successMessage}">
+    <script>
+        alert("${successMessage}");
+    </script>
+</c:if>
 <div class="update-info-container">
     <ul class="breadcrumb" id="breadcrumb">
         <li><a href="/">홈</a></li>
