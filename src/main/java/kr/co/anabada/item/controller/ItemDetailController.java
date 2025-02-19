@@ -28,47 +28,55 @@ import kr.co.anabada.user.entity.User;
 @RequestMapping("/item/detail/{itemNo}")
 public class ItemDetailController {
 	@Autowired
-	private ItemDetailService service;
+	private ItemDetailService itemDetailService;
 	
 	@Autowired
-	private BidService service2;
+	private BidService bidService;
 	
 	@Autowired
 	private UserMapper mapper;
 	
 	@GetMapping
 	public String getItemDetail(@PathVariable int itemNo, Model model) {
-		Item item = service.getItemByNo(itemNo);
-		List<String> images = service.getAllImages(itemNo);
+		Item item = itemDetailService.getItemByNo(itemNo);
+		List<String> images = itemDetailService.getAllImages(itemNo);
 		String userNick = mapper.selectUserNick(item.getUserNo());
-		long remainTimeStart = calculateRemainTime(item.getItemStart());
-		long remainTimeEnd = calculateRemainTime(item.getItemEnd());
 		
 		model.addAttribute("item", item);
 		model.addAttribute("images", images);
 		model.addAttribute("userNick", userNick);
-		model.addAttribute("remainTimeStart", remainTimeStart);
-		model.addAttribute("remainTimeEnd", remainTimeEnd);
 		
 		return "item/itemDetail";
 	}
 	
-	private long calculateRemainTime(LocalDateTime itemEnd) {
+	private long calculateRemainTime(LocalDateTime itemDate) {
         LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(now, itemEnd);
+        Duration duration = Duration.between(now, itemDate);
         return duration.getSeconds();
     }
+	
+	@GetMapping("/remainTime/{type}")
+	@ResponseBody
+	public long getRemainTime(@PathVariable int itemNo, @PathVariable String type) {
+		switch(type) {
+		case "start":
+			return calculateRemainTime(itemDetailService.getItemStart(itemNo));
+		case "end":
+			return calculateRemainTime(itemDetailService.getItemEnd(itemNo));
+		}
+		return 0;
+	}
 	
 	@GetMapping("/currentPrice")
 	@ResponseBody
     public int getCurrentPrice(@PathVariable int itemNo) {
-        return service.getCurrentPrice(itemNo);
+        return itemDetailService.getCurrentPrice(itemNo);
     }
 	
 	@GetMapping("/currentState")
 	@ResponseBody
 	public String getCurrentState(@PathVariable int itemNo) {
-		String state = service.getCurrentState(itemNo);
+		String state = itemDetailService.getCurrentState(itemNo);
 		return Item.getItemStatusInKorean(state);
 	}
 	
@@ -80,11 +88,11 @@ public class ItemDetailController {
 	    }
 
 	    int userNo = user.getUserNo(); 
-	    int row = service.updatePrice(itemNo, itemPrice);
+	    int row = itemDetailService.updatePrice(itemNo, itemPrice);
 
 	    if (row > 0) {
 	        LocalDateTime bidTime = LocalDateTime.now();
-	        service2.insertBid(itemNo, userNo, itemPrice, bidTime);
+	        bidService.insertBid(itemNo, userNo, itemPrice, bidTime);
 	        return ResponseEntity.ok("입찰 성공");
 	    } else {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입찰 실패");

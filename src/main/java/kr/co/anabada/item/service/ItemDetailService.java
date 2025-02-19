@@ -1,5 +1,6 @@
 package kr.co.anabada.item.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -31,6 +32,14 @@ public class ItemDetailService {
 
 	public String getCurrentState(int itemNo) {
 		return mapper.getCurrentState(itemNo);
+	}
+	
+	public LocalDateTime getItemStart(int itemNo) {
+		return mapper.getItemStart(itemNo);
+	}
+	
+	public LocalDateTime getItemEnd(int itemNo) {
+		return mapper.getItemEnd(itemNo);
 	}
 	
 	public List<String> getAllImages(int itemNo) {

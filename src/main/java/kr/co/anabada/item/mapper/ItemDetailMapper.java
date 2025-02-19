@@ -1,5 +1,6 @@
 package kr.co.anabada.item.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -22,6 +23,12 @@ public interface ItemDetailMapper {
 
 	@Select("SELECT itemAuction FROM item WHERE itemNo = #{itemNo}")
 	String getCurrentState(int itemNo);
+	
+	@Select("SELECT itemStart FROM item WHERE itemNo = #{itemNo}")
+	LocalDateTime getItemStart(int itemNo);
+	
+	@Select("SELECT itemEnd FROM item WHERE itemNo = #{itemNo}")
+	LocalDateTime getItemEnd(int itemNo);
 
 	@Select("SELECT * FROM image WHERE itemNo = #{itemNo}")
 	List<Image> getAllImages(int itemNo);
