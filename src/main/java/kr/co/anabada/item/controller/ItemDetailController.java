@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.co.anabada.item.entity.Item;
-import kr.co.anabada.item.entity.Question;
 import kr.co.anabada.item.service.ItemDetailService;
 import kr.co.anabada.item.service.BidService;
 import kr.co.anabada.user.mapper.UserMapper;
@@ -82,14 +81,26 @@ public class ItemDetailController {
 	
 	@PatchMapping("/bid")
 	@ResponseBody
-	public ResponseEntity<String> updateItemPrice(@PathVariable int itemNo, @RequestParam int itemPrice, @SessionAttribute(name = "loggedInUser", required = false) User user) {
+	public ResponseEntity<String> updateItemPrice(
+			@PathVariable int itemNo, @RequestParam int itemPrice,
+			@SessionAttribute(name = "loggedInUser", required = false) User user) {
 	    if (user == null) {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자 인증 실패");
 	    }
 
-	    int userNo = user.getUserNo(); 
+		Item item = itemDetailService.getItemByNo(itemNo);
+	    int userNo = user.getUserNo();
+	    int itemUserNo = item.getUserNo();
+	    if (userNo == itemUserNo) {
+	    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("자신의 상품은 입찰할 수 없습니다.");
+	    }
+	    
+	    int price = item.getItemPrice();
+	    if (itemPrice <= price) {
+	    	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입찰가는 현재가보다 높아야 합니다.");
+	    }
+	    
 	    int row = itemDetailService.updatePrice(itemNo, itemPrice);
-
 	    if (row > 0) {
 	        LocalDateTime bidTime = LocalDateTime.now();
 	        bidService.insertBid(itemNo, userNo, itemPrice, bidTime);
