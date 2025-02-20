@@ -20,46 +20,6 @@
 | 훈련생명  | 이동욱           |
 
 ---
-
-
-회원정보 수정은 회원가입과 구조가 비슷해서 간단했음
-
-11일 탈퇴기능 공부
-- 회원탈퇴
-	각테이블마다 컬럼을 만듦 가입중 / 탈퇴대기
-	계속 조회되는 문제가 발생하니
-	따로 뷰를 만들어서 탈퇴 대기 명단을 조회할 수 있게끔 만들어서 관리 할 수 있음
-	
-	삭제에 관한 문제는
-	DB에서 주기적으로 할 수 도 있고 프로그램 내에서도 할 수 있음.
-https://www.perplexity.ai/search/hoeweontaltoe-peijireul-guhyeo-zWpQ4muJTrqVAXTHmYog_g
-
-	user테이블에
-	userStatus컬럼 추가
-	
-	ACTIVE/WITHDRAWN
-	
-	userNo를 참조하는 테이블 qna favor buy sell bid에
-	qnaState favorState buyState sellState bidState  컬럼 각각 추가
-
-12일 DB 관리하는 팀원과 회의 시작
-- 회원탈퇴
- 회의 결과
- 각 테이블별로 state 컬럼을 만드는건 너무 비효율적임!
-user테이블에만 userStatus 추가하고 삭제된 날짜  컬럼 userDeactiveDate만들기로함
-	 >이유는 즐겨찾기 기능에서도 active와 deactive를 계속 확인 해줘야함
-그래서 view를 만들기로함
-	요기서 active만 뷰로 만들고 use로 이름을 지음 > 팀원들 mapper수정 안해도 됌
-	기존 user테이블은 alluser로 변경
-그리고 삭제는 외래키 옵션으로 cascade를 사용해서 삭제되면 연결 테이블 데이터 전부 삭제할 수 있게 만듬
-
-잘만들어짐
-
-회원탈퇴 기능 구현은 여전히 alluser을 사용해야함 ... view는 그져 땡겨오는 거란걸 잊지말자!
-
-
-
-
 ### 1. 작업이해도
 
 - 바로 데이터가 삭제되는 것 보다 백업 기간이 있었으면 함.
