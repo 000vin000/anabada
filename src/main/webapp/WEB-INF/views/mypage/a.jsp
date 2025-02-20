@@ -211,7 +211,7 @@
                           
                                 <c:if test="${ empty item.getAContent() }">
                                     <div class="answer-form" id="answerForm-${item.getQNo()}">
-                                        <form action="/mypate/a/insertA/${item.getQNo()}" method="post">
+                                        <form action="/mypage/a/insertA/${item.getQNo()}" method="post">
                                             <input type="hidden" name="qNo" value="${item.getQNo()}">
                                             <label for="aContent"></label>
                                             <textarea name="aContent" required></textarea><br><br>

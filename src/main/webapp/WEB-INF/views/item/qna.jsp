@@ -192,50 +192,49 @@
 <!-- 전체 문의 목록 -->
 <div id="allQuestions" class="all-questions">
     <c:if test="${ not empty list }">
-        <table>
-            <thead>
-                <tr>
-                    <th>문의제목</th>
-                    <th>문의내용</th>
-                    <th>문의등록일</th>
-                    <th>답변내용</th>
-                    <th>답변등록일</th> 
-                    <th>질문자</th> 
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="item" items="${ list }">
-                    <tr>
-                        <td>${ item.getQTitle() }</td>
-                        <td>
-                                <c:if test="${ not empty item.getAContent() }">
-                                    ${ item.getAContent() } 
-                                </c:if>
-						</td>
-                        <td>${ item.getFormattedQDate(item.getQDate()) }</td>
-                        <td>${ item.getAContent() }</td>
-                        <td>${ item.getFormattedADate(item.getADate()) }</td>
-                        <td>${ item.getUserNick() }</td>	
-                        <td style="border:none">	
-							 <c:if test="${empty item.getAContent() && not empty sessionScope.loggedInUser && canAnswer}">
-                                    <div class="answer-form" id="answerForm-${item.getQNo()}">
-                                    
+	<table>
+	    <thead>
+	        <tr>
+	            <th>문의제목</th>
+	            <th>문의내용</th>
+	            <th>문의등록일</th>
+	            <th>답변내용</th>
+	            <th>답변등록일</th>
+	            <th>질문자</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <c:forEach var="item" items="${ list }">
+	            <tr>
+	                <td>${ item.getQTitle() }</td>
+	                <td>${ item.getQContent() }</td>
+	                <td>${ item.getFormattedQDate(item.getQDate()) }</td>
+	                <td>
+	                    <c:choose>
+	                        <c:when test="${ not empty item.getAContent() }">
+	                            ${ item.getAContent() }
+	                        </c:when>
+	                        <c:otherwise>
+	                            <c:if test="${ empty item.getAContent() && not empty sessionScope.loggedInUser && canAnswer }">
+	                                <div class="answer-form" id="answerForm-${item.getQNo()}">
+	                                    <form action="/item/detail/insertA/${item.getQNo()}" method="post">
+	                                        <input type="hidden" name="qNo" value="${item.getQNo()}">
+	                                        <label for="aContent"></label>
+	                                        <textarea name="aContent" required></textarea><br><br>
+	                                        <input type="image" src="/images/A.png" style="width: 50px; height: auto;" alt="답변 등록" />
+	                                    </form>
+	                                </div>
+	                            </c:if>
+	                        </c:otherwise>
+	                    </c:choose>
+	                </td>
+	                <td>${ item.getFormattedADate(item.getADate()) }</td>
+	                <td>${ item.getUserNick() }</td>
+	            </tr>
+	        </c:forEach>
+	    </tbody>
+	</table>
 
-                                        <form action="/item/detail/insertA/${item.getQNo()}" method="post">
-                                            <input type="hidden" name="qNo" value="${item.getQNo()}">
-                                            <label for="aContent"></label>
-                                            <textarea name="aContent" required></textarea><br><br>
-                                            <input type="image" src="/images/A.png" style="width: 50px; height: auto;" alt="답변 등록" />
-                                        </form>
-                                    </div>
-                                </c:if>
-						</td>		
-                    </tr>
-
-
-                </c:forEach>
-            </tbody>
-        </table>
     </c:if>
     
     <c:if test="${ empty list }">

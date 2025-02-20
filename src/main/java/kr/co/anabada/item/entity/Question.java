@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Question {
-	private int itemNo;
 	private int qNo;
-
+	private int itemNo;	
 	private int userNo;
 	private String qTitle;
 	private String qContent;
@@ -25,3 +24,5 @@ public class Question {
         return qDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
+
+
